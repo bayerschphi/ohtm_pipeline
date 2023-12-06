@@ -1,8 +1,8 @@
+import json
+import copy
 
-def chunking(top_dic, chunk_setting):
-    import json
-    import copy
 
+def chunking(top_dic, chunk_setting: int=0):
     if type(top_dic) is not dict:
         top_dic = json.loads(top_dic)
     else:
@@ -31,6 +31,6 @@ def chunking(top_dic, chunk_setting):
 
     top_dic["settings"].update({"chunk_setting": chunk_setting})
 
-    top_dic = json.dumps(top_dic)
+    top_dic = json.dumps(top_dic, ensure_ascii=False)
 
     return top_dic

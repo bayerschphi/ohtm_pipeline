@@ -212,7 +212,7 @@ def topic_training_mallet_new(corpus_dictionary, name_dataset, user, topics, mal
 
     id2word = corpora.Dictionary(dataset)
     corpus = [id2word.doc2bow(text) for text in dataset]
-
+    print(corpus)
     lda_model_mallet = LdaMallet(mallet_path, corpus=corpus, id2word=id2word,
                                                                   num_topics=topics, iterations=iterations_mallet,
                                                                   optimize_interval=optimize_interval_mallet,

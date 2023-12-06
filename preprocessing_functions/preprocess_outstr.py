@@ -32,9 +32,3 @@ def preprocess_outstr(text):
         text_clean = text_clean.replace('  ', ' ') ## überschüssige Leerzeichen entfernen
 
     return text_clean
-
-#from plain_transcript import plain_transcript
-#text = plain_transcript('Alexander', 'Johanna')
-#tokens = preprocess_lusir_query('text')
-#print(tokens)
-#print(text)

@@ -184,8 +184,6 @@ def topic_training_mallet(corpus_dictionary,mallet_path, topics: int=0, chunking
 
 def print_topics(topic_dictionary, name_dataset, number_of_words: int=50,  save_doc: bool=False):
     from datetime import datetime
-    import re
-    import gensim
     import pandas as pd
     import json
 

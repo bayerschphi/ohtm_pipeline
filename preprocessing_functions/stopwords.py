@@ -3,7 +3,7 @@ def remove_stopwords_by_list(data, stoplist):
     return data_out
 
 
-def remove_stopwords_spoken_breaks(data):
+def remove_stopwords_spoken_breaks(data):       # Partikel
     data_out = []
     for word in data:
         word_set = set(word)
@@ -14,17 +14,19 @@ def remove_stopwords_spoken_breaks(data):
                 else:
                     data_out.append(word) # Diese Ausnahme ist nur für das wort "mäh" gedacht.
         elif len(word_set) == 2:
-            if "h" in word_set:      # Check if "hm" and "äh" in different forms are in the text. They are removed.
+            if "h" in word_set:      # Check if "hm" and "äh" and "ah" in different forms are in the text. They are removed. all Words < 2 are removed.
                 if "m" in word_set:
                     next
                 elif "ä" in word_set:
                     next
+                elif "a" in word_set:
+                    next
                 else:
                     data_out.append(word)
-            elif "sa" in word:
+            if "sa" in word:        # SA is not removed
                 data_out.append(word)
         elif len(word_set) == 1:
-            if "ss" in word:
+            if "ss" in word:        # SS is not removed
                 data_out.append(word)
             else:
                 next

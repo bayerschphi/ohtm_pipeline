@@ -21,6 +21,7 @@ def preprocessing (top_dic, stoplist_path, bylist: bool = True, byspokenwords: b
         for ID in top_dic["korpus"][archiv]:
             for nr in top_dic["korpus"][archiv][ID]["sent"]:
                 text = copy.deepcopy(top_dic["korpus"][archiv][ID]["sent"][nr]["raw"])
+                text = str(text)
                 text_unified = text.replace('!', '.').replace('?', '.').replace(';', '.').replace('...,',',').replace(
                         '..,', ',').replace('"', '').replace("'", '').replace("\n", ' ').replace(" - ", " ")
                 pre_line = preprocess_outstr(text_unified)

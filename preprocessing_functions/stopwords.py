@@ -3,7 +3,7 @@ def remove_stopwords_by_list(data, stoplist):
     return data_out
 
 
-def remove_stopwords_spoken_breaks(data):       # Partikel
+def remove_particles(data):       # Partikel
     data_out = []
     for word in data:
         word_set = set(word)
@@ -30,6 +30,8 @@ def remove_stopwords_spoken_breaks(data):       # Partikel
                 data_out.append(word)
             else:
                 next
+        elif len(word_set) == 0:
+            next
 
         else:
             data_out.append(word)

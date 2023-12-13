@@ -2,14 +2,14 @@ from settings import *
 
 
 # Topic-Modeling Settings:
-save_json = True
-save_name = "test_raw"
+save_json = False
+save_name = "ZWA_complete_raw"
 
-creat_json = True   # if you want to creat a new json-file in the data-structure with your own interview-files.
-json_file_name = "test_raw"
+creat_json = False   # if you want to create a new json-file in the data-structure with your own interview-files.
+json_file_name = "ZWA_complete_raw"
 
-load_json = False   # if you want to load an existing json-file, with the used data-structure
-load_file_name = "ADG_complete_raw2"
+load_json = True   # if you want to load an existing json-file, with the used data-structure
+load_file_name = "MFL_complete_raw"
 
 use_preprocessing = True
 
@@ -19,7 +19,7 @@ chunk_setting = 80
 use_topic_modeling = True
 topics = 20
 
-save_top_words = False
+save_top_words = True
 number_of_words = 50
 
 if __name__ == "__main__":

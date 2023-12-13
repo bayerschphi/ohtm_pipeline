@@ -48,9 +48,8 @@ def topic_training_mallet_new(corpus_dictionary, topics, mallet_path, chunking=T
         for i in chunk_data:
             dataset += [i[1]]
 
-    print("start")
-    id2word = corpora.Dictionary(dataset)
 
+    id2word = corpora.Dictionary(dataset)
     corpus = [id2word.doc2bow(text) for text in dataset]
 
     lda_model_mallet = LdaMallet(mallet_path, corpus=corpus, id2word=id2word,

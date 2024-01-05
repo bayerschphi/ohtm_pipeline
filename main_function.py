@@ -3,23 +3,23 @@ from settings import *
 
 # Topic-Modeling Settings:
 save_json = False
-save_name = "ZWA_complete_raw"
+save_name = "OHD_auswahl_pre_150c_80t"
 
 creat_json = False   # if you want to create a new json-file in the data-structure with your own interview-files.
 json_file_name = "ZWA_complete_raw"
 
 load_json = True   # if you want to load an existing json-file, with the used data-structure
-load_file_name = "MFL_complete_raw"
+load_file_name = "OHD_auswahl_pre_150c_80t"
 
-use_preprocessing = True
+use_preprocessing = False
 
-use_chunking = True
-chunk_setting = 80
+use_chunking = False
+chunk_setting = 150
 
-use_topic_modeling = True
-topics = 20
+use_topic_modeling = False
+topics = 80
 
-save_top_words = True
+save_top_words = False
 number_of_words = 50
 
 if __name__ == "__main__":
@@ -63,5 +63,11 @@ if __name__ == "__main__":
             json.dump(top_dic, f)
         print("Json was saved")
 
-    print(top_dic)
+    #print(top_dic)
+
+    bar_dic(top_dic)
+    value = "all"
+    heatmap_corpus(top_dic, option_selected=value)
+
+    heatmap_interview(top_dic, "ADG0002")
 

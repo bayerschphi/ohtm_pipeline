@@ -1,25 +1,27 @@
+from bayerschmidt_topic_modeling import topic_modeling_w2v
 from settings import *
 
 
 # Topic-Modeling Settings:
 save_json = False
-save_name = "ZWA_complete_raw"
+save_name = "OHD_complete_raw_100c_70t"
 
 creat_json = False   # if you want to create a new json-file in the data-structure with your own interview-files.
 json_file_name = "ZWA_complete_raw"
 
 load_json = True   # if you want to load an existing json-file, with the used data-structure
-load_file_name = "MFL_complete_raw"
+load_file_name = "OHD_complete_raw"
 
 use_preprocessing = True
 
 use_chunking = True
-chunk_setting = 80
+chunk_setting = 100
 
-use_topic_modeling = True
-topics = 20
+use_topic_modeling = False
+use_w2v = True
+topics = 70
 
-save_top_words = True
+save_top_words = False
 number_of_words = 50
 
 if __name__ == "__main__":
@@ -43,6 +45,12 @@ if __name__ == "__main__":
     if use_topic_modeling == True:
         print("Topic Modeling started with " + str(topics) + " topics")
         top_dic = topic_training_mallet_new(top_dic, topics=topics, mallet_path=mallet_path, chunking=True)
+
+    if use_w2v == True:
+        print("Topic Modeling started with w2v")
+        top_dic = topic_modeling_w2v(top_dic, topics=topics, chunking=True)
+
+
     if save_top_words:
         out = open(working_folder + save_name + "top_words_" "50_words" + '.txt', 'w', encoding='UTF-8')
         number_of_words

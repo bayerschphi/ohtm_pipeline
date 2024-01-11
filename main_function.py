@@ -1,4 +1,4 @@
-from bayerschmidt_topic_modeling import topic_modeling_w2v
+from ohtm import topic_modeling_w2v
 from settings import *
 
 
@@ -71,5 +71,11 @@ if __name__ == "__main__":
             json.dump(top_dic, f)
         print("Json was saved")
 
-    print(top_dic)
+    #print(top_dic)
+
+    bar_dic(top_dic)
+    value = "all"
+    heatmap_corpus(top_dic, option_selected=value)
+
+    heatmap_interview(top_dic, "ADG0002")
 

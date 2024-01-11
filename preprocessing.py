@@ -1,5 +1,5 @@
-from bayerschmidt_topic_modeling.preprocessing_functions.stopwords import *
-from bayerschmidt_topic_modeling.preprocessing_functions.preprocess_outstr import *
+from ohtm.preprocessing_functions.stopwords import *
+from ohtm.preprocessing_functions.preprocess_outstr import *
 import copy
 import json
 

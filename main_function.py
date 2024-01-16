@@ -4,22 +4,22 @@ from settings import *
 
 # Topic-Modeling Settings:
 save_json = False
-save_name = "OHD_complete_raw_100c_70t"
+save_name = "ADG_complete_pre"
 
 creat_json = False   # if you want to create a new json-file in the data-structure with your own interview-files.
-json_file_name = "ZWA_complete_raw"
+json_file_name = "ADG_complete_pre"
 
 load_json = True   # if you want to load an existing json-file, with the used data-structure
-load_file_name = "OHD_complete_raw"
+load_file_name = "OHD_complete_pre_150c_80t"
 
-use_preprocessing = True
+use_preprocessing = False
 
-use_chunking = True
+use_chunking = False
 chunk_setting = 100
 
 use_topic_modeling = False
-use_w2v = True
-topics = 70
+use_w2v = False
+topics = 80
 
 save_top_words = False
 number_of_words = 50
@@ -72,10 +72,12 @@ if __name__ == "__main__":
         print("Json was saved")
 
     #print(top_dic)
+    #
+    # bar_dic(top_dic)
+    # value = "all"
+    # heatmap_corpus(top_dic, option_selected=value)
+    #
+    # heatmap_interview(top_dic, "ADG0002")
+    # chronology_matrix("ADG0002", top_dic)
 
-    bar_dic(top_dic)
-    value = "all"
-    heatmap_corpus(top_dic, option_selected=value)
-
-    heatmap_interview(top_dic, "ADG0002")
-
+    print(top_dic["korpus"]["ZWA"]["ZWA109"])

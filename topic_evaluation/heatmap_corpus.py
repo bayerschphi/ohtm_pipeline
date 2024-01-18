@@ -45,6 +45,7 @@ def heatmap_corpus(top_dic, option_selected: str = "all", show_fig: bool = True,
     fig.update_traces(hovertemplate="Interview: %{y}" "<br>Topic: %{x}" "<br>Weight: %{z}<extra></extra>")
     fig.update_layout(clickmode='event+select')
     fig.update_layout(clickmode='event+select')
+    fig.update_layout(margin=dict(l=20, r=20, t=20, b=20))
     if show_fig == True:
         fig.show()
     if return_fig == True:

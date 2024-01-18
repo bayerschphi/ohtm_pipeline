@@ -4,7 +4,7 @@ from settings import *
 
 # Topic-Modeling Settings:
 save_json = False
-save_name = "ADG_complete_pre"
+save_name = "OHD_complete_pre_100c"
 
 creat_json = False   # if you want to create a new json-file in the data-structure with your own interview-files.
 json_file_name = "ADG_complete_pre"
@@ -78,6 +78,6 @@ if __name__ == "__main__":
     # heatmap_corpus(top_dic, option_selected=value)
     #
     # heatmap_interview(top_dic, "ADG0002")
-    # chronology_matrix("ADG0002", top_dic)
+    chronology_matrix(top_dic,"ADG2674", print_fig = True )
 
-    print(top_dic["korpus"]["ZWA"]["ZWA109"])
+    print(top_dic["korpus"]["ADG"]["ADG2674"])

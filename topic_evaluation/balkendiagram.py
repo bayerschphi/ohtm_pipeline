@@ -32,6 +32,7 @@ def bar_dic(top_dic, show_fig: bool = True, return_fig: bool = False):
     normalized_data = (df - min_val) / (max_val - min_val)
 
     fig = px.bar(df, color_discrete_sequence=px.colors.qualitative.G10)
+    fig.update_layout(margin=dict(l=20, r=20, t=20, b=20))
     if show_fig == True:
         fig.show()
     if return_fig == True:

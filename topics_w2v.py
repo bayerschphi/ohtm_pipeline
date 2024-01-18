@@ -146,3 +146,44 @@ def topic_modeling_w2v(corpus_dictionary, topics: int=0, chunking: bool=True):
         print(str(nr) + " " + str(line) + '\n')
     for nr, line in enumerate(topics_weights):
         print(str(nr) + " " + str(line) + '\n')
+
+   # es wird das finale dic erstellt mit den drei Kategorien "korpus" = alle Interviews; "weight" = Chunk weight Werte; "words" = Wortlisten der Topics
+    # vereinfachen möglich! siehe Gespräch mit Dennis
+
+    for i in range(len(doc_tops_mallet)):
+        if chunk_data[i][0].split(" ")[0][:3] not in top_dic["weight"]:
+            top_dic["weight"][chunk_data[i][0].split(" ")[0][:3]] = {}
+        if chunk_data[i][0].split(" ")[0] not in top_dic["weight"][chunk_data[i][0].split(" ")[0][:3]]:
+            top_dic["weight"][chunk_data[i][0].split(" ")[0][:3]][chunk_data[i][0].split(" ")[0]] = {}
+        if chunk_data[i][0].split("_")[1] not in top_dic["weight"][chunk_data[i][0].split(" ")[0][:3]][
+            chunk_data[i][0].split(" ")[0]]:
+            top_dic["weight"][chunk_data[i][0].split(" ")[0][:3]][chunk_data[i][0].split(" ")[0]][
+                chunk_data[i][0].split("_")[1]] = {}
+        for a in doc_tops_mallet[i]:
+            top_dic["weight"][chunk_data[i][0].split(" ")[0][:3]][chunk_data[i][0].split(" ")[0]][
+                chunk_data[i][0].split("_")[1]][a[0]] = a[1]
+
+    # Zuerst werden die Ergebnislisten aus top_words_mallet getrennt, da sie in einer Kette mit "+" aneinandergedliedert sind. (0.000*"zetteln" + 0.000*"salonsozialisten") und an word_list_splittet übergeben
+    # anschließend wird das Wort*Wert geflecht getrennt und als Tupel (Wert, Wort) passend zu seinem Topic dem dic übergeben.
+
+
+    word_list_splitted = []
+    for i in topwords_mallet:
+        word_list_splitted += [(i[0], i[1].split("+"))]
+    for a in word_list_splitted:
+        word_weight_splitted = []
+        for b in a[1]:
+            c = float(b.split("*")[0])
+            d = ((b.split("*")[1]).split('"')[1::2])[0]
+            word_weight_splitted += [(c, d)]
+        top_dic["words"][a[0]] = word_weight_splitted
+
+
+    # Abspeichern gewisser meta-daten im top_dic
+    top_dic["settings"].update({"processed": True})
+    top_dic["settings"].update({"model": "mallet"})
+    top_dic["settings"].update({"topics": topics})
+    top_dic["settings"].update({"coherence": coherence_ldamallet})
+    top_dic["settings"].update({"average_weight": average_weight_mallet})
+    top_dic["settings"].update({"min_weight": min_weight_mallet})
+    top_dic["settings"].update({"max_weight": max_weight_mallet})

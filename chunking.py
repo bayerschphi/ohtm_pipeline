@@ -10,7 +10,7 @@ def chunking(top_dic, chunk_setting: int=0):
 
     for archiv in top_dic["korpus"]:
         for ID in top_dic["korpus"][archiv]:
-            chunk_count = 1
+            chunk_count = 0
             chunk_data = []
             for nr in range(1, (len(top_dic["korpus"][archiv][ID]["sent"]) + 1)):
                 new_sent = copy.deepcopy(top_dic["korpus"][archiv][ID]["sent"][str(nr)]["cleaned"])

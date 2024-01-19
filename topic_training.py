@@ -22,7 +22,7 @@ def topic_training_mallet(corpus_dictionary,mallet_path, topics: int=0, chunking
         chunk_data = []
         for a in top_dic["korpus"]:
             for i in top_dic["korpus"][a]:
-                chunk_count = 1
+                chunk_count = 0
                 chunk_text = []
                 for n in range(1, (len(top_dic["korpus"][a][i]["sent"]) + 1)):
                     n = str(n)

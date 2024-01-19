@@ -3,18 +3,18 @@ from settings import *
 
 
 # Topic-Modeling Settings:
-save_json = False
-save_name = "OHD_complete_pre_100c"
+save_json = True
+save_name = "ADG_dhd_raw"
 
-creat_json = False   # if you want to create a new json-file in the data-structure with your own interview-files.
+creat_json = True   # if you want to create a new json-file in the data-structure with your own interview-files.
 json_file_name = "ADG_complete_pre"
 
-load_json = True   # if you want to load an existing json-file, with the used data-structure
+load_json = False   # if you want to load an existing json-file, with the used data-structure
 load_file_name = "OHD_complete_pre_150c_80t"
 
-use_preprocessing = False
+use_preprocessing = True
 
-use_chunking = False
+use_chunking = True
 chunk_setting = 100
 
 use_topic_modeling = False

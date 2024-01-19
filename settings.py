@@ -30,11 +30,11 @@ data_path = "C:\\Users\\phili\\"
 source = [
               # data_path+'FAUbox\\Oral History Digital\\Interviews\\Werkstatt der Erinnerungen\\gesamt',
               # data_path+'FAUbox\\Oral History Digital\\Interviews\\Archiv Zwangsarbeit\\komplett',
-              # data_path+'FAUbox\\Oral History Digital\\Interviews\\Archiv Deutsches Gedächtnis\\komplett',
+              data_path+'FAUbox\\Oral History Digital\\Interviews\\Archiv Deutsches Gedächtnis\\ADG_Dennis',
               # data_path+'FAUbox\\Oral History Digital\\Interviews\\Archiv Deutsches Gedächtnis\\ADG Charge 2',
               # data_path+'FAUbox\\Oral History Digital\\Interviews\\Museum Friedland\\Bereinigt',
               # data_path+'FAUbox\\Oral History Digital\\Interviews\\Flucht Vertreibung Versöhnung\\Bereinigt',
-              data_path+"FAUbox\\Oral History Digital\\Interviews\\Hannah Arendt Institut Dresden\\Bereinigt",
+              # data_path+"FAUbox\\Oral History Digital\\Interviews\\Hannah Arendt Institut Dresden\\Bereinigt",
               #   data_path + "FAUbox\\Oral History Digital\\Interviews\\test"
               ]
 

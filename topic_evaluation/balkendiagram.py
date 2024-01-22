@@ -30,6 +30,7 @@ def bar_dic(top_dic, show_fig: bool = True, return_fig: bool = False):
     min_val = df.min()
     max_val = df.max()
     normalized_data = (df - min_val) / (max_val - min_val)
+    df.index = pd.to_numeric(df.index)
 
     fig = px.bar(df, color_discrete_sequence=px.colors.qualitative.G10)
     fig.update_layout(margin=dict(l=20, r=20, t=20, b=20))

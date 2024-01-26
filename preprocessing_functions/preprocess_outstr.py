@@ -1,13 +1,13 @@
 def preprocess_outstr(text):
     
-    text = text.lower() ## Majuskeln durch Minuskeln ersetzen
+    #text = text.lower() ## Majuskeln durch Minuskeln ersetzen
     
-    text = text.replace('\n', ' ').replace('- ', '') ## Zeilenumbrüche entfernen
+    #text = text.replace('\n', ' ').replace('- ', '') ## Zeilenumbrüche entfernen
 
     text_alpha = text
 
     alphabet = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'Ä', 'Ö', 'Ü', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'ä', 'ö', 'ü', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'ß', ' ', '*']
-    punct_a = []
+    punct_a = [] ## Liste, in der Interpunktionszeichen gesammelt werden
     punct_b = ['/'] ## Liste mit Schrägstrich
 
     for i in text_alpha:

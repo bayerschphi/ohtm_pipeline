@@ -2,17 +2,22 @@ from ohtm.preprocessing_functions.stopwords import *
 from ohtm.preprocessing_functions.preprocess_outstr import *
 import copy
 import json
+import spacy
 
 
-def preprocessing (top_dic, stoplist_path, bylist: bool = True, byspokenwords: bool = True, bythreshold: bool = False, threshold: int=3, lemmatization: bool=False ):
+def preprocessing (top_dic, stoplist_path, bylist: bool = True, byspokenwords: bool = True, bythreshold: bool = False, threshold: int=3, lemmatization: bool=False):
 
     if type(top_dic) is not dict:
         top_dic = json.loads(top_dic)
     else:
         top_dic = top_dic
 
+    if lemmatization == True:
+        spacy_model = spacy.load('de_core_news_lg', disable=['parser', 'ner'])
+        goldlist = ['bayrisch']
 
-    stoplist = open(stoplist_path, encoding='UTF-16', mode='r').read().split()
+    if bylist == True:
+        stoplist = open(stoplist_path, encoding='UTF-16', mode='r').read().split()
 
     # Stopwords werden entfernt und unter "cleaned" als Token eingefügt.
 
@@ -27,15 +32,16 @@ def preprocessing (top_dic, stoplist_path, bylist: bool = True, byspokenwords: b
                 text_unified = text.replace('!', '.').replace('?', '.').replace(';', '.').replace('...,',',').replace(
                             '..,', ',').replace('"', '').replace("'", '').replace("\n", ' ').replace(" - ", " ")
                 pre_line = preprocess_outstr(text_unified)
-                data_out = pre_line.split(" ")
+                data_out = pre_line.split(" ") # Tokenisierung
+                if lemmatization == True:
+                    data_out = lemmatization(data_out, spacy_model, goldlist, pos_filter = True, allowed_posttags=['NOUN', 'PROPN', 'VERB', 'ADJ', 'NUM'])
                 if bylist == True:
                     data_out = remove_stopwords_by_list(data_out, stoplist)
                 if byspokenwords == True:
                     data_out = remove_particles(data_out)
                 if bythreshold == True:
                     data_out = remove_stopwords_by_threshold(data_out, threshold)
-                if lemmatization == True:
-                    print("Lemmatization not jet included")
+
                 top_dic["korpus"][archiv][ID]["sent"][nr]["cleaned"] = data_out
                 sent_length.append(len(data_out))
             processed_interviews += 1

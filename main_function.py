@@ -4,17 +4,17 @@ from settings import *
 
 # Topic-Modeling Settings:
 save_json = True
-save_name = "ADG_dhd_raw"
+save_name = "OHD_complete_raw"
 
 creat_json = True   # if you want to create a new json-file in the data-structure with your own interview-files.
-json_file_name = "ADG_complete_pre"
+json_file_name = "OHD_complete_raw"
 
 load_json = False   # if you want to load an existing json-file, with the used data-structure
 load_file_name = "OHD_complete_pre_150c_80t"
 
-use_preprocessing = True
+use_preprocessing = False
 
-use_chunking = True
+use_chunking = False
 chunk_setting = 100
 
 use_topic_modeling = False
@@ -78,6 +78,6 @@ if __name__ == "__main__":
     # heatmap_corpus(top_dic, option_selected=value)
     #
     # heatmap_interview(top_dic, "ADG0002")
-    chronology_matrix(top_dic,"ADG2674", print_fig = True )
-
-    print(top_dic["korpus"]["ADG"]["ADG2674"])
+    # chronology_matrix(top_dic,"ADG2674", print_fig = True )
+    #
+    # print(top_dic["korpus"]["ADG"]["ADG2674"])

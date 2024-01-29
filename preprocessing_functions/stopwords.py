@@ -1,5 +1,5 @@
 def remove_stopwords_by_list(data, stoplist):
-    data_out = [word for word in data if word not in stoplist]
+    data_out = [word for word in data if word.lower() not in stoplist]
     return data_out
 
 

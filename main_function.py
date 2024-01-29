@@ -4,24 +4,24 @@ from settings import *
 
 # Topic-Modeling Settings:
 save_json = True
-save_name = "OHD_complete_raw"
+save_name = "OHD_complete_29_01_2024_pre_100C"
 
-creat_json = True   # if you want to create a new json-file in the data-structure with your own interview-files.
+creat_json = False   # if you want to create a new json-file in the data-structure with your own interview-files.
 json_file_name = "OHD_complete_raw"
 
-load_json = False   # if you want to load an existing json-file, with the used data-structure
-load_file_name = "OHD_complete_pre_150c_80t"
+load_json = True   # if you want to load an existing json-file, with the used data-structure
+load_file_name = "OHD_complete_29_01_2024"
 
-use_preprocessing = False
+use_preprocessing = True
 
-use_chunking = False
+use_chunking = True
 chunk_setting = 100
 
 use_topic_modeling = False
 use_w2v = False
-topics = 80
+topics = 100
 
-save_top_words = False
+save_top_words = True
 number_of_words = 50
 
 if __name__ == "__main__":

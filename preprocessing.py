@@ -1,12 +1,15 @@
 from ohtm.preprocessing_functions.stopwords import *
 from ohtm.preprocessing_functions.preprocess_outstr import *
+from ohtm.preprocessing_functions.lemmatization import lemmatization_test
 import copy
 import json
 import spacy
+import pickle
 
 
 def preprocessing (top_dic, stoplist_path, bylist: bool = True, byspokenwords: bool = True, bythreshold: bool = False, threshold: int=3, lemmatization: bool=False):
-
+    global goldlist_test
+    goldlist_test = []
     if type(top_dic) is not dict:
         top_dic = json.loads(top_dic)
     else:
@@ -29,12 +32,14 @@ def preprocessing (top_dic, stoplist_path, bylist: bool = True, byspokenwords: b
             for nr in top_dic["korpus"][archiv][ID]["sent"]:
                 text = copy.deepcopy(top_dic["korpus"][archiv][ID]["sent"][nr]["raw"])
                 text = str(text)
-                text_unified = text.replace('!', '.').replace('?', '.').replace(';', '.').replace('...,',',').replace(
-                            '..,', ',').replace('"', '').replace("'", '').replace("\n", ' ').replace(" - ", " ")
-                pre_line = preprocess_outstr(text_unified)
+                # text_unified = text.replace('!', '.').replace('?', '.').replace(';', '.').replace('...,',',').replace(
+                #             '..,', ',').replace('"', '').replace("'", '').replace("\n", ' ').replace(" - ", " ")
+                pre_line = preprocess_outstr(text)
                 data_out = pre_line.split(" ") # Tokenisierung
                 if lemmatization == True:
-                    data_out = lemmatization(data_out, spacy_model, goldlist, pos_filter = True, allowed_posttags=['NOUN', 'PROPN', 'VERB', 'ADJ', 'NUM'])
+                    data_out_lem = lemmatization_test(data_out, spacy_model, goldlist, goldliste_test=goldlist_test, pos_filter = True, allowed_postags=['NOUN', 'PROPN', 'VERB', 'ADJ', 'NUM'])
+                    data_out = data_out_lem[0]
+                    goldlist_test = data_out_lem[1]
                 if bylist == True:
                     data_out = remove_stopwords_by_list(data_out, stoplist)
                 if byspokenwords == True:
@@ -59,6 +64,11 @@ def preprocessing (top_dic, stoplist_path, bylist: bool = True, byspokenwords: b
     top_dic["settings"]["cleaned_length"]["ave_length"] = average_length
 
     top_dic = json.dumps(top_dic, ensure_ascii=False)
+
+    with open ("C:\\Users\\phili\\FAUbox\\Oral History Digital\\Topic Modeling\\main test\\github_test\\goldlist_test_ZWA_final_test", "wb") as fp:
+        pickle.dump(goldlist_test, fp)
+
+
     return top_dic
 
 

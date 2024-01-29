@@ -24,7 +24,6 @@ def heatmap_interview(top_dic, interview_id: str = "ZWA060",  show_fig: bool = T
     titel = "Heatmap Interview: " + interview_id
     fig = px.imshow(df, color_continuous_scale='deep')
     fig.update_traces(hovertemplate="Chunk: %{x}" "<br>Topic: %{y}" "<br>Weight: %{z}<extra></extra>")
-    fig.update_layout(margin=dict(l=20, r=20, t=20, b=20))
     if show_fig == True:
         fig.show()
     if return_fig == True:

@@ -5,9 +5,15 @@ from sklearn.cluster import MiniBatchKMeans
 from sklearn.metrics import silhouette_samples, silhouette_score
 import numpy as np
 import re
+import pandas as pd
 
 cores = multiprocessing.cpu_count() # Count the number of cores in a computer
 
+load_file_name = "OHD_complete_new_raw"
+working_folder = "C:\\Users\\moebusd\\sciebo - Möbus, Dennis (moebusd@fernuni-hagen.de)@fernuni-hagen.sciebo.de\\OHD\\Data TM OHD\\"
+
+with open(working_folder + load_file_name) as f:
+    top_dic = json.load(f)
 
 def topic_modeling_w2v(corpus_dictionary, topics: int=0, chunking: bool=True):
 
@@ -83,12 +89,12 @@ def topic_modeling_w2v(corpus_dictionary, topics: int=0, chunking: bool=True):
         else:
             features.append(zero_vector)
 
-        vectorized_docs = features
+    vectorized_docs = features
 
-        X = vectorized_docs
-        k = topics
-        mb = 500
-        print_silhouette_values = True
+    X = vectorized_docs
+    k = topics
+    mb = 500
+    print_silhouette_values = False
 
     """Generate clusters and print Silhouette metrics using MBKmeans
 
@@ -128,29 +134,34 @@ def topic_modeling_w2v(corpus_dictionary, topics: int=0, chunking: bool=True):
             print(
                 f"    Cluster {s[0]}: Size:{s[1]} | Avg:{s[2]:.2f} | Min:{s[3]:.2f} | Max: {s[4]:.2f}"
             )
-    #return km, km.labels_
 
-    #df_clusters = pd.DataFrame({
-        #"text": raw_data,
-        #"tokens": [" ".join(text) for text in data_words_nostops],
-        #"cluster": cluster_labels
-    #})
+
 
     topics_words = []
-    topics_weights = []
+    #topics_weights = []
     for nr, line in enumerate(km.cluster_centers_):
-        topics_weights.append(str(w2v_model.wv.most_similar(line)))
-        topics_words.append(re.findall(r"\'([0-9A-Za-zäÄöÖüÜß._ ]+?)\'", str(w2v_model.wv.most_similar(line, topn=30))))
+        #topics_weights.append(str(w2v_model.wv.most_similar(line)))
+        topics_words.append(w2v_model.wv.most_similar(line, topn=1000))
 
     for nr, line in enumerate(topics_words):
         print(str(nr) + " " + str(line) + '\n')
-    for nr, line in enumerate(topics_weights):
-        print(str(nr) + " " + str(line) + '\n')
+    #for nr, line in enumerate(topics_weights):
+    #    print(str(nr) + " " + str(line) + '\n')
+
+    centers = km.cluster_centers_
+    weight_matrix = []
+
+    for nr_l, line in enumerate(vectorized_docs):
+        chunk = []
+        for center in centers:
+            chunk.append(np.linalg.norm(center - line))
+        weight_matrix.append(chunk)
 
    # es wird das finale dic erstellt mit den drei Kategorien "korpus" = alle Interviews; "weight" = Chunk weight Werte; "words" = Wortlisten der Topics
     # vereinfachen möglich! siehe Gespräch mit Dennis
 
-    for i in range(len(doc_tops_mallet)):
+    for i in range(len(weight_matrix)):
+        print(weight_matrix[i])
         if chunk_data[i][0].split(" ")[0][:3] not in top_dic["weight"]:
             top_dic["weight"][chunk_data[i][0].split(" ")[0][:3]] = {}
         if chunk_data[i][0].split(" ")[0] not in top_dic["weight"][chunk_data[i][0].split(" ")[0][:3]]:
@@ -159,31 +170,30 @@ def topic_modeling_w2v(corpus_dictionary, topics: int=0, chunking: bool=True):
             chunk_data[i][0].split(" ")[0]]:
             top_dic["weight"][chunk_data[i][0].split(" ")[0][:3]][chunk_data[i][0].split(" ")[0]][
                 chunk_data[i][0].split("_")[1]] = {}
-        for a in doc_tops_mallet[i]:
+        for top_nr, weight in enumerate(weight_matrix[i]):
             top_dic["weight"][chunk_data[i][0].split(" ")[0][:3]][chunk_data[i][0].split(" ")[0]][
-                chunk_data[i][0].split("_")[1]][a[0]] = a[1]
+                chunk_data[i][0].split("_")[1]][str(top_nr)] = weight
 
     # Zuerst werden die Ergebnislisten aus top_words_mallet getrennt, da sie in einer Kette mit "+" aneinandergedliedert sind. (0.000*"zetteln" + 0.000*"salonsozialisten") und an word_list_splittet übergeben
     # anschließend wird das Wort*Wert geflecht getrennt und als Tupel (Wert, Wort) passend zu seinem Topic dem dic übergeben.
 
 
-    word_list_splitted = []
-    for i in topwords_mallet:
-        word_list_splitted += [(i[0], i[1].split("+"))]
-    for a in word_list_splitted:
-        word_weight_splitted = []
-        for b in a[1]:
-            c = float(b.split("*")[0])
-            d = ((b.split("*")[1]).split('"')[1::2])[0]
-            word_weight_splitted += [(c, d)]
-        top_dic["words"][a[0]] = word_weight_splitted
+    for nr_top, topic in enumerate(topics_words):
+        word_list = []
+        for word in topic:
+            word_list.append([word[1], word[0]])
+        top_dic["words"][str(nr_top)] = word_list
 
 
     # Abspeichern gewisser meta-daten im top_dic
     top_dic["settings"].update({"processed": True})
     top_dic["settings"].update({"model": "mallet"})
     top_dic["settings"].update({"topics": topics})
-    top_dic["settings"].update({"coherence": coherence_ldamallet})
-    top_dic["settings"].update({"average_weight": average_weight_mallet})
-    top_dic["settings"].update({"min_weight": min_weight_mallet})
-    top_dic["settings"].update({"max_weight": max_weight_mallet})
+    top_dic["settings"].update({"coherence": None})
+    top_dic["settings"].update({"average_weight": None})
+    top_dic["settings"].update({"min_weight": None})
+    top_dic["settings"].update({"max_weight": None})
+
+    return top_dic
+
+#topic_modeling_w2v(top_dic, topics=75, chunking=True)

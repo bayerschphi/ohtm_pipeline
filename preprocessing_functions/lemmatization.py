@@ -14,7 +14,7 @@ def lemmatization(sentence, nlp_model, goldlist, pos_filter: type=bool, allowed_
 
     return sentence_lemmatized_out
 
-def lemmatization_test(sentence, nlp_model, goldlist, goldliste_test, pos_filter: type=bool, allowed_postags=['NOUN', 'PROPN', 'VERB', 'ADJ', 'ADV', 'PRON', 'ADP', 'DET', 'AUX', 'NUM', 'SCONJ', 'CCONJ', 'X']):
+def lemmatization_test(sentence, nlp_model, goldlist, goldliste_test, pos_filter: type=bool, archiv = "", allowed_postags=['NOUN', 'PROPN', 'VERB', 'ADJ', 'ADV', 'PRON', 'ADP', 'DET', 'AUX', 'NUM', 'SCONJ', 'CCONJ', 'X']):
 
     doc = nlp_model(" ".join(sentence))
 
@@ -27,6 +27,8 @@ def lemmatization_test(sentence, nlp_model, goldlist, goldliste_test, pos_filter
 
     for word in sentence_lemmatized:
         if word[0] not in sentence_lemmatized_filtered:
+
+            # word = word + (str(archiv),)
             goldliste_test.append(word)
 
 

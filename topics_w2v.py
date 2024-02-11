@@ -6,14 +6,15 @@ from sklearn.metrics import silhouette_samples, silhouette_score
 import numpy as np
 import re
 import pandas as pd
+from ohtm.settings import *
 
 cores = multiprocessing.cpu_count() # Count the number of cores in a computer
 
-load_file_name = "OHD_complete_new_raw"
-working_folder = "C:\\Users\\moebusd\\sciebo - Möbus, Dennis (moebusd@fernuni-hagen.de)@fernuni-hagen.sciebo.de\\OHD\\Data TM OHD\\"
-
-with open(working_folder + load_file_name) as f:
-    top_dic = json.load(f)
+# load_file_name = "OHD_complete_new_raw"
+# working_folder = "C:\\Users\\phili\\FAUbox\\Oral History Digital\\Topic Modeling\\main test\\github_test\\"
+#
+# with open(working_folder + load_file_name) as f:
+#     top_dic = json.load(f)
 
 def topic_modeling_w2v(corpus_dictionary, topics: int=0, chunking: bool=True):
 

@@ -66,17 +66,14 @@ def evaluation_topic_training_mallet_new(corpus_dictionary, topics, mallet_path,
 
     print(coherence_ldamallet)
 
-    # with open('evaluation_data', 'rb') as f:
-    #     evluation_pipeline_data = pickle.load(f)
+    with open(evaluation_data, 'rb') as f:
+        evaluation_pipeline_data = pickle.load(f)
 
-    evaluation_pipeline_data = []
     evaluation_pipeline_data.append((topics, coherence_ldamallet))
 
     with open (evaluation_data, "wb") as fp:
         pickle.dump(evaluation_pipeline_data, fp)
 
-
-    test = open(str(topics) +"_" + str(chunk), "wb")
-    pickle.dump(coherence_ldamallet, test)
+    print(evaluation_pipeline_data)
     print("saving done")
 

@@ -11,7 +11,7 @@ import pickle
 
 def preprocessing (top_dic, stoplist_path, bylist: bool = True, byspokenwords: bool = True, bythreshold: bool = False, threshold: int=3, lemma: bool=True):
     global goldlist_test
-    goldlist_test = []
+    goldlist_test = ["Militärbehörde"]
     if type(top_dic) is not dict:
         top_dic = json.loads(top_dic)
     else:
@@ -34,17 +34,16 @@ def preprocessing (top_dic, stoplist_path, bylist: bool = True, byspokenwords: b
             for nr in top_dic["korpus"][archiv][ID]["sent"]:
                 text = copy.deepcopy(top_dic["korpus"][archiv][ID]["sent"][nr]["raw"])
                 text = str(text)
-                # text_unified = text.replace('!', '.').replace('?', '.').replace(';', '.').replace('...,',',').replace(
-                #             '..,', ',').replace('"', '').replace("'", '').replace("\n", ' ').replace(" - ", " ")
+                text_unified = text.replace('!', '.').replace('?', '.').replace(';', '.').replace('...,',',').replace(
+                            '..,', ',').replace('"', '').replace("'", '').replace("\n", ' ').replace(" - ", " ")
                 pre_line = preprocess_outstr(text)
                 data_out = pre_line.split(" ") # Tokenisierung
                 if lemma == True:
-                    #data_out_lem = lemmatization_test(data_out, spacy_model, goldlist, goldliste_test=goldlist_test, pos_filter = True, allowed_postags=['NOUN', 'PROPN', 'VERB', 'ADJ', 'NUM'])
-                    data_out_lem = lemmatization(data_out, spacy_model, goldlist, pos_filter=True, allowed_postags=['NOUN', 'PROPN', 'VERB', 'ADJ', 'NUM'])
-
+                    # data_out_lem = lemmatization_test(data_out, spacy_model, goldlist, archiv = ID, goldliste_test=goldlist_test, pos_filter = True, allowed_postags=['NOUN', 'PROPN', 'VERB', 'ADJ', 'NUM', 'ADV'])
+                    data_out_lem = lemmatization(data_out, spacy_model, goldlist, pos_filter=True, allowed_postags=['NOUN', 'PROPN', 'VERB', 'ADJ', 'NUM', 'ADV'])
                     data_out = data_out_lem
-                    #data_out = data_out_lem[0]
-                    #goldlist_test = data_out_lem[1]
+                    # data_out = data_out_lem[0]
+                    # goldlist_test = data_out_lem[1]
                 if bylist == True:
                     data_out = remove_stopwords_by_list(data_out, stoplist)
                 if byspokenwords == True:
@@ -70,7 +69,7 @@ def preprocessing (top_dic, stoplist_path, bylist: bool = True, byspokenwords: b
 
     top_dic = json.dumps(top_dic, ensure_ascii=False)
 
-    #with open ("C:\\Users\\phili\\FAUbox\\Oral History Digital\\Topic Modeling\\main test\\github_test\\goldlist_test_ZWA_final_test", "wb") as fp:
+    # with open ("C:\\Users\\phili\\FAUbox\\Oral History Digital\\Topic Modeling\\main test\\github_test\\goldlist_hai", "wb") as fp:
     #    pickle.dump(goldlist_test, fp)
 
 

@@ -16,7 +16,7 @@ from interview_chronology_analysis.interview_chronology_analysis import chronolo
 
 mallet_path = 'C:\\mallet-2.0.8\\bin\\mallet'
 os.environ['MALLET_HOME'] = 'C:\\mallet-2.0.8'
-working_folder = "C:\\Users\\moebusd\\sciebo - Möbus, Dennis (moebusd@fernuni-hagen.de)@fernuni-hagen.sciebo.de\\OHD\\Data TM OHD\\"
+working_folder = "C:\\Users\\phili\\FAUbox\\Oral History Digital\\Topic Modeling\\main test\\github_test\\"
 
 
 

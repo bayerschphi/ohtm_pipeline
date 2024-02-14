@@ -111,7 +111,7 @@ def json_creation(working_folder: str ="", source: str = "", name: str = "", Sav
 
             if file.split(".")[1] == "csv":
                 with open(folder + "\\" + file, 'r', newline='', encoding='utf-8') as csvfile:
-                    df = csv.reader(csvfile, delimiter="\t")
+                    df = csv.reader(csvfile, delimiter="\t", quotechar= None)
                     next(df)
                     id = file.split(".")[0].split("_")[0]
                     if file[:3] not in top_dic["korpus"]:

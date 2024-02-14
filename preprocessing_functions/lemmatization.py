@@ -14,7 +14,10 @@ def lemmatization(sentence, nlp_model, goldlist, pos_filter: type=bool, allowed_
 
     return sentence_lemmatized_out
 
-def lemmatization_test(sentence, nlp_model, goldlist, goldliste_test, pos_filter: type=bool, archiv = "", allowed_postags=['NOUN', 'PROPN', 'VERB', 'ADJ', 'ADV', 'PRON', 'ADP', 'DET', 'AUX', 'NUM', 'SCONJ', 'CCONJ', 'X']):
+
+
+
+def lemmatization_test(sentence, nlp_model, goldlist, goldliste_test, allowed_postags=['NOUN', 'PROPN', 'VERB', 'ADJ', 'ADV', 'PRON', 'ADP', 'DET', 'AUX', 'NUM', 'SCONJ', 'CCONJ', 'X']):
 
     doc = nlp_model(" ".join(sentence))
 
@@ -35,7 +38,7 @@ def lemmatization_test(sentence, nlp_model, goldlist, goldliste_test, pos_filter
     # hier txt-Datei aus Liste erstellen
 
 
-    return sentence_lemmatized_out, goldliste_test
+    return sentence_lemmatized_out, goldliste_test, sentence, sentence_lemmatized, sentence_lemmatized_filtered
 
 ###############
 ### TESTING ###

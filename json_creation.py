@@ -46,8 +46,8 @@ def json_creation(working_folder: str ="", source: str = "", name: str = "", Sav
                 text = re.sub(r"(.*\n.*\n.*\n.*\n.*\n)(\+\+)", "", text)
                 text = re.sub(r"^[ ]", "", text)
 
-                text_unified = text.replace('!', '.').replace('?', '.').replace(';', '.').replace('...,', ',').replace(
-                    '..,', ',').replace('"', '').replace("'", '').replace(" - ", " ")
+                text_unified = text.replace('!', '. ').replace('?', '. ').replace(';', '. ').replace('...,', ', ').replace(
+                    '..,', ', ').replace('"', ' ').replace("'", ' ').replace(" - ", " ")
                 text_split = text_unified.split('\n')
 
                 id = file.split(".")[0]

@@ -8,6 +8,8 @@ import numpy as np
 import re
 import pandas as pd
 import umap
+from ohtm.settings import *
+
 
 
 #load_file_name = "OHD_complete_new_raw"
@@ -15,6 +17,13 @@ import umap
 
 #with open(working_folder + load_file_name) as f:
 #    top_dic = json.load(f)
+
+# load_file_name = "OHD_complete_new_raw"
+# working_folder = "C:\\Users\\phili\\FAUbox\\Oral History Digital\\Topic Modeling\\main test\\github_test\\"
+#
+# with open(working_folder + load_file_name) as f:
+#     top_dic = json.load(f)
+
 
 def topic_modeling_w2v(corpus_dictionary, topics: int=0, chunking: bool=True):
     cores = multiprocessing.cpu_count()  # Count the number of cores in a computer

@@ -46,8 +46,8 @@ def json_creation(working_folder: str ="", source: str = "", name: str = "", Sav
                 text = re.sub(r"(.*\n.*\n.*\n.*\n.*\n)(\+\+)", "", text)
                 text = re.sub(r"^[ ]", "", text)
 
-                text_unified = text.replace('!', '.').replace('?', '.').replace(';', '.').replace('...,', ',').replace(
-                    '..,', ',').replace('"', '').replace("'", '').replace(" - ", " ")
+                text_unified = text.replace('!', '. ').replace('?', '. ').replace(';', '. ').replace('...,', ', ').replace(
+                    '..,', ', ').replace('"', ' ').replace("'", ' ').replace(" - ", " ")
                 text_split = text_unified.split('\n')
 
                 id = file.split(".")[0]
@@ -111,7 +111,7 @@ def json_creation(working_folder: str ="", source: str = "", name: str = "", Sav
 
             if file.split(".")[1] == "csv":
                 with open(folder + "\\" + file, 'r', newline='', encoding='utf-8') as csvfile:
-                    df = csv.reader(csvfile, delimiter="\t")
+                    df = csv.reader(csvfile, delimiter="\t", quotechar= None)
                     next(df)
                     id = file.split(".")[0].split("_")[0]
                     if file[:3] not in top_dic["korpus"]:

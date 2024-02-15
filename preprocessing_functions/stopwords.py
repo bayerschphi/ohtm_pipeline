@@ -13,6 +13,8 @@ def remove_particles(data):       # Partikel
                     next
                 else:
                     data_out.append(word) # Diese Ausnahme ist nur für das wort "mäh" gedacht.
+            else:
+                data_out.append(word)
         elif len(word_set) == 2:
             if "h" in word_set:      # Check if "hm" and "äh" and "ah" in different forms are in the text. They are removed. all Words < 2 are removed.
                 if "m" in word_set:
@@ -24,6 +26,8 @@ def remove_particles(data):       # Partikel
                 else:
                     data_out.append(word)
             if "sa" in word:        # SA is not removed
+                data_out.append(word)
+            else:
                 data_out.append(word)
         elif len(word_set) == 1:
             if "ss" in word:        # SS is not removed

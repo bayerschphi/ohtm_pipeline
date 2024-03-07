@@ -5,7 +5,7 @@ import json
 from datetime import datetime
 
 
-def topic_training_mallet_new(corpus_dictionary, topics, mallet_path, chunking=True, optimize_interval_mallet: int=500, iterations_mallet:int = 5000, random_seed_mallet: int=100):
+def topic_training_mallet_new(corpus_dictionary, topics, mallet_path, chunking=True, optimize_interval_mallet: int=200, iterations_mallet:int = 2000, random_seed_mallet: int=100):
 
     # Aus dem top_dic werden die einzelenen Tokens Listen ausgelesen.
 
@@ -44,16 +44,19 @@ def topic_training_mallet_new(corpus_dictionary, topics, mallet_path, chunking=T
                 for n in top_dic["korpus"][a][i]["sent"]:
                     cleaned_text = top_dic["korpus"][a][i]["sent"][n]["cleaned"]
                     chunk_data.append([i, cleaned_text])
+
+        print(chunk_data)
         dataset = []
         for i in chunk_data:
             dataset += [i[1]]
+
 
 
     id2word = corpora.Dictionary(dataset)
     corpus = [id2word.doc2bow(text) for text in dataset]
 
     lda_model_mallet = LdaMallet(mallet_path, corpus=corpus, id2word=id2word,
-                                                                  num_topics=topics, iterations=iterations_mallet,
+                                                                  num_topics=topics, alpha = 5, iterations=iterations_mallet,
                                                                   optimize_interval=optimize_interval_mallet,
                                                                   random_seed=random_seed_mallet)
 
@@ -96,18 +99,21 @@ def topic_training_mallet_new(corpus_dictionary, topics, mallet_path, chunking=T
     # es wird das finale dic erstellt mit den drei Kategorien "korpus" = alle Interviews; "weight" = Chunk weight Werte; "words" = Wortlisten der Topics
     # vereinfachen möglich! siehe Gespräch mit Dennis
 
-    for i in range(len(doc_tops_mallet)):
-        if chunk_data[i][0].split(" ")[0][:3] not in top_dic["weight"]:
-            top_dic["weight"][chunk_data[i][0].split(" ")[0][:3]] = {}
-        if chunk_data[i][0].split(" ")[0] not in top_dic["weight"][chunk_data[i][0].split(" ")[0][:3]]:
-            top_dic["weight"][chunk_data[i][0].split(" ")[0][:3]][chunk_data[i][0].split(" ")[0]] = {}
-        if chunk_data[i][0].split("_")[1] not in top_dic["weight"][chunk_data[i][0].split(" ")[0][:3]][
-            chunk_data[i][0].split(" ")[0]]:
-            top_dic["weight"][chunk_data[i][0].split(" ")[0][:3]][chunk_data[i][0].split(" ")[0]][
-                chunk_data[i][0].split("_")[1]] = {}
-        for a in doc_tops_mallet[i]:
-            top_dic["weight"][chunk_data[i][0].split(" ")[0][:3]][chunk_data[i][0].split(" ")[0]][
-                chunk_data[i][0].split("_")[1]][a[0]] = a[1]
+    if chunking == True:
+
+        for i in range(len(doc_tops_mallet)):
+            if chunk_data[i][0].split(" ")[0][:3] not in top_dic["weight"]:
+                top_dic["weight"][chunk_data[i][0].split(" ")[0][:3]] = {}
+            if chunk_data[i][0].split(" ")[0] not in top_dic["weight"][chunk_data[i][0].split(" ")[0][:3]]:
+                top_dic["weight"][chunk_data[i][0].split(" ")[0][:3]][chunk_data[i][0].split(" ")[0]] = {}
+            if chunk_data[i][0].split("_")[1] not in top_dic["weight"][chunk_data[i][0].split(" ")[0][:3]][
+                chunk_data[i][0].split(" ")[0]]:
+                top_dic["weight"][chunk_data[i][0].split(" ")[0][:3]][chunk_data[i][0].split(" ")[0]][
+                    chunk_data[i][0].split("_")[1]] = {}
+            for a in doc_tops_mallet[i]:
+                top_dic["weight"][chunk_data[i][0].split(" ")[0][:3]][chunk_data[i][0].split(" ")[0]][
+                    chunk_data[i][0].split("_")[1]][a[0]] = a[1]
+
 
     # Zuerst werden die Ergebnislisten aus top_words_mallet getrennt, da sie in einer Kette mit "+" aneinandergedliedert sind. (0.000*"zetteln" + 0.000*"salonsozialisten") und an word_list_splittet übergeben
     # anschließend wird das Wort*Wert geflecht getrennt und als Tupel (Wert, Wort) passend zu seinem Topic dem dic übergeben.

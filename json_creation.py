@@ -125,6 +125,8 @@ def json_creation(working_folder: str ="", source: str = "", name: str = "", Sav
                         sent_number = 1
                     for i in df:
                         text = i[3]
+
+                        text = re.sub(r"\<(.*?)\>[ ]", "", text)
                         top_dic["korpus"][file[:3]][id]["sent"][sent_number] = {}
                         top_dic["korpus"][file[:3]][id]["sent"][sent_number]["raw"] = str(text)
                         top_dic["korpus"][file[:3]][id]["sent"][sent_number]["speaker"] = {}

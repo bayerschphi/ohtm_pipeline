@@ -21,6 +21,8 @@ use_topic_modeling = False
 use_w2v = False
 topics = 100
 
+use_corelation = False
+
 save_top_words = True
 number_of_words = 50
 
@@ -49,6 +51,10 @@ if __name__ == "__main__":
     if use_w2v == True:
         print("Topic Modeling started with w2v")
         top_dic = topic_modeling_w2v(top_dic, topics=topics, chunking=True)
+
+    if use_corelation == True:
+        print("Topic Corelation startedt")
+
 
 
     if save_top_words:

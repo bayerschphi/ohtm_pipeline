@@ -7,7 +7,7 @@ from sklearn.metrics import silhouette_samples, silhouette_score
 import numpy as np
 import re
 import pandas as pd
-import umap
+# import umap
 from ohtm.settings import *
 
 

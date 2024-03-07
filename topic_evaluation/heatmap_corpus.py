@@ -43,10 +43,13 @@ def heatmap_corpus(top_dic, option_selected: str = "all", show_fig: bool = True,
         df = z_scores
 
     df= df.swapaxes("index", "columns")
-    fig = px.imshow(df, color_continuous_scale='deep', aspect='auto')
+    fig = px.imshow(df, color_continuous_scale='dense', aspect='auto')
     fig.update_traces(hovertemplate="Interview: %{y}" "<br>Topic: %{x}" "<br>Weight: %{z}<extra></extra>")
     fig.update_layout(clickmode='event+select')
     fig.update_layout(clickmode='event+select')
+    fig.update(layout_coloraxis_showscale=False)
+
+
     fig.update_layout(margin=dict(l=20, r=20, t=20, b=20))
     if show_fig == True:
         fig.show()

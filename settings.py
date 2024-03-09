@@ -12,6 +12,8 @@ import os
 import json
 import mallet_wrapper
 from interview_chronology_analysis.interview_chronology_analysis import chronology_matrix
+import pandas as pd
+from interview_chronology_analysis.Narrative_o_Meter import vertical_correlation_matrix, horizontal_correlation_matrix
 
 
 mallet_path = 'C:\\mallet-2.0.8\\bin\\mallet'

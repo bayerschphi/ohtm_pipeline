@@ -53,9 +53,12 @@ if __name__ == "__main__":
         top_dic = topic_modeling_w2v(top_dic, topics=topics, chunking=True)
 
     if use_corelation == True:
-        print("Topic Corelation startedt")
+        print("Topic Modeling entrichment started")
+        horizontal_correlation_matrix(top_dic, enrich_json=True)
+        for number in range(2, 4, 1):
+            vertical_correlation_matrix(top_dic, gross_nr_correlations_per_chunk=number, enrich_json=True)
 
-
+        print(top_dic["correlation"]["verical"])
 
     if save_top_words:
         out = open(working_folder + save_name + "top_words_" "50_words" + '.txt', 'w', encoding='UTF-8')

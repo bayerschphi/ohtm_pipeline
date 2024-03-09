@@ -51,7 +51,7 @@ def preprocessing (top_dic, stoplist_path, bylist: bool = True, byspokenwords: b
                 data_out = pre_line.split(" ") # Tokenisierung
                 if lemma == True:
                     # data_out_lem = lemmatization_test(data_out, spacy_model, goldlist , goldliste_test=goldlist_test, allowed_postags=['NOUN', 'PROPN', 'VERB', 'ADJ', 'NUM', 'ADV'])
-                    data_out_lem = lemmatization(data_out, spacy_model, goldlist, pos_filter=False, allowed_postags=['NOUN', 'PROPN', 'VERB', 'ADJ', 'NUM', 'ADV'])
+                    data_out_lem = lemmatization(data_out, spacy_model, goldlist, pos_filter=True, allowed_postags=['NOUN', 'PROPN', 'VERB', 'ADJ', 'NUM', 'ADV'])
                     data_out = data_out_lem
 
                     # Testfunktion, um die einzelnen Sätze in ihren verschiedenen Bearbeitungsschritten in ein .txt zu schreiben

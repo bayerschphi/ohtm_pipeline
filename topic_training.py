@@ -1,6 +1,6 @@
-import gensim
-import gensim.corpora as corpora
-from gensim.models import CoherenceModel
+# import gensim
+# import gensim.corpora as corpora
+# from gensim.models import CoherenceModel
 import os
 from datetime import datetime
 import pandas as pd

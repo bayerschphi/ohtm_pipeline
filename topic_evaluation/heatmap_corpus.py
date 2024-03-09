@@ -25,21 +25,22 @@ def heatmap_corpus(top_dic, option_selected: str = "all", show_fig: bool = True,
             for entry in heat_dic[i]:
                 heat_dic[i].update({entry:heat_dic[i][entry] / count})
 
-    df = pd.DataFrame.from_dict(heat_dic)
+    if option_selected == "all":
+        df = pd.DataFrame.from_dict(heat_dic)
+
+    else:
+        dff = {}
+        for int in heat_dic:
+            if int[:3] == option_selected:
+                dff[int] = heat_dic[int]
+        df = pd.DataFrame.from_dict(dff)
+
+    # Berechnung der z-Standardisierung
 
     if z_score == True:
-        # Berechnung der z-Standardisierung
         mean=df.mean()
         std_dev = df.std()
         z_scores = ((df - mean)/std_dev)
-
-        if option_selected != "all":
-            columns_to_extract = []
-            for i in z_scores:
-                if i[0:3] == option_selected:
-                    columns_to_extract.append(i)
-
-            z_scores = z_scores[columns_to_extract]
         df = z_scores
 
     df= df.swapaxes("index", "columns")

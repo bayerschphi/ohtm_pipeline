@@ -96,6 +96,9 @@ def topic_training_mallet_new(corpus_dictionary, topics, mallet_path, chunking=T
                                                texts=dataset, dictionary=id2word, coherence='c_v')
     coherence_ldamallet = coherence_model_ldamallet.get_coherence()
 
+
+
+
     # es wird das finale dic erstellt mit den drei Kategorien "korpus" = alle Interviews; "weight" = Chunk weight Werte; "words" = Wortlisten der Topics
     # vereinfachen möglich! siehe Gespräch mit Dennis
 
@@ -148,38 +151,6 @@ def topic_training_mallet_new(corpus_dictionary, topics, mallet_path, chunking=T
     print('Durchschnittliches Topic-Weight Mallet: ' + str(average_weight_mallet))
     print('Maximales Topic-Weight Mallet: ' + str(max_weight_mallet))
 
-    now = str(datetime.now())[:19]
-
-    # modeldumps = 'modeldumps/'
-    #
-    # try:
-    #     os.mkdir(modeldumps)
-    #     print('Ordner "Modeldumps" wurde erstellt.')
-    # except FileExistsError:
-    #     print('Ordner "Modeldumps" existiert bereits.')
-    #
-    # new_model_mallet = 'mallet_' + name_dataset + '_' + str(topics) + 'topics_' + now + '/'
-    # os.mkdir(modeldumps + new_model_mallet)
-    # doc_tops_mallet_df = pd.DataFrame(data=doc_tops_mallet)
-    # doc_tops_mallet_df.to_pickle(
-    #     modeldumps + new_model_mallet + user + '_mallet_' + name_dataset + '_' + str(
-    #         topics) + 'topics_' + now + '.doc_tops_mallet')
-    # top_words_mallet_df = pd.DataFrame(data=lda_model_mallet.print_topics(num_topics=topics, num_words=1000))
-    # top_words_mallet_df.to_pickle(
-    #     modeldumps + new_model_mallet + user + '_mallet_' + name_dataset + '_' + str(
-    #         topics) + 'topics_' + now + '.top_words_mallet')
-    # out = open(modeldumps + new_model_mallet + user + '_mallet_' + name_dataset + '_' + str(
-    #     topics) + 'topics_' + now + '.txt', 'w', encoding='UTF-8')
-    # out.write(name_dataset + '\n')
-    # out.write('Anzahl Topics: ' + str(topics) + '\n')
-    # out.write('random_seed_mallet: ' + str(random_seed_mallet) + '\n')
-    # out.write('optimiize_interval_mallet: ' + str(optimize_interval_mallet) + '\n')
-    # out.write('iterations_mallet: ' + str(iterations_mallet) + '\n')
-    # out.write('Coherence Score: ' + str(coherence_ldamallet) + '\n')
-    # out.write('Minimales Topic-Weight Gensim: ' + str(min_weight_mallet) + '\n')
-    # out.write('Durchschnittliches Topic-Weight Gensim: ' + str(average_weight_mallet) + '\n')
-    # out.write('Maximales Topic-Weight Gensim: ' + str(max_weight_mallet) + '\n')
-    # out.close()
 
     return top_dic
 

@@ -5,7 +5,7 @@ import json
 from datetime import datetime
 
 
-def topic_training_mallet_new(corpus_dictionary, topics, mallet_path, chunking=True, optimize_interval_mallet: int=200, iterations_mallet:int = 2000, random_seed_mallet: int=100):
+def topic_training_mallet_new(corpus_dictionary, topics, mallet_path, chunking=True, optimize_interval_mallet: int=500, iterations_mallet:int = 5000, random_seed_mallet: int=100, alpha: int=5):
 
     # Aus dem top_dic werden die einzelenen Tokens Listen ausgelesen.
 
@@ -37,6 +37,7 @@ def topic_training_mallet_new(corpus_dictionary, topics, mallet_path, chunking=T
         for i in chunk_data:
             dataset += [i[1]]
 
+
     if chunking == False:
         chunk_data = []
         for a in top_dic["korpus"]:
@@ -56,7 +57,7 @@ def topic_training_mallet_new(corpus_dictionary, topics, mallet_path, chunking=T
     corpus = [id2word.doc2bow(text) for text in dataset]
 
     lda_model_mallet = LdaMallet(mallet_path, corpus=corpus, id2word=id2word,
-                                                                  num_topics=topics, alpha = 5, iterations=iterations_mallet,
+                                                                  num_topics=topics, alpha = alpha, iterations=iterations_mallet,
                                                                   optimize_interval=optimize_interval_mallet,
                                                                   random_seed=random_seed_mallet)
 

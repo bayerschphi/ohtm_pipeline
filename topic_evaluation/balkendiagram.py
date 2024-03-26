@@ -1,6 +1,7 @@
 import json
 import pandas as pd
-import plotly.express as px
+import plotly_express as px
+
 
 def bar_dic(top_dic, show_fig: bool = True, return_fig: bool = False):
 

@@ -1,4 +1,3 @@
-# Noch nicht an die neue Datenstruktur angepasst [14.08.2023]
 import spacy
 import pickle
 

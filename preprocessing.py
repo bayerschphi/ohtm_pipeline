@@ -9,18 +9,8 @@ import spacy
 import pickle
 
 
-def preprocessing (top_dic, stoplist_path, bylist: bool = True, byspokenwords: bool = True, bythreshold: bool = False, threshold: int=3, lemma: bool=True):
+def preprocessing (top_dic, stoplist_path, allowed_postags_settings = ['NOUN', 'PROPN', 'VERB', 'ADJ', 'NUM', 'ADV'],by_list: bool = True, by_particle: bool = True, by_threshold: bool = False, threshold: int=0.5, lemma: bool=True, pos_filter_setting: bool = True):
 
-    # .txt um die einzelnen Versionen eines Satzes während der Preprocessings abzuspeichern.
-
-    # out = open(
-    #     "C:\\Users\\phili\\FAUbox\\Oral History Digital\\Topic Modeling\\Preprocsessing\\Lemmatization\\" + "ddr_test" + '.txt',
-    #     'w', encoding='UTF-8')
-
-
-
-    global goldlist_test
-    goldlist_test = ["Militärbehörde"]
     if type(top_dic) is not dict:
         top_dic = json.loads(top_dic)
     else:
@@ -28,65 +18,46 @@ def preprocessing (top_dic, stoplist_path, bylist: bool = True, byspokenwords: b
 
     if lemma == True:
         spacy_model = spacy.load('de_core_news_lg', disable=['parser', 'ner'])
-        goldlist = ['bayrisch']
 
-    if bylist == True:
+    if by_list == True:
         stoplist = open(stoplist_path, encoding='UTF-16', mode='r').read().split()
-
-
-
-    # Stopwords werden entfernt und unter "cleaned" als Token eingefügt.
 
     sent_length = []
     processed_interviews = 0
-    print("started preprocessing " + str(top_dic["settings"]["interviews"]["total"]) + " interviews")
-    for archiv in top_dic["korpus"]:
-        for ID in top_dic["korpus"][archiv]:
-            for nr in top_dic["korpus"][archiv][ID]["sent"]:
-                text = copy.deepcopy(top_dic["korpus"][archiv][ID]["sent"][nr]["raw"])
+    print("Preprocessing started " + str(top_dic["settings"]["interviews"]["total"]) + " interviews")
+    for archive in top_dic["corpus"]:
+        for interview in top_dic["corpus"][archive]:
+            for sent_nr in top_dic["corpus"][archive][interview]["sent"]:
+                text = copy.deepcopy(top_dic["corpus"][archive][interview]["sent"][sent_nr]["raw"])
                 text = str(text)
+
+                # Text_unified wird zwar auch schon während der dictionary_creation durchgeführt, allerdings nur für die .txt Dateien. Denn dort brauche ich die Satzzeichen zum sauberen Splitten.
+                # Die ods und csv raw Texte kann ich ohne die Vereinheitlichung einlesen. Deswegen muss für diese Sätze hier text_unified stattfinden.
+
                 text_unified = text.replace('!', '. ').replace('?', '. ').replace(';', '. ').replace('...,',', ').replace(
                             '..,', ', ').replace('"', ' ').replace("'", ' ').replace("\n", ' ').replace(" - ", " ")
                 pre_line = preprocess_outstr(text)
                 data_out = pre_line.split(" ") # Tokenisierung
                 if lemma == True:
-                    # data_out_lem = lemmatization_test(data_out, spacy_model, goldlist , goldliste_test=goldlist_test, allowed_postags=['NOUN', 'PROPN', 'VERB', 'ADJ', 'NUM', 'ADV'])
-                    data_out_lem = lemmatization(data_out, spacy_model, goldlist, pos_filter=True, allowed_postags=['NOUN', 'PROPN', 'VERB', 'ADJ', 'NUM', 'ADV'])
+                    goldlist = ["DDR"] # Platzhalter, falls mal eine .txt als goldliste eingesetzt werden soll
+                    data_out_lem = lemmatization(data_out, spacy_model, goldlist, pos_filter=pos_filter_setting, allowed_postags=allowed_postags_settings)
                     data_out = data_out_lem
+                    top_dic["settings"]["preprocessing"].update({"lemma": "True"})
+                    top_dic["settings"]["preprocessing"]["pos_filter"] = pos_filter_setting
+                    top_dic["settings"]["preprocessing"]["allowed_postags"] = allowed_postags_settings
 
-                    # Testfunktion, um die einzelnen Sätze in ihren verschiedenen Bearbeitungsschritten in ein .txt zu schreiben
-
-                    # print(data_out_lem[2])
-                    # print(data_out_lem[3])
-                    # print(data_out_lem[4])
-                    # for word in data_out_lem[2]:
-                    #     out.write(word + ", ")
-                    # out.write("\n")
-                    # for word in data_out_lem[3]:
-                    #     out.write(word[0] + " (" + word[1] +")" + ", ")
-                    # out.write("\n")
-                    # for word in data_out_lem[4]:
-                    #     out.write(word + ", ")
-                    # out.write( "\n")
-
-                    # goldlist_test = data_out_lem[1]
-                    # goldlist_test = data_out_lem[0]
-                if bylist == True:
+                if by_list == True:
+                    top_dic["settings"]["preprocessing"].update({"stopwords_removed": "True"})
+                    top_dic["stopwords"] = stoplist
                     data_out = remove_stopwords_by_list(data_out, stoplist)
-                if byspokenwords == True:
+                if by_particle == True:
                     data_out = remove_particles(data_out)
-                if bythreshold == True:
+                    top_dic["settings"]["preprocessing"]["particles_removed"] = "True"
+                if by_threshold == True:
+                    top_dic["settings"]["preprocessing"].update({"stopwords_removed": "True"})
+                    top_dic["settings"]["preprocessing"]["stopword_threshold"] = threshold
                     data_out = remove_stopwords_by_threshold(data_out, threshold)
-
-                # Funktion um die einzelnen Versionen eines Satezs im Preprocessing in eine .txt Datei zu schreiben
-
-                # for word in data_out:
-                #     out.write(word + ", ")
-                # out.write("\n\n")
-
-
-
-                top_dic["korpus"][archiv][ID]["sent"][nr]["cleaned"] = data_out
+                top_dic["corpus"][archive][interview]["sent"][sent_nr]["cleaned"] = data_out
                 sent_length.append(len(data_out))
             processed_interviews += 1
             print(str(processed_interviews) + " out of " + str(top_dic["settings"]["interviews"]["total"]) + " interviews are processed")
@@ -97,17 +68,15 @@ def preprocessing (top_dic, stoplist_path, bylist: bool = True, byspokenwords: b
     min_length = sent_length[0]
     average_length = sum(sent_length) / len(sent_length)
 
-    top_dic["settings"]["cleaned_length"] = {}
-    top_dic["settings"]["cleaned_length"]["max_length"] = max_length
-    top_dic["settings"]["cleaned_length"]["min_length"] = min_length
-    top_dic["settings"]["cleaned_length"]["ave_length"] = average_length
+    top_dic["settings"]["preprocessing"]["cleaned_length"] = {}
+    top_dic["settings"]["preprocessing"]["cleaned_length"]["max_length"] = max_length
+    top_dic["settings"]["preprocessing"]["cleaned_length"]["min_length"] = min_length
+    top_dic["settings"]["preprocessing"]["cleaned_length"]["ave_length"] = average_length
+    top_dic["settings"]["preprocessing"].update({"preprocessed": "True"})
+
+
 
     top_dic = json.dumps(top_dic, ensure_ascii=False)
-
-    # with open ("C:\\Users\\phili\\FAUbox\\Oral History Digital\\Topic Modeling\\main test\\github_test\\goldlist_hai", "wb") as fp:
-    #    pickle.dump(goldlist_test, fp)
-
-    # out.close
 
     return top_dic
 

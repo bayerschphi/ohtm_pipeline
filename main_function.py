@@ -1,35 +1,19 @@
-from ohtm import topic_modeling_w2v
-from settings import *
+
+from ohtm.package_load import *
 
 
-# Topic-Modeling Settings:
-save_json = True
-save_name = "OHD_complete_29_01_2024_pre_100C"
 
-creat_json = False   # if you want to create a new json-file in the data-structure with your own interview-files.
-json_file_name = "OHD_complete_raw"
-
-load_json = True   # if you want to load an existing json-file, with the used data-structure
-load_file_name = "OHD_complete_29_01_2024"
-
-use_preprocessing = True
-
-use_chunking = True
-chunk_setting = 100
-
-use_topic_modeling = False
-use_w2v = False
-topics = 100
-
-use_corelation = False
-
-save_top_words = True
-number_of_words = 50
-
-if __name__ == "__main__":
+def ohtm_main_function(
+        working_folder: str="", source: list = ["",""], stopword_file:str = "", save_name: str="",load_file_name: str="", mallet_path:str="", interview_id: str = "",
+        chunk_setting:int=40, topics:int = 50, number_of_words: int = 50,chunk_number: int=0, topic_search:int=1, chunk_weight:float=0.3,
+        save_json: bool = False, creat_json: bool = False, load_json: bool = False, use_preprocessing: bool = False, use_chunking: bool = False,
+        use_topic_modeling:bool = False, use_w2v:bool=False, use_corelation:bool = False, save_top_words: bool =False, print_json:bool=False,
+        show_bar_graph_corpus:bool = False,show_heatmap_corpus:bool = False, show_heatmap_interview: bool = False,print_interview_chunk: bool = False, search_for_topics_in_chunks:bool = False,
+        search_for_topics_in_interview:bool = False
+):
     if creat_json == True:
         print("Starting creating json")
-        top_dic = json_creation(working_folder, source, Save = False)
+        top_dic = dictionary_creation(source)
 
     if load_json == True:
         print("File {" + load_file_name + "} was loaded")
@@ -38,7 +22,7 @@ if __name__ == "__main__":
 
     if use_preprocessing == True:
         print("Preprocessing started")
-        top_dic = preprocessing(top_dic, stopword_file)
+        top_dic = preprocessing(top_dic, stopword_file, allowed_postags_settings=['NOUN', 'PROPN', 'VERB', 'ADJ', 'NUM', 'ADV'], by_list=True, lemma=True, by_particle=False, pos_filter_setting=True)
 
     if use_chunking == True:
         print("Chunking started with " + str(chunk_setting) + " chunks")
@@ -46,47 +30,59 @@ if __name__ == "__main__":
 
     if use_topic_modeling == True:
         print("Topic Modeling started with " + str(topics) + " topics")
-        top_dic = topic_training_mallet_new(top_dic, topics=topics, mallet_path=mallet_path, chunking=True)
+        top_dic = topic_training_mallet(top_dic, topics=topics, mallet_path=mallet_path, optimize_interval_mallet=500, iterations_mallet=5000, alpha = 50)
 
     if use_w2v == True:
         print("Topic Modeling started with w2v")
         top_dic = topic_modeling_w2v(top_dic, topics=topics, chunking=True)
 
     if use_corelation == True:
-        print("Topic Modeling entrichment started")
-        horizontal_correlation_matrix(top_dic, enrich_json=True)
-        for number in range(2, 4, 1):
-            vertical_correlation_matrix(top_dic, gross_nr_correlations_per_chunk=number, enrich_json=True)
+        try:
+            print("Topic Modeling enrichment started")
+            horizontal_correlation_matrix(top_dic, enrich_json = True)
+            vertical_correlation_matrix(top_dic, gross_nr_correlations_per_chunk = 2, enrich_json= True)
+            vertical_correlation_matrix(top_dic, gross_nr_correlations_per_chunk = 3, enrich_json= True)
+            vertical_correlation_matrix(top_dic, gross_nr_correlations_per_chunk = 4, enrich_json= True)
 
-        print(top_dic["correlation"]["verical"])
+        except NameError or ImportError:
+            print("------ERROR------")
+            print("Not able to enrich the model, because the neceserry pipeline is not installed")
+            print("Install >>Interview Chronologie Analyses by Dennis Möbus<< from Github")
 
     if save_top_words:
-        out = open(working_folder + save_name + "top_words_" "50_words" + '.txt', 'w', encoding='UTF-8')
-        number_of_words
-        word_dic = {}
-        for top_words in top_dic["words"]:
-            out_line = []
-            for i in range(number_of_words):
-                out_line.append((top_dic["words"][top_words])[i][1])
-            out.write("Topic " + "\n" + str(top_words) + "\n")
-            out.write(str(out_line) + "\n")
-            out.write("\n")
-            word_dic[top_words] = out_line
-        out.close
+        save_topic_words(top_dic, working_folder, save_name,number_of_words)
         print("Top Words " + str(chunk_setting) + "was saved" )
 
     if save_json == True:
+        if type(top_dic) is not dict:
+            top_dic = json.loads(top_dic)
+        else:
+            top_dic = top_dic
         with open(working_folder + save_name, "w", encoding="utf-8") as f:
             json.dump(top_dic, f)
         print("Json was saved")
 
-    #print(top_dic)
-    #
-    # bar_dic(top_dic)
-    # value = "all"
-    # heatmap_corpus(top_dic, option_selected=value)
-    #
-    # heatmap_interview(top_dic, "ADG0002")
-    # chronology_matrix(top_dic,"ADG2674", print_fig = True )
-    #
-    # print(top_dic["korpus"]["ADG"]["ADG2674"])
+    if print_json == True:
+        if type(top_dic) is not dict:
+            top_dic = json.loads(top_dic)
+        else:
+            top_dic = top_dic
+        print(top_dic)
+
+    if show_bar_graph_corpus == True:
+        bar_graph_corpus(top_dic, show_fig = True, return_fig = False)
+
+    if show_heatmap_corpus == True:
+        heatmap_corpus(top_dic, option_selected = "all", show_fig=True, return_fig=False, z_score = False)
+
+    if show_heatmap_interview == True:
+        heatmap_interview(top_dic, interview_id, show_fig= True, return_fig = False)
+
+    if print_interview_chunk == True:
+        print_chunk(top_dic, interview_id, chunk_number)
+
+    if search_for_topics_in_chunks == True:
+        print_chunk_with_weight_search(top_dic, topic_search, chunk_weight)
+
+    if search_for_topics_in_interview == True:
+        print_chunk_with_interview_weight_search(top_dic, interview_id, topic_search, chunk_weight)

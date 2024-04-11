@@ -8,7 +8,7 @@ import numpy as np
 import re
 import pandas as pd
 # import umap
-from ohtm.settings import *
+from ohtm.package_load import *
 
 
 
@@ -45,22 +45,22 @@ def topic_modeling_w2v(corpus_dictionary, topics: int=0, chunking: bool=True):
     if chunking == True:
 
         chunk_data = []
-        for a in top_dic["korpus"]:
-            for i in top_dic["korpus"][a]:
+        for a in top_dic["corpus"]:
+            for i in top_dic["corpus"][a]:
                 chunk_count = 0
                 chunk_text = []
-                for n in range(1, (len(top_dic["korpus"][a][i]["sent"]) + 1)):
+                for n in range(1, (len(top_dic["corpus"][a][i]["sent"]) + 1)):
                     n = str(n)
-                    if top_dic["korpus"][a][i]["sent"][n]["chunk"] == chunk_count:
-                        chunk_text += top_dic["korpus"][a][i]["sent"][n]["cleaned"]
-                        if n == str((len(top_dic["korpus"][a][i]["sent"]))):
+                    if top_dic["corpus"][a][i]["sent"][n]["chunk"] == chunk_count:
+                        chunk_text += top_dic["corpus"][a][i]["sent"][n]["cleaned"]
+                        if n == str((len(top_dic["corpus"][a][i]["sent"]))):
                             chunk_data += [[i + " chunk_" + str(chunk_count), chunk_text]]
 
                     else:
                         chunk_data += [[i + " chunk_" + str(chunk_count), chunk_text]]
                         chunk_count += 1
                         chunk_text = []
-                        chunk_text += top_dic["korpus"][a][i]["sent"][n]["cleaned"]
+                        chunk_text += top_dic["corpus"][a][i]["sent"][n]["cleaned"]
         dataset = []
         for i in chunk_data:
             #print(i)
@@ -69,10 +69,10 @@ def topic_modeling_w2v(corpus_dictionary, topics: int=0, chunking: bool=True):
     if chunking == False:
 
         chunk_data = []
-        for a in top_dic["korpus"]:
-            for i in top_dic["korpus"][a]:
-                for n in top_dic["korpus"][a][i]["sent"]:
-                    cleaned_text = top_dic["korpus"][a][i]["sent"][n]["cleaned"]
+        for a in top_dic["corpus"]:
+            for i in top_dic["corpus"][a]:
+                for n in top_dic["corpus"][a][i]["sent"]:
+                    cleaned_text = top_dic["corpus"][a][i]["sent"][n]["cleaned"]
                     chunk_data.append([i, cleaned_text])
         dataset = []
         for i in chunk_data:
@@ -193,7 +193,7 @@ def topic_modeling_w2v(corpus_dictionary, topics: int=0, chunking: bool=True):
     print('Größte Distanz: ' + str(max))
     print('Kleinste Distanz: ' + str(min))
 
-   # es wird das finale dic erstellt mit den drei Kategorien "korpus" = alle Interviews; "weight" = Chunk weight Werte; "words" = Wortlisten der Topics
+   # es wird das finale dic erstellt mit den drei Kategorien "corpus" = alle Interviews; "weight" = Chunk weight Werte; "words" = Wortlisten der Topics
     # vereinfachen möglich! siehe Gespräch mit Dennis
 
     print("Writing results into top_dic")
@@ -253,22 +253,22 @@ def topic_modeling_w2v_load_tsne(corpus_dictionary, topics: int=0, chunking: boo
     if chunking == True:
 
         chunk_data = []
-        for a in top_dic["korpus"]:
-            for i in top_dic["korpus"][a]:
+        for a in top_dic["corpus"]:
+            for i in top_dic["corpus"][a]:
                 chunk_count = 0
                 chunk_text = []
-                for n in range(1, (len(top_dic["korpus"][a][i]["sent"]) + 1)):
+                for n in range(1, (len(top_dic["corpus"][a][i]["sent"]) + 1)):
                     n = str(n)
-                    if top_dic["korpus"][a][i]["sent"][n]["chunk"] == chunk_count:
-                        chunk_text += top_dic["korpus"][a][i]["sent"][n]["cleaned"]
-                        if n == str((len(top_dic["korpus"][a][i]["sent"]))):
+                    if top_dic["corpus"][a][i]["sent"][n]["chunk"] == chunk_count:
+                        chunk_text += top_dic["corpus"][a][i]["sent"][n]["cleaned"]
+                        if n == str((len(top_dic["corpus"][a][i]["sent"]))):
                             chunk_data += [[i + " chunk_" + str(chunk_count), chunk_text]]
 
                     else:
                         chunk_data += [[i + " chunk_" + str(chunk_count), chunk_text]]
                         chunk_count += 1
                         chunk_text = []
-                        chunk_text += top_dic["korpus"][a][i]["sent"][n]["cleaned"]
+                        chunk_text += top_dic["corpus"][a][i]["sent"][n]["cleaned"]
         dataset = []
         for i in chunk_data:
             #print(i)
@@ -277,10 +277,10 @@ def topic_modeling_w2v_load_tsne(corpus_dictionary, topics: int=0, chunking: boo
     if chunking == False:
 
         chunk_data = []
-        for a in top_dic["korpus"]:
-            for i in top_dic["korpus"][a]:
-                for n in top_dic["korpus"][a][i]["sent"]:
-                    cleaned_text = top_dic["korpus"][a][i]["sent"][n]["cleaned"]
+        for a in top_dic["corpus"]:
+            for i in top_dic["corpus"][a]:
+                for n in top_dic["corpus"][a][i]["sent"]:
+                    cleaned_text = top_dic["corpus"][a][i]["sent"][n]["cleaned"]
                     chunk_data.append([i, cleaned_text])
         dataset = []
         for i in chunk_data:
@@ -405,7 +405,7 @@ def topic_modeling_w2v_load_tsne(corpus_dictionary, topics: int=0, chunking: boo
     print('Größte Distanz: ' + str(max))
     print('Kleinste Distanz: ' + str(min))
 
-   # es wird das finale dic erstellt mit den drei Kategorien "korpus" = alle Interviews; "weight" = Chunk weight Werte; "words" = Wortlisten der Topics
+   # es wird das finale dic erstellt mit den drei Kategorien "corpus" = alle Interviews; "weight" = Chunk weight Werte; "words" = Wortlisten der Topics
     # vereinfachen möglich! siehe Gespräch mit Dennis
 
     print("Writing results into top_dic")

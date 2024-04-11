@@ -14,18 +14,18 @@ def heatmap_corpus(top_dic, option_selected: str = "all", show_fig: bool = True,
     if top_dic["settings"]["topic_modeling"]["trained"] == "True":
         heat_dic = {}
         for archive in top_dic["weight"]:
-            for i in top_dic["weight"][archive]:
-                heat_dic[i] = {}
+            for interview in top_dic["weight"][archive]:
+                heat_dic[interview] = {}
                 count = 0
-                for c in top_dic["weight"][archive][i]:
+                for c in top_dic["weight"][archive][interview]:
                     count += 1
-                    for t in top_dic["weight"][archive][i][c]:
-                        if t not in heat_dic[i]:
-                            heat_dic[i].update({t: top_dic["weight"][archive][i][c][t]})  # das int(t) muss genutzt werden, da das speichern in Store die Datei umwandelt
+                    for t in top_dic["weight"][archive][interview][c]:
+                        if t not in heat_dic[interview]:
+                            heat_dic[interview].update({t: top_dic["weight"][archive][interview][c][t]})  # das int(t) muss genutzt werden, da das speichern in Store die Datei umwandelt
                         else:
-                            heat_dic[i].update({t: heat_dic[i][t] + top_dic["weight"][archive][i][c][t]})
-                for entry in heat_dic[i]:
-                    heat_dic[i].update({entry:heat_dic[i][entry] / count})
+                            heat_dic[interview].update({t: heat_dic[interview][t] + top_dic["weight"][archive][interview][c][t]})
+                for entry in heat_dic[interview]:
+                    heat_dic[interview].update({entry:heat_dic[interview][entry] / count})
 
         if option_selected == "all":
             df = pd.DataFrame.from_dict(heat_dic)

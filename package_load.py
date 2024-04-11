@@ -21,7 +21,7 @@ from ohtm.topic_evaluation.topics_prints import print_chunk_with_interview_weigh
 from interview_chronology_analysis.interview_chronology_analysis import chronology_matrix
 from interview_chronology_analysis.Narrative_o_Meter import vertical_correlation_matrix, horizontal_correlation_matrix
 from ohtm.main_function import ohtm_main_function
-from ohtm.topics_w2v import *
+from ohtm.topics_w2v import topic_modeling_w2v
 
 
 

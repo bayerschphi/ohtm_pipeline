@@ -4,12 +4,13 @@ from ohtm.package_load import *
 
 
 def ohtm_main_function(
-        working_folder: str="", source: list = ["",""], stopword_file:str = "", save_name: str="",load_file_name: str="", mallet_path:str="", interview_id: str = "",
-        chunk_setting:int=40, topics:int = 50, number_of_words: int = 50,chunk_number: int=0, topic_search:int=1, chunk_weight:float=0.3,
+        working_folder: str="", source: list = ["",""], stopword_file:str = "", allowed_postags_settings: list =['NOUN', 'PROPN', 'VERB', 'ADJ', 'NUM', 'ADV'], save_name: str="",load_file_name: str="", mallet_path:str="", interview_id: str = "",
+        chunk_setting:int=40, topics:int = 50, number_of_words: int = 50,chunk_number: int=0, topic_search:int=1, chunk_weight:float=0.3,optimize_interval_mallet: int = 500,
+        iterations_mallet: int = 5000, alpha: int = 50,
         save_json: bool = False, creat_json: bool = False, load_json: bool = False, use_preprocessing: bool = False, use_chunking: bool = False,
         use_topic_modeling:bool = False, use_w2v:bool=False, use_corelation:bool = False, save_top_words: bool =False, print_json:bool=False,
         show_bar_graph_corpus:bool = False,show_heatmap_corpus:bool = False, show_heatmap_interview: bool = False,print_interview_chunk: bool = False, search_for_topics_in_chunks:bool = False,
-        search_for_topics_in_interview:bool = False
+        search_for_topics_in_interview:bool = False, by_particle: bool = False, by_list:bool = False, pos_filter_setting: bool = False, lemma: bool=False,
 ):
     if creat_json == True:
         print("Starting creating json")
@@ -22,7 +23,7 @@ def ohtm_main_function(
 
     if use_preprocessing == True:
         print("Preprocessing started")
-        top_dic = preprocessing(top_dic, stopword_file, allowed_postags_settings=['NOUN', 'PROPN', 'VERB', 'ADJ', 'NUM', 'ADV'], by_list=True, lemma=True, by_particle=False, pos_filter_setting=True)
+        top_dic = preprocessing(top_dic, stopword_file, allowed_postags_settings=allowed_postags_settings, by_list=by_list, lemma=lemma, by_particle=by_particle, pos_filter_setting=pos_filter_setting)
 
     if use_chunking == True:
         print("Chunking started with " + str(chunk_setting) + " chunks")
@@ -30,7 +31,7 @@ def ohtm_main_function(
 
     if use_topic_modeling == True:
         print("Topic Modeling started with " + str(topics) + " topics")
-        top_dic = topic_training_mallet(top_dic, topics=topics, mallet_path=mallet_path, optimize_interval_mallet=500, iterations_mallet=5000, alpha = 50)
+        top_dic = topic_training_mallet(top_dic, topics=topics, mallet_path=mallet_path, optimize_interval_mallet=optimize_interval_mallet, iterations_mallet=iterations_mallet, alpha = alpha)
 
     if use_w2v == True:
         print("Topic Modeling started with w2v")

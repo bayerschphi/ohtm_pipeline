@@ -21,6 +21,7 @@ def preprocessing (top_dic, stoplist_path, allowed_postags_settings = ['NOUN', '
 
     if by_list == True:
         stoplist = open(stoplist_path, encoding='UTF-16', mode='r').read().split()
+        stoplist = [word.lower()for word in stoplist]
 
     sent_length = []
     processed_interviews = 0

@@ -2,11 +2,11 @@ from ohtm.package_load import *
 
 mallet_path = 'C:\\mallet-2.0.8\\bin\\mallet'
 os.environ['MALLET_HOME'] = 'C:\\mallet-2.0.8'
-working_folder = "C:\\Users\\phili\\sciebo - Bayerschmidt, Philipp (bayerschmidt@fernuni-hagen.de)@fernuni-hagen.sciebo.de\\Interviews\\code_review\\"
+working_folder = "C:\\Users\\bayerschmidt\\sciebo - Bayerschmidt, Philipp (bayerschmidt@fernuni-hagen.de)@fernuni-hagen.sciebo.de\\Interviews\\code_review\\"
 
 stopword_file = working_folder + "german_stopwords_custome.txt"
 
-source_path = "C:\\Users\\phili\\sciebo - Bayerschmidt, Philipp (bayerschmidt@fernuni-hagen.de)@fernuni-hagen.sciebo.de\\Interviews\\code_review\\"
+source_path = "C:\\Users\\bayerschmidt\\sciebo - Bayerschmidt, Philipp (bayerschmidt@fernuni-hagen.de)@fernuni-hagen.sciebo.de\\Interviews\\code_review\\"
 
 source = [
               source_path+'Archiv Zwangsarbeit',
@@ -18,9 +18,9 @@ source = [
 # Topic-Modeling Settings:
 # if you want to load an existing json-file, with the used data-structure
 load_json = True
-load_file_name = "code_review_preprocessed_chunked_70"
+load_file_name = "ohd_complete_70_80_vortrag"
 
-save_json = True
+save_json = False
 save_name = "code_review_preprocessed_chunked_70_topic_20"
 
 # if you want to create a new json-file in the data-structure with your own interview-files. They are loaded from source
@@ -31,12 +31,12 @@ use_preprocessing = False
 use_chunking = False
 chunk_setting = 70
 
-use_topic_modeling = True
+use_topic_modeling = False
 topics = 30
 use_w2v = False
 
 
-use_corelation  = True
+use_corelation  = False
 
 save_top_words = True
 number_of_words = 50

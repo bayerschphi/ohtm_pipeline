@@ -34,6 +34,7 @@ def topic_training_mallet(corpus_dictionary, topics, mallet_path, optimize_inter
                     chunk_count += 1
                     chunk_text = []
                     chunk_text += top_dic["corpus"][a][i]["sent"][n]["cleaned"]
+
     dataset = []
     for i in chunk_data:
         dataset += [i[1]]

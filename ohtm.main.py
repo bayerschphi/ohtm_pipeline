@@ -17,18 +17,18 @@ source = [
 
 # Topic-Modeling Settings:
 # if you want to load an existing json-file, with the used data-structure
-load_json = True
-load_file_name = "ohd_complete_70_80_vortrag"
+load_json = False
+load_file_name = "ohd_complete_240411_pre_70c_80t_corr"
 
-save_json = False
-save_name = "code_review_preprocessed_chunked_70_topic_20"
+save_json = True
+save_name = "code_review_preprocessed_chunked_7"
 
 # if you want to create a new json-file in the data-structure with your own interview-files. They are loaded from source
-creat_json = False
+creat_json = True
 
-use_preprocessing = False
+use_preprocessing = True
 
-use_chunking = False
+use_chunking = True
 chunk_setting = 70
 
 use_topic_modeling = False
@@ -38,22 +38,22 @@ use_w2v = False
 
 use_corelation  = False
 
-save_top_words = True
+save_top_words = False
 number_of_words = 50
 
-print_json = True
-show_bar_graph_corpus = True
-show_heatmap_corpus = True
+print_json = False
+show_bar_graph_corpus = False
+show_heatmap_corpus = False
 
 interview_id = "ADG0002"
 chunk_number = 0
-show_heatmap_interview = True
-print_interview_chunk = True
+show_heatmap_interview = False
+print_interview_chunk = False
 
-search_for_topics_in_chunks = True
+search_for_topics_in_chunks = False
 topic_search = 1
 chunk_weight = 0.3
-search_for_topics_in_interview= True
+search_for_topics_in_interview= False
 
 
 # advanced options:

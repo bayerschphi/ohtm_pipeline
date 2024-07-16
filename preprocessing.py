@@ -46,7 +46,7 @@ def preprocessing (top_dic, stoplist_path, allowed_postags_settings = ['NOUN', '
                     top_dic["settings"]["preprocessing"].update({"lemma": "True"})
                     top_dic["settings"]["preprocessing"]["pos_filter"] = pos_filter_setting
                     top_dic["settings"]["preprocessing"]["allowed_postags"] = allowed_postags_settings
-
+                data_out = [word.lower() for word in data_out]
                 if by_list == True:
                     top_dic["settings"]["preprocessing"].update({"stopwords_removed": "True"})
                     top_dic["stopwords"] = stoplist
@@ -58,6 +58,7 @@ def preprocessing (top_dic, stoplist_path, allowed_postags_settings = ['NOUN', '
                     top_dic["settings"]["preprocessing"].update({"stopwords_removed": "True"})
                     top_dic["settings"]["preprocessing"]["stopword_threshold"] = threshold
                     data_out = remove_stopwords_by_threshold(data_out, threshold)
+                data_out = remove_speaker(data_out)
                 top_dic["corpus"][archive][interview]["sent"][sent_nr]["cleaned"] = data_out
                 sent_length.append(len(data_out))
             processed_interviews += 1

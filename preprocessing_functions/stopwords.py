@@ -1,27 +1,16 @@
 def remove_speaker(data):
-
     '''Removes Speaker from flat lists of Words - Case Sensitive!'''
 
     for i, word in enumerate(data):
         if "INT_" in word:
-            if not word.startswith("INT_"):         # in sehr seltenen Fällen könnte es sein, dass ein Wort am
-                word_clean = word.split('INT_')[0]  # Sprecherwechsel klebt - dann kann man nicht splitten, weil man das
-                data.pop(i)                         # komplette Kürzel nicht kennt und die Kürzel auch unterschiedlich
-                data.insert(i, word_clean)          # lang sein können (wir haben INT_A und INT_AvP z.B.)
-                                                    # daher würde ich "INT_APgegangen" usw. einfach rausschmeißen
-                                                    # wenn der Sprecherwechsel an einem Wort klebt, ist es kein Problem
-                                                    # gegangenINT_AP -> Split an "INT_", Splitliste an Stelle 0 behalten
-            else:
-                data.pop(i)
+            word_clean = word.replace('INT_', '')
+            data.pop(i)
+            data.insert(i, word_clean.lower())
 
         if "IP_" in word:
-            if not word.startswith("IP_"):
-                word_clean = word.split('INT_')[0]
-                data.pop(i)
-                data.insert(i, word_clean)
-            else:
-                data.pop(i)
-
+            word_clean = word.replace('IP_', '')
+            data.pop(i)
+            data.insert(i, word_clean.lower())
 
     return data
 

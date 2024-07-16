@@ -15,8 +15,6 @@ def topic_training_mallet(corpus_dictionary, topics, mallet_path, optimize_inter
     else:
         top_dic = corpus_dictionary
 
-
-
     chunk_data = []
     for a in top_dic["corpus"]:
         for i in top_dic["corpus"][a]:
@@ -39,7 +37,9 @@ def topic_training_mallet(corpus_dictionary, topics, mallet_path, optimize_inter
     for i in chunk_data:
         dataset += [i[1]]
 
+    print(dataset)
 
+    print("LDA started")
     id2word = corpora.Dictionary(dataset)
     corpus = [id2word.doc2bow(text) for text in dataset]
 

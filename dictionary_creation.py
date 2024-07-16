@@ -112,7 +112,8 @@ def dictionary_creation(source: str = "", speaker_txt: bool = True):
                             except IndexError:
                                 speaker = speaker
 
-                        text = re.sub(r"\*(.*?)\*[ ]", "", line)
+                        text = re.sub(r"<(.*?)>[ ]", "", line)
+                        text = re.sub(r"\*(.*?)\*[ ]", "", text)
                         sent_split = text.split(". ")
                         for sent in sent_split:
                             top_dic["corpus"][archive_id][interview_id]["sent"][sent_number] = {}
@@ -142,8 +143,10 @@ def dictionary_creation(source: str = "", speaker_txt: bool = True):
                     sent_number = 1
                 for line in interview:
                     text = line[2]
+                    text = str(text)
+                    text_cleaned = re.sub(r"<(.*?)>", " ", text)
                     top_dic["corpus"][file[:3]][interview_id]["sent"][sent_number] = {}
-                    top_dic["corpus"][file[:3]][interview_id]["sent"][sent_number]["raw"] = str(text)
+                    top_dic["corpus"][file[:3]][interview_id]["sent"][sent_number]["raw"] = str(text_cleaned)
                     top_dic["corpus"][file[:3]][interview_id]["sent"][sent_number]["speaker"] = {}
                     top_dic["corpus"][file[:3]][interview_id]["sent"][sent_number]["speaker"] = str(line[1])
                     top_dic["corpus"][file[:3]][interview_id]["sent"][sent_number]["time"] = {}
@@ -170,14 +173,18 @@ def dictionary_creation(source: str = "", speaker_txt: bool = True):
                         sent_number = 1
                     for line in interview:
                         text = line[3]
-                        text = re.sub(r"\<(.*?)\>[ ]", "", text)
+                        text2 = str(text)
+                        text_cleaned = re.sub(r"<(.*?)>", " ", text2)
                         top_dic["corpus"][file[:3]][interview_id]["sent"][sent_number] = {}
-                        top_dic["corpus"][file[:3]][interview_id]["sent"][sent_number]["raw"] = str(text)
+                        top_dic["corpus"][file[:3]][interview_id]["sent"][sent_number]["raw"] = str(text_cleaned)
                         top_dic["corpus"][file[:3]][interview_id]["sent"][sent_number]["speaker"] = {}
                         top_dic["corpus"][file[:3]][interview_id]["sent"][sent_number]["speaker"] = str(line[2])
                         top_dic["corpus"][file[:3]][interview_id]["sent"][sent_number]["time"] = {}
                         top_dic["corpus"][file[:3]][interview_id]["sent"][sent_number]["time"] = str(line[1])
-                        top_dic["corpus"][file[:3]][interview_id]["sent"][sent_number]["tape"] = str(line[0])
+                        if str(line[0]) == "":
+                            top_dic["corpus"][file[:3]][interview_id]["sent"][sent_number]["tape"] = "1"
+                        else:
+                            top_dic["corpus"][file[:3]][interview_id]["sent"][sent_number]["tape"] = str(line[0])
                         top_dic["corpus"][file[:3]][interview_id]["sent"][sent_number]["cleaned"] = {}
                         top_dic["corpus"][file[:3]][interview_id]["sent"][sent_number]["chunk"] = {}
                         sent_number += 1

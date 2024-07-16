@@ -93,3 +93,5 @@ def heatmap_interview(top_dic, interview_id: str = "",  show_fig: bool = True, r
 
     else:
         print("No Topic Model trained")
+
+

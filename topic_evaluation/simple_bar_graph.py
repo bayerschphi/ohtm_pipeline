@@ -28,7 +28,6 @@ def bar_graph_corpus(top_dic, show_fig: bool = True, return_fig: bool = False):
                 for entry in interview_dic[archive][interview]:
                      interview_dic[archive][interview].update({entry:interview_dic[archive][interview][entry] / count})
 
-        print(interview_dic)
         bar_dic = {}
         for archive in interview_dic:
             bar_dic[archive] = {}
@@ -44,16 +43,36 @@ def bar_graph_corpus(top_dic, show_fig: bool = True, return_fig: bool = False):
                 bar_dic[archive].update({entry: bar_dic[archive][entry] / count})
 
         print(bar_dic)
-        df = pd.DataFrame.from_dict(bar_dic)
+        bar_dic_simple = {}
+
+        for archive in bar_dic:
+            for topic in bar_dic[archive]:
+                if topic not in bar_dic_simple:
+                    bar_dic_simple.update({topic:bar_dic[archive][topic]})
+                else:
+                    bar_dic_simple.update({topic: bar_dic_simple[topic] + bar_dic[archive][topic]})
+
+
+        bar_dic_simple_final = []
+        for topic in bar_dic_simple:
+            bar_dic_simple_final.append((topic, bar_dic_simple[topic]))
+
+        print(bar_dic_simple)
+
+        df = pd.DataFrame(bar_dic_simple, index=[0])
+        # df = pd.DataFrame(bar_dic_simple_final)
+
 
         # Min-Max-Normalisierung: Skalieren Sie die Daten auf den Wertebereich [0, 1]
-        min_val = df.min()
-        max_val = df.max()
-        normalized_data = (df - min_val) / (max_val - min_val)
-        df.index = pd.to_numeric(df.index)
+        # min_val = df.min()
+        # max_val = df.max()
+        # normalized_data = (df - min_val) / (max_val - min_val)
+        # df = normalized_data
 
-        fig = px.bar(df, color_discrete_sequence=px.colors.qualitative.G10)
-        fig.update_layout(margin=dict(l=20, r=20, t=20, b=20))
+        # df.index = pd.to_numeric(df.index)
+        print(df)
+        fig = px.bar(df.T, color_discrete_sequence=px.colors.qualitative.G10)
+        fig.update_layout(margin=dict(l=20, r=20, t=20, b=20), title_text="OHD_final_100C_90T_A5")
         if show_fig == True:
             fig.show()
         if return_fig == True:

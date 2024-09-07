@@ -1,6 +1,6 @@
-from .topic_evaluation import *
-from .dictionary_creation import *
-from .preprocessing_functions import *
+
+from ohtm_pipeline.ohtm.topic_modeling_functions.dictionary_creation import *
+
 
 
 

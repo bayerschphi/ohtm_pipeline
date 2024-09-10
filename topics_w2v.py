@@ -12,8 +12,6 @@ from ohtm.package_load import *
 
 
 
-#load_file_name = "OHD_complete_new_raw"
-#working_folder = "C:\\Users\\moebusd\\sciebo - Möbus, Dennis (moebusd@fernuni-hagen.de)@fernuni-hagen.sciebo.de\\OHD\\Data TM OHD\\"
 
 #with open(working_folder + load_file_name) as f:
 #    top_dic = json.load(f)
@@ -445,4 +443,57 @@ def topic_modeling_w2v_load_tsne(corpus_dictionary, topics: int=0, chunking: boo
 
     return top_dic
 
+def corpus_embedder(corpus_dictionary):
+    cores = multiprocessing.cpu_count()  # Count the number of cores in a computer
+
+    w2v_model = Word2Vec(min_count=20,
+                     window=2,
+                     vector_size=50,
+                     sample=6e-5,
+                     alpha=0.03,
+                     min_alpha=0.0007,
+                     negative=20,
+                     workers=cores-1)
+
+    if type(corpus_dictionary) is not dict:
+        top_dic = json.loads(corpus_dictionary)
+    else:
+        top_dic = corpus_dictionary
+
+    chunk_data = []
+    for a in top_dic["corpus"]:
+        for i in top_dic["corpus"][a]:
+            for n in top_dic["corpus"][a][i]["sent"]:
+                cleaned_text = top_dic["corpus"][a][i]["sent"][n]["cleaned"]
+                chunk_data.append([i, cleaned_text])
+    dataset = []
+    for i in chunk_data:
+        dataset += [i[1]]
+
+    #print(dataset)
+    w2v_model.build_vocab(dataset, progress_per=10000)
+    print('Vocab built')
+
+    w2v_model.train(dataset, total_examples=w2v_model.corpus_count, epochs=30, report_delay=1)
+    print('Embeddings trained'
+          )
+    w2v_model.save(working_folder+"ohd_final.model")
+
+
+def searchterm_recommendation(searchterm):
+    w2v_model = Word2Vec.load(working_folder+"ohd_final.model")
+    for term in w2v_model.wv.most_similar(positive=[searchterm]):
+        print(term)
+
+
+
 #topic_modeling_w2v(top_dic, topics=75, chunking=True)
+load_file_name = "OHD_final_raw"
+working_folder = "C:\\Users\\moebusd\\sciebo\\OHD\\Data TM OHD\\"
+
+#with open(working_folder + load_file_name) as f:
+#    top_dic = json.load(f)
+
+#vectorized_corpus = corpus_embedder(top_dic)
+
+searchterm_recommendation('künstler')

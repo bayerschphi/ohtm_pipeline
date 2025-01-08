@@ -5,7 +5,7 @@ from ohtm.preprocessing_functions.lemmatization import lemmatization
 
 import copy
 import json
-import spacy
+#import spacy
 import pickle
 
 

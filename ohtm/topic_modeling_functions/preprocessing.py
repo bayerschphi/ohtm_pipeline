@@ -7,7 +7,11 @@ import json
 import spacy
 
 
-def preprocessing (top_dic, stoplist_path, allowed_postags_settings = ['NOUN', 'PROPN', 'VERB', 'ADJ', 'NUM', 'ADV'],by_list: bool = True, by_particle: bool = True, by_threshold: bool = False, threshold: int=0.5, lemma: bool=True, pos_filter_setting: bool = True):
+def preprocessing (top_dic, stoplist_path:str = "", allowed_postags_settings = ['NOUN', 'PROPN', 'VERB', 'ADJ', 'NUM', 'ADV'],
+                   by_list: bool = False, by_particle: bool = False, by_threshold: bool = False, threshold: int=0.5,
+                   lemma: bool=False, pos_filter_setting: bool = False, stop_words:list = "", infer_new_documents:bool = False
+
+                   ):
 
     if type(top_dic) is not dict:
         top_dic = json.loads(top_dic)
@@ -18,8 +22,12 @@ def preprocessing (top_dic, stoplist_path, allowed_postags_settings = ['NOUN', '
         spacy_model = spacy.load('de_core_news_lg', disable=['parser', 'ner'])
 
     if by_list == True:
-        stoplist = open(stoplist_path, encoding='UTF-16', mode='r').read().split()
+        if infer_new_documents == True:
+            stoplist = stop_words
+        else:
+            stoplist = open(stoplist_path, encoding='UTF-16', mode='r').read().split()
         stoplist = [word.lower()for word in stoplist]
+
 
     sent_length = []
     processed_interviews = 0
@@ -72,6 +80,12 @@ def preprocessing (top_dic, stoplist_path, allowed_postags_settings = ['NOUN', '
     top_dic["settings"]["preprocessing"]["cleaned_length"]["max_length"] = max_length
     top_dic["settings"]["preprocessing"]["cleaned_length"]["min_length"] = min_length
     top_dic["settings"]["preprocessing"]["cleaned_length"]["ave_length"] = average_length
+    top_dic["settings"]["preprocessing"]["by_list"] = by_list
+    top_dic["settings"]["preprocessing"]["by_particle"] = by_particle
+    top_dic["settings"]["preprocessing"]["by_threshold"] = by_threshold
+    top_dic["settings"]["preprocessing"]["threshold_stopwords"] = threshold
+    top_dic["settings"]["preprocessing"]["lemmatization"] = lemma
+    top_dic["settings"]["preprocessing"]["pos_filter_setting"] = pos_filter_setting
     top_dic["settings"]["preprocessing"].update({"preprocessed": "True"})
 
 

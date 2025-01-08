@@ -14,6 +14,7 @@ top_dc:
     corpus:
         archive1
         archive2
+            model_base
             sent
                 sent_number_1
                 sent_number_2
@@ -28,21 +29,16 @@ top_dc:
     settings
         model
         topic_numbuer
-
-
-
-
 '''
 
-
+import pandas as pd
 import os
 import re
 import json
 import csv
-import pandas as pd
 
 
-def dictionary_creation(source: str = "", speaker_txt: bool = True):
+def dictionary_creation(source: list = "", source_path: str="", speaker_txt: bool = True):
 
     top_dic = {}
 
@@ -54,36 +50,42 @@ def dictionary_creation(source: str = "", speaker_txt: bool = True):
     top_dic["settings"] = {}
     top_dic["settings"]["interviews"] = {}
     top_dic["settings"]["interviews"]["total"] = 0
+    top_dic["settings"]["interviews_trained"] = {}
+    top_dic["settings"]["interviews_inferred"] = {}
+    top_dic["settings"]["topic_modeling"] = {}
+    top_dic["settings"]["topic_modeling"]["trained"] = "False"
+    top_dic["settings"]["topic_modeling"]["inferred"] = "False"
     top_dic["settings"]["preprocessing"] = {}
     top_dic["settings"]["preprocessing"]["preprocessed"] = "False"
     top_dic["settings"]["preprocessing"]["stopwords_removed"] = "False"
     top_dic["settings"]["preprocessing"]["lemma"] = "False"
     top_dic["settings"]["preprocessing"]["chunked"] = "False"
     top_dic["settings"]["preprocessing"]["chunk_setting"] = "None"
-    top_dic["settings"]["topic_modeling"] = {}
-    top_dic["settings"]["topic_modeling"]["trained"] = "False"
+
 
 
     for folder in source:
-        for file in os.listdir(folder):
+        folder_path = os.path.join(source_path, folder)
+        print(folder_path)
+        for file in os.listdir(folder_path):
             print(file)
-            print(file.split(".")[1])
+            file_path = os.path.join(folder_path, file)
 
             # Ich bin mir unsicher, ob es diese verschiedenen Codierungen brauch
             if file.split(".")[1] == "txt":
                 try:
-                    text = open(folder + '\\' + file, 'r', encoding='UTF-8-sig').read()
+                    text = open(os.path.join(folder_path, file), 'r', encoding='UTF-8').read()
                 except UnicodeDecodeError:
                     try:
-                        text = open(folder + '\\' + file, 'r', encoding='UTF-8').read()
+                        text = open(file_path, 'r', encoding='UTF-8-sig').read()
                     except UnicodeDecodeError:
                         try:
-                            text = open(folder + '\\' + file, 'r', encoding='UTF-16-le').read()
+                            text = open(file_path, 'r', encoding='UTF-16-le').read()
                         except UnicodeDecodeError:
                             try:
-                                text = open(folder + '\\' + file, 'r', encoding='UTF-16-be').read()
+                                text = open(file_path, 'r', encoding='UTF-16-be').read()
                             except UnicodeDecodeError:
-                                text = open(folder + '\\' + file, 'r', encoding='ANSI').read()
+                                text = open(file_path, 'r', encoding='ANSI').read()
                                 text = text.encode('UTF-8')
                                 text = text.decode('UTF-8', 'ignore')
 
@@ -100,7 +102,7 @@ def dictionary_creation(source: str = "", speaker_txt: bool = True):
                 top_dic["settings"]["interviews"][archive_id] = (top_dic["settings"]["interviews"][archive_id])+1
                 top_dic["settings"]["interviews"]["total"] = (top_dic["settings"]["interviews"]["total"])+1
                 top_dic["corpus"][archive_id][interview_id]["sent"] = {}
-
+                top_dic["corpus"][archive_id][interview_id]["model_base"] = {}
                 sent_number = 1
                 for line in text_split:
                     if len(line) == 0:
@@ -129,7 +131,7 @@ def dictionary_creation(source: str = "", speaker_txt: bool = True):
 
 
             if file.split(".")[1] == "ods":
-                interview = pd.read_excel(folder + "\\" + file)
+                interview = pd.read_excel(file_path)
                 interview = interview.values.tolist()
                 interview_id = file.split(".")[0].split("_")[0]
                 if file[:3] not in top_dic["corpus"]:
@@ -140,6 +142,7 @@ def dictionary_creation(source: str = "", speaker_txt: bool = True):
                     top_dic["settings"]["interviews"][file[:3]] = (top_dic["settings"]["interviews"][file[:3]]) + 1
                     top_dic["settings"]["interviews"]["total"] = (top_dic["settings"]["interviews"]["total"]) + 1
                     top_dic["corpus"][file[:3]][interview_id]["sent"] = {}
+                    top_dic["corpus"][file[:3]][interview_id]["model_base"] = {}
                     sent_number = 1
                 for line in interview:
                     text = line[2]
@@ -158,7 +161,7 @@ def dictionary_creation(source: str = "", speaker_txt: bool = True):
                     sent_number += 1
 
             if file.split(".")[1] == "csv":
-                with open(folder + "\\" + file, 'r', newline='', encoding='utf-8') as csvfile:
+                with open(file_path, 'r', newline='', encoding='utf-8') as csvfile:
                     interview = csv.reader(csvfile, delimiter="\t", quotechar= None)
                     next(interview) #Um die erste Zeile in der .csv zu überspringen
                     interview_id = file.split(".")[0].split("_")[0]
@@ -170,6 +173,7 @@ def dictionary_creation(source: str = "", speaker_txt: bool = True):
                         top_dic["settings"]["interviews"][file[:3]] = (top_dic["settings"]["interviews"][file[:3]]) + 1
                         top_dic["settings"]["interviews"]["total"] = (top_dic["settings"]["interviews"]["total"]) + 1
                         top_dic["corpus"][file[:3]][interview_id]["sent"] = {}
+                        top_dic["corpus"][file[:3]][interview_id]["model_base"] = {}
                         sent_number = 1
                     for line in interview:
                         text = line[3]

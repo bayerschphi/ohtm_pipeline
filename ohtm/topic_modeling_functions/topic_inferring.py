@@ -1,25 +1,20 @@
 import mallet_wrapper.corpora as corpora
 from mallet_wrapper.ldamallet import LdaMallet
 from mallet_wrapper.coherencemodel import CoherenceModel
-import gensim
 import json
-from datetime import datetime
-import pickle
 import os
+from mallet_wrapper.utils import SaveLoad
+
+def topic_inferring(corpus_dictionary, mallet_path:str ="", model_name: str = "", working_folder: str ="", topics: int = 0, iterations_mallet:int = 5000, random_seed_mallet: int=100):
+
+    # Load the train model and set all necessary variables.
+    model_path = os.path.join(working_folder, model_name, model_name+"_")
+    lda_model_mallet = LdaMallet.load(model_path+"topic_model")
+
+    lda_model_mallet.prefix = model_path
+    lda_model_mallet.random_seed = random_seed_mallet
 
 
-def topic_training_mallet(corpus_dictionary, topics, mallet_path, optimize_interval_mallet: int=500, iterations_mallet:int = 5000, random_seed_mallet: int=100, alpha: int=5,
-                          save_model:bool = False, working_folder: str = "", save_name: str="", save_json:bool = False,
-                          ):
-
-    if save_model == True:
-        if save_json == True:
-            prefix_value = os.path.join(working_folder, save_name, save_name +"_")
-        else:
-            print("You need to set a save_name and set save_json to True to save the model")
-            exit()
-    else:
-        prefix_value = None
 
     # Aus dem top_dic werden die einzelenen Tokens Listen ausgelesen.
 
@@ -50,24 +45,16 @@ def topic_training_mallet(corpus_dictionary, topics, mallet_path, optimize_inter
     for i in chunk_data:
         dataset += [i[1]]
 
-    print(dataset[-10:-1])
+    print("Starting inferring")
 
-    print("LDA started")
-    id2word = corpora.Dictionary(dataset)
-    corpus = [id2word.doc2bow(text) for text in dataset]
+    corpus = [lda_model_mallet.id2word.doc2bow(text) for text in dataset]
 
-    lda_model_mallet = LdaMallet(mallet_path, corpus=corpus, id2word=id2word,
-                                                                  num_topics=topics, alpha = alpha, iterations=iterations_mallet,
-                                                                  optimize_interval=optimize_interval_mallet,
-                                                                  random_seed=random_seed_mallet, prefix = prefix_value)
+    lda_model_mallet[corpus]
 
-
-    if save_model:
-        lda_model_mallet.save(os.path.join(working_folder, save_name, save_name +"_topic_model"))
 
     ## Daten-Output Mallet konvertieren
 
-    doc_tops_import = open(lda_model_mallet.fdoctopics(), mode='r', encoding='UTF-8').read()
+    doc_tops_import = open(lda_model_mallet.fdoctopics() + ".infer", mode='r', encoding='UTF-8').read()
 
     doc_tops_mallet = []
     sum_top_weights = 0.0
@@ -75,6 +62,8 @@ def topic_training_mallet(corpus_dictionary, topics, mallet_path, optimize_inter
     min_weight_mallet = 1
     max_weight_mallet = 0
     for line in doc_tops_import.splitlines():
+        if line.startswith("#doc"): # The .infer doc has a headline that starts with #doc and has to be skipped
+            continue
         doc_tops_transfer = []
         for topic_nr, topic in enumerate(line.split()):
             if '.' in topic:
@@ -93,12 +82,6 @@ def topic_training_mallet(corpus_dictionary, topics, mallet_path, optimize_inter
     average_weight_mallet = sum_top_weights / top_counter
 
     topwords_mallet = lda_model_mallet.print_topics(num_topics=topics, num_words=1000)
-
-    coherence_model_ldamallet = CoherenceModel(model=lda_model_mallet,
-                                               texts=dataset, dictionary=id2word, coherence='c_v')
-    coherence_ldamallet = coherence_model_ldamallet.get_coherence()
-
-
 
 
     # es wird das finale dic erstellt mit den drei Kategorien "corpus" = alle Interviews; "weight" = Chunk weight Werte; "words" = Wortlisten der Topics
@@ -136,29 +119,21 @@ def topic_training_mallet(corpus_dictionary, topics, mallet_path, optimize_inter
 
     for archive in top_dic["corpus"]:
         for interviews in top_dic["corpus"][archive]:
-            top_dic["corpus"][archive][interviews]["model_base"] = "trained"
+            top_dic["corpus"][archive][interviews]["model_base"] = "inferred"
 
 
     # Abspeichern gewisser meta-daten im top_dic
-    top_dic["settings"]["topic_modeling"].update({"trained":"True"})
-    top_dic["settings"]["topic_modeling"].update({"model": "mallet"})
-    top_dic["settings"]["topic_modeling"].update({"topics": topics})
-    top_dic["settings"]["topic_modeling"].update({"alpha": alpha})
-    top_dic["settings"]["topic_modeling"].update({"optimize_interval_mallet": optimize_interval_mallet})
-    top_dic["settings"]["topic_modeling"].update({"iterations_mallet": iterations_mallet})
-    top_dic["settings"]["topic_modeling"].update({"random_seed_mallet": random_seed_mallet})
-    top_dic["settings"]["topic_modeling"].update({"coherence": coherence_ldamallet})
-    top_dic["settings"]["topic_modeling"].update({"average_weight": average_weight_mallet})
-    top_dic["settings"]["topic_modeling"].update({"min_weight": min_weight_mallet})
-    top_dic["settings"]["topic_modeling"].update({"max_weight": max_weight_mallet})
+    top_dic["settings"]["topic_modeling"]["inferred"] = "True"
+    top_dic["settings"]["topic_modeling"]["trained"] = "True"
+    top_dic["settings"]["topic_inferred"]= {}
+    top_dic["settings"]["topic_inferred"]["infer_model"] = model_name
+    top_dic["settings"]["topic_inferred"].update({"model": "mallet"})
+    top_dic["settings"]["topic_inferred"].update({"topics": topics})
+    top_dic["settings"]["topic_inferred"].update({"iterations_mallet": iterations_mallet})
+    top_dic["settings"]["topic_inferred"].update({"average_weight": average_weight_mallet})
+    top_dic["settings"]["topic_inferred"].update({"min_weight": min_weight_mallet})
+    top_dic["settings"]["topic_inferred"].update({"max_weight": max_weight_mallet})
 
-
-
-    print('\nCoherence Score: ', coherence_ldamallet)
-
-    print('Minimales Topic-Weight Mallet: ' + str(min_weight_mallet))
-    print('Durchschnittliches Topic-Weight Mallet: ' + str(average_weight_mallet))
-    print('Maximales Topic-Weight Mallet: ' + str(max_weight_mallet))
 
     top_dic = json.dumps(top_dic, ensure_ascii=False)
     return top_dic

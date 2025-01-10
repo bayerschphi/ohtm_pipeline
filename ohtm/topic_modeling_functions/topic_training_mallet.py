@@ -14,7 +14,11 @@ def topic_training_mallet(corpus_dictionary, topics, mallet_path, optimize_inter
 
     if save_model == True:
         if save_json == True:
-            prefix_value = os.path.join(working_folder, save_name, save_name +"_")
+            if not os.path.exists(os.path.join(working_folder, "Models")):
+                os.makedirs(os.path.join(working_folder, "Models"))
+            if not os.path.exists(os.path.join(working_folder, "Models", save_name)):
+                os.makedirs(os.path.join(working_folder, "Models", save_name))
+            prefix_value = os.path.join(working_folder, "Models", save_name, save_name +"_")
         else:
             print("You need to set a save_name and set save_json to True to save the model")
             exit()
@@ -63,7 +67,7 @@ def topic_training_mallet(corpus_dictionary, topics, mallet_path, optimize_inter
 
 
     if save_model:
-        lda_model_mallet.save(os.path.join(working_folder, save_name, save_name +"_topic_model"))
+        lda_model_mallet.save(os.path.join(working_folder, "Models", save_name, save_name +"_topic_model"))
 
     ## Daten-Output Mallet konvertieren
 

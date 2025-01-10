@@ -1,9 +1,8 @@
 from ohtm_pipeline.package_load import *
-import json_combination_infer
-from json_combination_infer import combine_infer
 
 '''
-With this code board you can select every option for your topic model. You can set the different options on and off via "True" and "False".
+With this board you can select every option for your topic model. 
+You can set the different options on and off via "True" and "False".
 All the paths to the folders are set here.
 '''
 
@@ -37,23 +36,22 @@ source = [
 
 
 # if you want to create a new json-file in the data-structure with your own interview-files. They are loaded from source
-creat_json = False
+creat_json = True
 
 # if you want to load an existing json-file, with the used data-structure
-load_json = True
+load_json = False
 load_file_name = "OHD_final_100c_100T_A5_remade"
 
-save_json = False
-save_name = "OHD_final_100c_100T_A5_remade"
-save_model = False
+save_json = True
+save_name = "Test"
+save_model = True
 
+use_preprocessing = True
 
-use_preprocessing = False
-
-use_chunking = False
+use_chunking = True
 chunk_setting = 100
 
-use_topic_modeling = False
+use_topic_modeling = True
 topics = 100
 
 use_corelation  = False
@@ -61,7 +59,7 @@ use_corelation  = False
 save_top_words = False
 number_of_words = 50
 
-print_json = True
+print_json = False
 show_bar_graph_corpus = False
 show_heatmap_corpus = False
 
@@ -79,8 +77,8 @@ search_for_topics_in_interview= False
 # advanced options:
 #topic_modeling
 
-optimize_interval_mallet= 500
-iterations_mallet= 5000
+optimize_interval_mallet= 50
+iterations_mallet= 500
 alpha= 5
 
 # preprocessing
@@ -92,12 +90,10 @@ allowed_postags_settings = ['NOUN', 'PROPN', 'VERB', 'ADJ', 'NUM', 'ADV']
 
 # Inferring new Documents
 
-infer_new_documents = False
-trained_json_name = "OHD_final_100c_100T_A5_remade"  # load the trained json and the model to train that json
-save_separate_json = False # save the inferred documents as a new json
-
-
-
+infer_new_documents = True
+trained_json_name = "Test"  # load the trained json and the model to train that json
+save_separate_json = True # save the inferred documents as a new json
+separate_json_name = "richtig"
 
 
 if __name__ == "__main__":
@@ -115,5 +111,5 @@ if __name__ == "__main__":
             search_for_topics_in_chunks=search_for_topics_in_chunks,
             search_for_topics_in_interview=search_for_topics_in_interview, by_particle=by_particle, by_list=by_list,
             pos_filter_setting=pos_filter_setting, lemma=lemma, save_model = save_model, infer_new_documents = infer_new_documents, trained_json_name = trained_json_name,
-            save_separate_json = save_separate_json
+            save_separate_json = save_separate_json, separate_json_name = separate_json_name
     )

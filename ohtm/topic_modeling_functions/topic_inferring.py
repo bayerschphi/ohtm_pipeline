@@ -8,7 +8,7 @@ from mallet_wrapper.utils import SaveLoad
 def topic_inferring(corpus_dictionary, mallet_path:str ="", model_name: str = "", working_folder: str ="", topics: int = 0, iterations_mallet:int = 5000, random_seed_mallet: int=100):
 
     # Load the train model and set all necessary variables.
-    model_path = os.path.join(working_folder, model_name, model_name+"_")
+    model_path = os.path.join(working_folder, "Models", model_name, model_name+"_")
     lda_model_mallet = LdaMallet.load(model_path+"topic_model")
 
     lda_model_mallet.prefix = model_path

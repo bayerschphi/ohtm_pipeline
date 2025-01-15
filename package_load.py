@@ -9,7 +9,7 @@ from ohtm_pipeline.ohtm.basic_functions import save_load
 from ohtm_pipeline.ohtm.basic_functions.save_load import save_json_function
 from ohtm_pipeline.ohtm.basic_functions.save_load import load_json_function
 from ohtm_pipeline.ohtm.topic_modeling_functions.chunking import chunking
-from ohtm_pipeline.ohtm.topic_modeling_functions.dictionary_creation import dictionary_creation
+from ohtm_pipeline.ohtm.topic_modeling_functions.json_creation import json_creation_function
 from ohtm_pipeline.ohtm.preprocessing_functions.stopwords import remove_stopwords_by_list, remove_particles, remove_stopwords_by_threshold
 from ohtm_pipeline.ohtm.topic_evaluation.bar_graph import bar_graph_corpus
 from ohtm_pipeline.ohtm.topic_evaluation.heatmaps import heatmap_interview

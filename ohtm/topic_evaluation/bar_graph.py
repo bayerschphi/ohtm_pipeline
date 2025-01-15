@@ -2,14 +2,12 @@ import json
 import pandas as pd
 import plotly_express as px
 
+
 def bar_graph_corpus(top_dic, show_fig: bool = True, return_fig: bool = False):
-
-
     if type(top_dic) is not dict:
         top_dic = json.loads(top_dic)
     else:
         top_dic = top_dic
-
     if top_dic["settings"]["topic_modeling"]["trained"] == "True":
         interview_dic = {}
         for archive in top_dic["weight"]:
@@ -22,9 +20,10 @@ def bar_graph_corpus(top_dic, show_fig: bool = True, return_fig: bool = False):
                     count += 1
                     for t in top_dic["weight"][archive][interview][c]:
                         if t not in interview_dic[archive][interview]:
-                            interview_dic[archive][interview].update({t: top_dic["weight"][archive][interview][c][t]})  # das int(t) muss genutzt werden, da das speichern in Store die Datei umwandelt
+                            interview_dic[archive][interview].update({t: top_dic["weight"][archive][interview][c][t]})
                         else:
-                            interview_dic[archive][interview].update({t: interview_dic[archive][interview][t] + top_dic["weight"][archive][interview][c][t]})
+                            interview_dic[archive][interview].update(
+                                {t: interview_dic[archive][interview][t] + top_dic["weight"][archive][interview][c][t]})
                 for entry in interview_dic[archive][interview]:
                      interview_dic[archive][interview].update({entry:interview_dic[archive][interview][entry] / count})
 

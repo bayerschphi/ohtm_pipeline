@@ -1,15 +1,14 @@
 import json
 import pickle
 import copy
+from datetime import datetime
+import re
+import gensim
+import pandas as pd
+import json
 
 
 def print_topic_words(topic_dictionary, number_of_words, name_dataset, save_doc=False):
-    from datetime import datetime
-    import re
-    import gensim
-    import pandas as pd
-    import json
-
     now = str(datetime.now())[:19]
     now_formatted = now[2:4] + now[5:7] + now[8:10] + now[11:13] + now[14:16] + now[17:19]
     now = now_formatted
@@ -78,7 +77,7 @@ def print_chunk(top_dic, interview_id:str="", chunk_number:int=0):
     print(chunk_for_print)
 
 
-def print_chunk_with_weight_search(top_dic, topic_search: int = 0, chunk_weight:int=0.3):
+def print_chunk_with_weight_search(top_dic, topic_search: int = 0, chunk_weight: float = 0.3):
     if type(top_dic) is not dict:
         top_dic = json.loads(top_dic)
     else:
@@ -104,7 +103,7 @@ def print_chunk_with_weight_search(top_dic, topic_search: int = 0, chunk_weight:
 
 
 
-def print_chunk_with_interview_weight_search(top_dic, interview_id:str="", topic_search: int = 0, chunk_weight:int=0.3):
+def print_chunk_with_interview_weight_search(top_dic, interview_id:str="", topic_search: int = 0, chunk_weight: float = 0.3):
     if type(top_dic) is not dict:
         top_dic = json.loads(top_dic)
     else:

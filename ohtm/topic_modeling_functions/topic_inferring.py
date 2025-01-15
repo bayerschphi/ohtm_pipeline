@@ -5,7 +5,9 @@ import json
 import os
 from mallet_wrapper.utils import SaveLoad
 
-def topic_inferring(corpus_dictionary, mallet_path:str ="", model_name: str = "", working_folder: str ="", topics: int = 0, iterations_mallet:int = 5000, random_seed_mallet: int=100):
+
+def topic_inferring(corpus_dictionary, mallet_path: str = "", model_name: str = "", working_folder: str = "",
+                    topics: int = 0, iterations_mallet: int = 5000, random_seed_mallet: int = 100):
 
     # Load the train model and set all necessary variables.
     model_path = os.path.join(working_folder, "Models", model_name, model_name+"_")
@@ -14,10 +16,7 @@ def topic_inferring(corpus_dictionary, mallet_path:str ="", model_name: str = ""
     lda_model_mallet.prefix = model_path
     lda_model_mallet.random_seed = random_seed_mallet
 
-
-
-    # Aus dem top_dic werden die einzelenen Tokens Listen ausgelesen.
-
+    # The single sentences are added together to the preprocessed chunks:
     if type(corpus_dictionary) is not dict:
         top_dic = json.loads(corpus_dictionary)
     else:
@@ -48,12 +47,8 @@ def topic_inferring(corpus_dictionary, mallet_path:str ="", model_name: str = ""
     print("Starting inferring")
 
     corpus = [lda_model_mallet.id2word.doc2bow(text) for text in dataset]
-
     lda_model_mallet[corpus]
-
-
-    ## Daten-Output Mallet konvertieren
-
+    # Converting the results and saving them in the dictionary.
     doc_tops_import = open(lda_model_mallet.fdoctopics() + ".infer", mode='r', encoding='UTF-8').read()
 
     doc_tops_mallet = []
@@ -62,7 +57,7 @@ def topic_inferring(corpus_dictionary, mallet_path:str ="", model_name: str = ""
     min_weight_mallet = 1
     max_weight_mallet = 0
     for line in doc_tops_import.splitlines():
-        if line.startswith("#doc"): # The .infer doc has a headline that starts with #doc and has to be skipped
+        if line.startswith("#doc"):  # The .infer doc has a headline that starts with #doc and has to be skipped
             continue
         doc_tops_transfer = []
         for topic_nr, topic in enumerate(line.split()):
@@ -71,8 +66,7 @@ def topic_inferring(corpus_dictionary, mallet_path:str ="", model_name: str = ""
                 if topic_float >= 0:  # Threshold für Weight
                     sum_top_weights = sum_top_weights + topic_float
                     top_counter += 1
-                    doc_tops_transfer.append((topic_nr - 2,
-                                              topic_float))  # hier Weight als Float, in anderen Zellen als Str -> vereinheitlichen (?)
+                    doc_tops_transfer.append((topic_nr - 2, topic_float))
                     if topic_float < min_weight_mallet:
                         min_weight_mallet = topic_float
                     if topic_float > max_weight_mallet:
@@ -83,10 +77,7 @@ def topic_inferring(corpus_dictionary, mallet_path:str ="", model_name: str = ""
 
     topwords_mallet = lda_model_mallet.print_topics(num_topics=topics, num_words=1000)
 
-
-    # es wird das finale dic erstellt mit den drei Kategorien "corpus" = alle Interviews; "weight" = Chunk weight Werte; "words" = Wortlisten der Topics
-    # vereinfachen möglich! siehe Gespräch mit Dennis
-
+    # The results are written in the dictionary.
     for i in range(len(doc_tops_mallet)):
         if chunk_data[i][0].split(" ")[0][:3] not in top_dic["weight"]:
             top_dic["weight"][chunk_data[i][0].split(" ")[0][:3]] = {}
@@ -100,11 +91,8 @@ def topic_inferring(corpus_dictionary, mallet_path:str ="", model_name: str = ""
             top_dic["weight"][chunk_data[i][0].split(" ")[0][:3]][chunk_data[i][0].split(" ")[0]][
                 chunk_data[i][0].split("_")[1]][a[0]] = a[1]
 
-
-    # Zuerst werden die Ergebnislisten aus top_words_mallet getrennt, da sie in einer Kette mit "+" aneinandergedliedert sind. (0.000*"zetteln" + 0.000*"salonsozialisten") und an word_list_splittet übergeben
-    # anschließend wird das Wort*Wert geflecht getrennt und als Tupel (Wert, Wort) passend zu seinem Topic dem dic übergeben.
-
-
+    # The results from top_words_mallet for every topic are listed as: (0.000*"zetteln" + 0.000*"sozialisten").
+    # We have to split the words at "+" and then split the words from the weight to have a tuple (value, word).
     word_list_splitted = []
     for i in topwords_mallet:
         word_list_splitted += [(i[0], i[1].split("+"))]
@@ -116,16 +104,14 @@ def topic_inferring(corpus_dictionary, mallet_path:str ="", model_name: str = ""
             word_weight_splitted += [(c, d)]
         top_dic["words"][a[0]] = word_weight_splitted
 
-
     for archive in top_dic["corpus"]:
         for interviews in top_dic["corpus"][archive]:
             top_dic["corpus"][archive][interviews]["model_base"] = "inferred"
 
-
-    # Abspeichern gewisser meta-daten im top_dic
+    # Saving metadata and variables.
     top_dic["settings"]["topic_modeling"]["inferred"] = "True"
     top_dic["settings"]["topic_modeling"]["trained"] = "True"
-    top_dic["settings"]["topic_inferred"]= {}
+    top_dic["settings"]["topic_inferred"] = {}
     top_dic["settings"]["topic_inferred"]["infer_model"] = model_name
     top_dic["settings"]["topic_inferred"].update({"model": "mallet"})
     top_dic["settings"]["topic_inferred"].update({"topics": topics})
@@ -133,7 +119,6 @@ def topic_inferring(corpus_dictionary, mallet_path:str ="", model_name: str = ""
     top_dic["settings"]["topic_inferred"].update({"average_weight": average_weight_mallet})
     top_dic["settings"]["topic_inferred"].update({"min_weight": min_weight_mallet})
     top_dic["settings"]["topic_inferred"].update({"max_weight": max_weight_mallet})
-
 
     top_dic = json.dumps(top_dic, ensure_ascii=False)
     return top_dic

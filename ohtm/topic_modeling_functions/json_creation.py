@@ -1,12 +1,14 @@
 '''
-This function converts primary interviews from  .txt .ods and .csv files into the data structure for this topic_modeling pipeline, called top_dic.
+This function converts primary interviews from  .txt .ods and .csv files into the data structure for this topic_modeling
+pipeline, called top_dic.
 The csv. and .ods files are optimized for the structure of the online archive oral-history.digital.
 The txt files are special structured. [ergänzen]
 
-If you only have a plane text, just set speaker_txt to False. Then each sentence is split by punctuation and will be loaded.
+If you only have a plane text, just set speaker_txt to False.
+Then each sentence is split by punctuation and will be loaded.
 
-The archive name and the interview id are build from the file name. The first 3 letters are used for the archive, and the hole
-name is used for the id.
+The archive name and the interview id are build from the file name.
+The first 3 letters are used as the archive, and the hole name is used as id.
 
 Datastructure:
 
@@ -38,8 +40,9 @@ import json
 import csv
 
 
-def dictionary_creation(source: list = "", source_path: str="", speaker_txt: bool = True):
+def json_creation_function(source: list = "", source_path: str= "", speaker_txt: bool = True):
 
+    # This sections creats the raw dictionary, with the different layers and settings.
     top_dic = {}
 
     top_dic["corpus"] = {}
@@ -62,16 +65,20 @@ def dictionary_creation(source: list = "", source_path: str="", speaker_txt: boo
     top_dic["settings"]["preprocessing"]["chunked"] = "False"
     top_dic["settings"]["preprocessing"]["chunk_setting"] = "None"
 
+    # The documents are loaded from the source_path by creating the path to the folder in the source path.
+    # The Iteration loads every single dokument and transforms it into the dictionary.
 
-
-    for folder in source:
-        folder_path = os.path.join(source_path, folder)
+    for folder in source:   # loads every folder in the source_path folder.
+        folder_path = os.path.join(source_path, folder) # creating the path to the single folders.
         print(folder_path)
-        for file in os.listdir(folder_path):
+        for file in os.listdir(folder_path): # creats the path and loads the files within the folders.
             print(file)
             file_path = os.path.join(folder_path, file)
 
-            # Ich bin mir unsicher, ob es diese verschiedenen Codierungen brauch
+            # The code checks, if the file is a .txt, .ods. or .csv file. The different files are processed differently.
+            # load the .txt file. For this code, a .txt file with an interview requires a special processing.
+            # Especially for masking the speakers. This is shown in the readme.txt
+            # If you only have plan text, without a speaker, set the settings of speaker to False.
             if file.split(".")[1] == "txt":
                 try:
                     text = open(os.path.join(folder_path, file), 'r', encoding='UTF-8').read()
@@ -91,8 +98,9 @@ def dictionary_creation(source: list = "", source_path: str="", speaker_txt: boo
 
                 text_unified = text.replace('!', '. ').replace('?', '. ').replace(';', '. ').replace('...,', ', ').replace(
                     '..,', ', ').replace('"', ' ').replace("'", ' ').replace(" - ", " ")
-                text_split = text_unified.split('\n')
 
+
+                text_split = text_unified.split('\n')
                 interview_id = file.split(".")[0]
                 archive_id = file[:3]
                 if archive_id not in top_dic["corpus"]:
@@ -105,7 +113,7 @@ def dictionary_creation(source: list = "", source_path: str="", speaker_txt: boo
                 top_dic["corpus"][archive_id][interview_id]["model_base"] = {}
                 sent_number = 1
                 for line in text_split:
-                    if len(line) == 0:
+                    if len(line) == 0:  # Skips empty lines in the document.
                         next
                     else:
                         if speaker_txt == True:
@@ -129,6 +137,7 @@ def dictionary_creation(source: list = "", source_path: str="", speaker_txt: boo
                             top_dic["corpus"][archive_id][interview_id]["sent"][sent_number]["chunk"] = {}
                             sent_number += 1
 
+            # loads the .ods file
 
             if file.split(".")[1] == "ods":
                 interview = pd.read_excel(file_path)
@@ -160,10 +169,13 @@ def dictionary_creation(source: list = "", source_path: str="", speaker_txt: boo
                     top_dic["corpus"][file[:3]][interview_id]["sent"][sent_number]["chunk"] = {}
                     sent_number += 1
 
+            # loads the .csv file. This is the standard type for oral-history.digital.
+            # And is the main type for this code.
+
             if file.split(".")[1] == "csv":
                 with open(file_path, 'r', newline='', encoding='utf-8') as csvfile:
                     interview = csv.reader(csvfile, delimiter="\t", quotechar= None)
-                    next(interview) #Um die erste Zeile in der .csv zu überspringen
+                    next(interview) # Skips the first line, the header line of the file.
                     interview_id = file.split(".")[0].split("_")[0]
                     if file[:3] not in top_dic["corpus"]:
                         top_dic["corpus"][file[:3]] = {}

@@ -14,52 +14,19 @@ def remove_speaker(data):
 
     return data
 
+
 def remove_stopwords_by_list(data, stoplist):
     data_out = [word for word in data if word.lower() not in stoplist]
     return data_out
 
 
-def remove_particles(data):       # Partikel
-    data_out = []
-    for word in data:
-        word_set = set(word)
-        if len(word_set) == 3:
-            if "ä" and "h" and "m" in word_set:
-                if word[0] == "ä":
-                    next
-                else:
-                    data_out.append(word) # Diese Ausnahme ist nur für das wort "mäh" gedacht.
-            else:
-                data_out.append(word)
-        elif len(word_set) == 2:
-            if "h" in word_set:      # Check if "hm" and "äh" and "ah" in different forms are in the text. They are removed. all Words < 2 are removed.
-                if "m" in word_set:
-                    next
-                elif "ä" in word_set:
-                    next
-                elif "a" in word_set:
-                    next
-                else:
-                    data_out.append(word)
-            if "sa" in word:        # SA is not removed
-                data_out.append(word)
-            else:
-                data_out.append(word)
-        elif len(word_set) == 1:
-            if "ss" in word:        # SS is not removed
-                data_out.append(word)
-            else:
-                next
-        elif len(word_set) == 0:
-            next
-
-        else:
-            data_out.append(word)
-    return data_out
-
+def remove_particles(data):
+    print("Not included so far")
+    # To be done
 
 
 def remove_stopwords_by_threshold(data, threshold):
+
     wordcounts = {}
     wordcount = 0
 

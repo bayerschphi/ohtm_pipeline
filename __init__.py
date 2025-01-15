@@ -1,5 +1,5 @@
 
-from ohtm_pipeline.ohtm.topic_modeling_functions.dictionary_creation import *
+from ohtm_pipeline.ohtm.topic_modeling_functions.json_creation import *
 
 
 

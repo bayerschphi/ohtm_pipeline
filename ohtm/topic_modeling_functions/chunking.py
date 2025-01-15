@@ -1,8 +1,14 @@
+"""
+In order to calculate your topic model, the whole documents have to be shortn.
+For this we split the text into shorter documents, called chunks.
+The chunks are build by adding words until the maximum (chunk_setting) is reached.
+"""
+
 import json
 import copy
 
 
-def chunking(top_dic, chunk_setting: int=0):
+def chunking(top_dic, chunk_setting: int = 0):
 
     if type(top_dic) is not dict:
         top_dic = json.loads(top_dic)

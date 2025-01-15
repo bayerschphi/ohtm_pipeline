@@ -3,8 +3,9 @@ import json
 import pandas as pd
 import plotly_express as px
 
-def heatmap_corpus(top_dic, option_selected: str = "all", show_fig: bool = True, return_fig: bool = False, z_score: bool = True):
 
+def heatmap_corpus(top_dic, option_selected: str = "all",
+                   show_fig: bool = True, return_fig: bool = False, z_score: bool = True):
 
     if type(top_dic) is not dict:
         top_dic = json.loads(top_dic)
@@ -21,9 +22,10 @@ def heatmap_corpus(top_dic, option_selected: str = "all", show_fig: bool = True,
                     count += 1
                     for t in top_dic["weight"][archive][interview][c]:
                         if t not in heat_dic[interview]:
-                            heat_dic[interview].update({t: top_dic["weight"][archive][interview][c][t]})  # das int(t) muss genutzt werden, da das speichern in Store die Datei umwandelt
+                            heat_dic[interview].update({t: top_dic["weight"][archive][interview][c][t]})
                         else:
-                            heat_dic[interview].update({t: heat_dic[interview][t] + top_dic["weight"][archive][interview][c][t]})
+                            heat_dic[interview].update(
+                                {t: heat_dic[interview][t] + top_dic["weight"][archive][interview][c][t]})
                 for entry in heat_dic[interview]:
                     heat_dic[interview].update({entry:heat_dic[interview][entry] / count})
 
@@ -32,31 +34,28 @@ def heatmap_corpus(top_dic, option_selected: str = "all", show_fig: bool = True,
 
         else:
             dff = {}
-            for int in heat_dic:
-                if int[:3] == option_selected:
-                    dff[int] = heat_dic[int]
+            for i in heat_dic:
+                if i[:3] == option_selected:
+                    dff[i] = heat_dic[i]
             df = pd.DataFrame.from_dict(dff)
 
         # Berechnung der z-Standardisierung
-
-        if z_score == True:
-            mean=df.mean()
+        if z_score :
+            mean = df.mean()
             std_dev = df.std()
             z_scores = ((df - mean)/std_dev)
             df = z_scores
 
-        df= df.swapaxes("index", "columns")
+        df = df.swapaxes("index", "columns")
         fig = px.imshow(df, color_continuous_scale='dense', aspect='auto')
         fig.update_traces(hovertemplate="Interview: %{y}" "<br>Topic: %{x}" "<br>Weight: %{z}<extra></extra>")
         fig.update_layout(clickmode='event+select')
         fig.update_layout(clickmode='event+select')
         fig.update(layout_coloraxis_showscale=False)
-
-
         fig.update_layout(margin=dict(l=20, r=20, t=20, b=20))
-        if show_fig == True:
+        if show_fig:
             fig.show()
-        if return_fig == True:
+        if return_fig:
             return fig
     else:
         print("No Topic Model trained")
@@ -78,17 +77,16 @@ def heatmap_interview(top_dic, interview_id: str = "",  show_fig: bool = True, r
         df.index = pd.to_numeric(df.index)
 
         # Berechnung der z-Standardisierung
-        mean=df.mean()
+        mean = df.mean()
         std_dev = df.std()
         z_scores = ((df - mean)/std_dev)
-
 
         titel = "Heatmap Interview: " + interview_id
         fig = px.imshow(df, color_continuous_scale='deep')
         fig.update_traces(hovertemplate="Chunk: %{x}" "<br>Topic: %{y}" "<br>Weight: %{z}<extra></extra>")
-        if show_fig == True:
+        if show_fig:
             fig.show()
-        if return_fig == True:
+        if return_fig:
             return fig
 
     else:

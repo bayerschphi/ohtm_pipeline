@@ -1,7 +1,9 @@
 import spacy
 import pickle
 
-def lemmatization(sentence, nlp_model, goldlist, pos_filter: type=bool, allowed_postags=['NOUN', 'PROPN', 'VERB', 'ADJ', 'ADV', 'PRON', 'ADP', 'DET', 'AUX', 'NUM', 'SCONJ', 'CCONJ', 'X']):
+def lemmatization(sentence, nlp_model, goldlist, pos_filter: bool = True,
+                  allowed_postags=['NOUN', 'PROPN', 'VERB', 'ADJ', 'ADV', 'PRON',
+                                   'ADP', 'DET', 'AUX', 'NUM', 'SCONJ', 'CCONJ', 'X']):
 
     doc = nlp_model(" ".join(sentence))
     if pos_filter:

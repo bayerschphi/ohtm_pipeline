@@ -1,4 +1,4 @@
-'''
+"""
 This function converts primary interviews from  .txt .ods and .csv files into the data structure for this topic_modeling
 pipeline, called top_dic.
 The csv. and .ods files are optimized for the structure of the online archive oral-history.digital.
@@ -31,7 +31,7 @@ top_dc:
     settings
         model
         topic_numbuer
-'''
+"""
 
 import pandas as pd
 import os
@@ -40,17 +40,10 @@ import json
 import csv
 
 
-def json_creation_function(source: list = "", source_path: str= "", speaker_txt: bool = True):
+def json_creation_function(source: list = "", source_path: str = "", speaker_txt: bool = True):
 
     # This sections creats the raw dictionary, with the different layers and settings.
-    top_dic = {}
-
-    top_dic["corpus"] = {}
-    top_dic["weight"] = {}
-    top_dic["words"] = {}
-    top_dic["stopwords"] = {}
-    top_dic["correlation"] = {}
-    top_dic["settings"] = {}
+    top_dic = {"corpus": {}, "weight": {}, "words": {}, "stopwords": {}, "correlation": {}, "settings": {}}
     top_dic["settings"]["interviews"] = {}
     top_dic["settings"]["interviews"]["total"] = 0
     top_dic["settings"]["interviews_trained"] = {}
@@ -69,9 +62,9 @@ def json_creation_function(source: list = "", source_path: str= "", speaker_txt:
     # The Iteration loads every single dokument and transforms it into the dictionary.
 
     for folder in source:   # loads every folder in the source_path folder.
-        folder_path = os.path.join(source_path, folder) # creating the path to the single folders.
+        folder_path = os.path.join(source_path, folder)  # creating the path to the single folders.
         print(folder_path)
-        for file in os.listdir(folder_path): # creats the path and loads the files within the folders.
+        for file in os.listdir(folder_path):  # creats the path and loads the files within the folders.
             print(file)
             file_path = os.path.join(folder_path, file)
 
@@ -96,9 +89,11 @@ def json_creation_function(source: list = "", source_path: str= "", speaker_txt:
                                 text = text.encode('UTF-8')
                                 text = text.decode('UTF-8', 'ignore')
 
-                text_unified = text.replace('!', '. ').replace('?', '. ').replace(';', '. ').replace('...,', ', ').replace(
-                    '..,', ', ').replace('"', ' ').replace("'", ' ').replace(" - ", " ")
-
+                text_unified = (text.replace('!', '. ').replace('?', '. ')
+                                .replace(';', '. ')
+                                .replace('...,', ', ')
+                                .replace('..,', ', ').replace('"', ' ')
+                                .replace("'", ' ').replace(" - ", " "))
 
                 text_split = text_unified.split('\n')
                 interview_id = file.split(".")[0]

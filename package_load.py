@@ -8,15 +8,15 @@ import pandas as pd
 from ohtm_pipeline.ohtm.basic_functions import save_load
 from ohtm_pipeline.ohtm.basic_functions.save_load import save_json_function
 from ohtm_pipeline.ohtm.basic_functions.save_load import load_json_function
-from ohtm_pipeline.ohtm.topic_modeling_functions.chunking import chunking
-from ohtm_pipeline.ohtm.topic_modeling_functions.json_creation import json_creation_function
+from ohtm_pipeline.ohtm.preprocessing_functions.chunking import chunking
+from ohtm_pipeline.ohtm.basic_functions.json_creation import json_creation_function
 from ohtm_pipeline.ohtm.preprocessing_functions.stopwords import remove_stopwords_by_list, remove_particles, remove_stopwords_by_threshold
 from ohtm_pipeline.ohtm.topic_evaluation.bar_graph import bar_graph_corpus
 from ohtm_pipeline.ohtm.topic_evaluation.heatmaps import heatmap_interview
 from ohtm_pipeline.ohtm.topic_evaluation.heatmaps import heatmap_corpus
 from ohtm_pipeline.ohtm.topic_modeling_functions.topic_training_mallet import topic_training_mallet
 from ohtm_pipeline.ohtm.topic_modeling_functions.topic_inferring import topic_inferring
-from ohtm_pipeline.ohtm.topic_modeling_functions.preprocessing import preprocessing
+from ohtm_pipeline.ohtm.preprocessing_functions.preprocessing import preprocessing
 from ohtm_pipeline.ohtm.topic_evaluation.topics_prints import save_topic_words
 from ohtm_pipeline.ohtm.topic_evaluation.topics_prints import print_topic_words
 from ohtm_pipeline.ohtm.topic_evaluation.topics_prints import print_chunk
@@ -25,10 +25,7 @@ from ohtm_pipeline.ohtm.topic_evaluation.topics_prints import print_chunk_with_i
 from interview_chronology_analysis.interview_chronology_analysis import chronology_matrix
 from interview_chronology_analysis.Narrative_o_Meter import vertical_correlation_matrix, horizontal_correlation_matrix
 from ohtm_pipeline.ohtm.pipeline import ohtm_pipeline
-from ohtm_pipeline.ohtm.topic_modeling_functions import json_combination_infer
-from ohtm_pipeline.ohtm.topic_modeling_functions.json_combination_infer import combine_infer
-
-
+from ohtm_pipeline.ohtm.basic_functions.json_combination_infer import combine_infer
 
 
 

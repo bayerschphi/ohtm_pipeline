@@ -27,7 +27,9 @@ working_folder: str = r"C:\Users\phili\Nextcloud2\Python\Topic_Modeling"
 stopword_file = os.path.join(working_folder + r"\german_stopwords_custome.txt")
 
 # Set the path to your sources. This must be the folder, where your dokuments are stored in another folder.
-source_path: str = r"C:\Users\phili\sciebo - Bayerschmidt, Philipp (bayerschmidt@fernuni-hagen.de)@fernuni-hagen.sciebo.de\Interviews"
+source_path: str = (
+    r"C:\Users\phili\sciebo - Bayerschmidt, Philipp (bayerschmidt@fernuni-hagen.de)@fernuni-hagen.sciebo.de\Interviews"
+)
 
 source = [
            # "Archiv Zwangsarbeit\komplett",

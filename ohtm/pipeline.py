@@ -93,6 +93,7 @@ def ohtm_pipeline(
             if model_dic["settings"]["preprocessing"]["pos_filter"] == "True":
                 pos_filter_setting = True
             stop_words = model_dic["stopwords"]
+
             # The settings are used, to preprocess the to be inferred documents the same way,
             # the original documents were preprocessed
             infer_dic = preprocessing(top_dic=infer_dic,

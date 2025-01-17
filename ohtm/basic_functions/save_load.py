@@ -8,14 +8,14 @@ def save_json_function(ohtm_file, working_folder: str = "", save_name: str = "")
     ohtm_file = convert_ohtm_file(ohtm_file)
     with open(os.path.join(folder_path, save_name + ".ohtm"), "w", encoding="utf-8") as f:
         json.dump(ohtm_file, f)
-        print(f"The json was saved in the Folder '{save_name}.ohtm'")
+        print(f"The ohtm_file was saved in the Folder '{save_name}.ohtm'")
 
 
 def load_json_function(load_file_name: str = "", working_folder: str = ""):
     with open(os.path.join(working_folder, load_file_name + ".ohtm")) as f:
         ohtm_file = json.load(f)
         ohtm_file = convert_ohtm_file(ohtm_file)
-        print(f"The json '{load_file_name}.ohtm' was loaded")
+        print(f"The ohtm_file '{load_file_name}.ohtm' was loaded")
         return ohtm_file
 
 

@@ -30,9 +30,9 @@ source_path: str = (
     r"C:\Users\....."
 )
 
-source = [ "folder_1", 
-           "folder_2"
-    ]
+source = ["folder_1",
+          "folder_2"
+          ]
 
 """ Topic Modeling Settings: """
 
@@ -81,9 +81,11 @@ iterations_mallet = 500
 alpha = 5
 random_seed = 80
 
-# preprocessing
+# ohtm_file creation
 speaker_txt = True
 folder_as_archive = True
+
+# preprocessing
 by_particle = False
 by_list = True
 lemma = True

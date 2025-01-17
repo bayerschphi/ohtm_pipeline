@@ -1,7 +1,7 @@
 """
 Removes Speaker from flat lists of Words - Case Sensitive!
 """
-'test'
+
 
 def remove_speaker(data):
     for i, word in enumerate(data):

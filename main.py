@@ -20,7 +20,7 @@ from ohtm_pipeline.package_load import *
 mallet_path: str = r'C:\mallet-2.0.8\bin\mallet'
 
 # Path to your working folder.
-working_folder: str = r"C:\Users\phili\Nextcloud2\Python\Topic_Modeling"
+working_folder: str = r"C:\Users\phili\Nextcloud2\Python\Topic_Modeling\Testlauf"
 
 
 # Set the path for your stop_word list.
@@ -28,68 +28,63 @@ stopword_file = os.path.join(working_folder + r"\german_stopwords_custome.txt")
 
 # Set the path to your sources. This must be the folder, where your dokuments are stored in another folder.
 source_path: str = (
-    r"C:\Users\phili\sciebo - Bayerschmidt, Philipp (bayerschmidt@fernuni-hagen.de)@fernuni-hagen.sciebo.de\Interviews"
+    r"C:\Users\phili\sciebo - Bayerschmidt, Philipp (bayerschmidt@fernuni-hagen.de)@fernuni-hagen.sciebo.de\Interviews\Testlauf"
 )
 
 source = [
-           # "Archiv Zwangsarbeit\komplett",
-           # "Archiv Deutsches Gedächtnis\ADG_komplett",
-           # "Hannah Arendt Institut Dresden\Bereinigt",
-           # "Flucht Vertreibung Versöhnung\Bereinigt",
-           # "Museum Friedland\Bereinigt",
-           # "Werkstatt der Erinnerungen\gesamt",
-           # "Colonia Dignidad\komplett_de"
+           "Colonia Dignidad", "Hannah", "WDE"
     ]
 
 """ Topic Modeling Settings: """
 
-creat_json = True
+create_ohtm_file = False
 
-load_json = False
-load_file_name = "OHD_final_100c_100T_A5_remade"
+load_ohtm_file = True
+load_file_name = "Test_7"
 
-save_json = True
-save_name = "Test"
-
+save_ohtm_file = False
+save_name = "Test_7"
 # You need to set a save_name and set the option save_json to True to save the model
-save_model = True
+save_model = False
 
-use_preprocessing = True
+use_preprocessing = False
 
-use_chunking = True
+use_chunking = False
 chunk_setting = 100
 
-use_topic_modeling = True
+use_topic_modeling = False
 topics = 100
 
 use_correlation = False
 
 save_top_words = False
-number_of_words = 50
+number_of_words = 100
 
-print_json = False
-show_bar_graph_corpus = False
-show_heatmap_corpus = False
+print_ohtm_file = False
+print_ohtm_file_settings = False
+show_bar_graph_corpus = True
+show_heatmap_corpus = True
 
-interview_id = "ADG0002"
-chunk_number = 0
-show_heatmap_interview = False
+interview_id = "CDG001"
+chunk_number = 10
+show_heatmap_interview = True
 print_interview_chunk = False
-
 search_for_topics_in_chunks = False
-topic_search = 1
-chunk_weight = 0.3
+topic_search = 50
+chunk_weight = 0.1
 search_for_topics_in_interview = False
 
 ''' advanced options: '''
+
 # topic_modeling
 optimize_interval_mallet = 50
 iterations_mallet = 500
 alpha = 5
-random_seed = 100
+random_seed = 80
 
 # preprocessing
 speaker_txt = True
+folder_as_archive = True
 by_particle = False
 by_list = True
 lemma = True
@@ -100,10 +95,10 @@ allowed_postags_settings = ['NOUN', 'PROPN', 'VERB', 'ADJ', 'NUM', 'ADV']
 
 ''' Inferring new documents with an trained topic model'''
 
-infer_new_documents = True
-trained_json_name = "Test"  # load the trained json and the model to train that json
-save_separate_json = True  # save the inferred documents as a new json
-separate_json_name = "richtig"
+infer_new_documents = False
+trained_ohtm_file = "Test_7"  # load the trained json and the model to train that json
+save_separate_ohtm_file = False  # save the inferred documents as a new json
+separate_ohtm_file_name = "Inferred_7"
 
 
 if __name__ == "__main__":
@@ -114,14 +109,16 @@ if __name__ == "__main__":
         chunk_setting=chunk_setting, topics=topics, number_of_words=number_of_words, chunk_number=chunk_number,
         topic_search=topic_search, chunk_weight=chunk_weight, optimize_interval_mallet=optimize_interval_mallet,
         iterations_mallet=iterations_mallet, alpha=alpha, random_seed=random_seed,
-        save_json=save_json, creat_json=creat_json, load_json=load_json, use_preprocessing=use_preprocessing,
+        save_ohtm_file=save_ohtm_file, create_ohtm_file=create_ohtm_file, load_ohtm_file=load_ohtm_file,
+        use_preprocessing=use_preprocessing,
         use_chunking=use_chunking, use_topic_modeling=use_topic_modeling, use_correlation=use_correlation,
-        save_top_words=save_top_words, print_json=print_json,
+        save_top_words=save_top_words, print_ohtm_file=print_ohtm_file,
         show_bar_graph_corpus=show_bar_graph_corpus, show_heatmap_corpus=show_heatmap_corpus,
         show_heatmap_interview=show_heatmap_interview, print_interview_chunk=print_interview_chunk,
         search_for_topics_in_chunks=search_for_topics_in_chunks,
         search_for_topics_in_interview=search_for_topics_in_interview, by_particle=by_particle, by_list=by_list,
         pos_filter_setting=pos_filter_setting, lemma=lemma, save_model=save_model,
-        infer_new_documents=infer_new_documents, trained_json_name=trained_json_name,
-        save_separate_json=save_separate_json, separate_json_name=separate_json_name, speaker_txt=speaker_txt
+        infer_new_documents=infer_new_documents, trained_ohtm_file=trained_ohtm_file,
+        save_separate_ohtm_file=save_separate_ohtm_file, separate_ohtm_file_name=separate_ohtm_file_name,
+        speaker_txt=speaker_txt, folder_as_archive=folder_as_archive, print_ohtm_file_settings=print_ohtm_file_settings
     )

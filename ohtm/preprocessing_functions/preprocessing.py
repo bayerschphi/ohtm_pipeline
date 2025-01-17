@@ -9,13 +9,13 @@ This code preprocesses your interviews with the different settings.
 from ohtm_pipeline.ohtm.preprocessing_functions.stopwords import *
 from ohtm_pipeline.ohtm.preprocessing_functions.preprocess_outstr import *
 from ohtm_pipeline.ohtm.preprocessing_functions.lemmatization import lemmatization
-
+from ohtm_pipeline.ohtm.basic_functions.convert_ohtm_file import convert_ohtm_file
 import copy
 import json
 import spacy
 
 
-def preprocessing(top_dic, stoplist_path: str = "",
+def preprocessing(ohtm_file, stoplist_path: str = "",
                   allowed_postags_settings=None,
                   by_list: bool = False, by_particle: bool = False, by_threshold: bool = False, threshold: int = 0.5,
                   lemma: bool = False, pos_filter_setting: bool = False, stop_words: list = "",
@@ -25,10 +25,7 @@ def preprocessing(top_dic, stoplist_path: str = "",
     if allowed_postags_settings is None:
         allowed_postags_settings = ['NOUN', 'PROPN', 'VERB', 'ADJ', 'NUM', 'ADV']
 
-    if type(top_dic) is not dict:
-        top_dic = json.loads(top_dic)
-    else:
-        top_dic = top_dic
+    ohtm_file = convert_ohtm_file(ohtm_file)
 
     if lemma:
         spacy_model = spacy.load('de_core_news_lg', disable=['parser', 'ner'])
@@ -42,11 +39,11 @@ def preprocessing(top_dic, stoplist_path: str = "",
 
     sent_length = []
     processed_interviews = 0
-    print("Preprocessing started " + str(top_dic["settings"]["interviews"]["total"]) + " interviews")
-    for archive in top_dic["corpus"]:
-        for interview in top_dic["corpus"][archive]:
-            for sent_nr in top_dic["corpus"][archive][interview]["sent"]:
-                text = copy.deepcopy(top_dic["corpus"][archive][interview]["sent"][sent_nr]["raw"])
+    print("Preprocessing started " + str(ohtm_file["settings"]["interviews"]["total"]) + " interviews")
+    for archive in ohtm_file["corpus"]:
+        for interview in ohtm_file["corpus"][archive]:
+            for sent_nr in ohtm_file["corpus"][archive][interview]["sent"]:
+                text = copy.deepcopy(ohtm_file["corpus"][archive][interview]["sent"][sent_nr]["raw"])
                 text = str(text)
                 pre_line = preprocess_outstr(text)
                 data_out = pre_line.split(" ")  # Tokenization
@@ -58,29 +55,29 @@ def preprocessing(top_dic, stoplist_path: str = "",
                                                  pos_filter=pos_filter_setting,
                                                  allowed_postags=allowed_postags_settings)
                     data_out = data_out_lem
-                    top_dic["settings"]["preprocessing"].update({"lemma": "True"})
-                    top_dic["settings"]["preprocessing"]["pos_filter"] = pos_filter_setting
-                    top_dic["settings"]["preprocessing"]["allowed_postags"] = allowed_postags_settings
+                    ohtm_file["settings"]["preprocessing"].update({"lemma": "True"})
+                    ohtm_file["settings"]["preprocessing"]["pos_filter"] = pos_filter_setting
+                    ohtm_file["settings"]["preprocessing"]["allowed_postags"] = allowed_postags_settings
                 data_out = [word.lower() for word in data_out]
 
                 if by_list:
-                    top_dic["settings"]["preprocessing"].update({"stopwords_removed": "True"})
-                    top_dic["stopwords"] = stoplist
+                    ohtm_file["settings"]["preprocessing"].update({"stopwords_removed": "True"})
+                    ohtm_file["stopwords"] = stoplist
                     data_out = remove_stopwords_by_list(data_out, stoplist)
 
                 if by_particle:
                     data_out = remove_particles(data_out)
-                    top_dic["settings"]["preprocessing"]["particles_removed"] = "True"
+                    ohtm_file["settings"]["preprocessing"]["particles_removed"] = "True"
 
                 if by_threshold:
-                    top_dic["settings"]["preprocessing"].update({"stopwords_removed": "True"})
-                    top_dic["settings"]["preprocessing"]["stopword_threshold"] = threshold
+                    ohtm_file["settings"]["preprocessing"].update({"stopwords_removed": "True"})
+                    ohtm_file["settings"]["preprocessing"]["stopword_threshold"] = threshold
                     data_out = remove_stopwords_by_threshold(data_out, threshold)
                 data_out = remove_speaker(data_out)
-                top_dic["corpus"][archive][interview]["sent"][sent_nr]["cleaned"] = data_out
+                ohtm_file["corpus"][archive][interview]["sent"][sent_nr]["cleaned"] = data_out
                 sent_length.append(len(data_out))
             processed_interviews += 1
-            print(str(processed_interviews) + " out of " + str(top_dic["settings"]["interviews"]["total"]) +
+            print(str(processed_interviews) + " out of " + str(ohtm_file["settings"]["interviews"]["total"]) +
                   " interviews are processed")
 
     sent_length = [word for word in sent_length if word != 0]
@@ -90,20 +87,20 @@ def preprocessing(top_dic, stoplist_path: str = "",
     average_length = sum(sent_length) / len(sent_length)
 
     # Saves the settings in the dictionary.
-    top_dic["settings"]["preprocessing"]["cleaned_length"] = {}
-    top_dic["settings"]["preprocessing"]["cleaned_length"]["max_length"] = max_length
-    top_dic["settings"]["preprocessing"]["cleaned_length"]["min_length"] = min_length
-    top_dic["settings"]["preprocessing"]["cleaned_length"]["ave_length"] = average_length
-    top_dic["settings"]["preprocessing"]["by_list"] = by_list
-    top_dic["settings"]["preprocessing"]["by_particle"] = by_particle
-    top_dic["settings"]["preprocessing"]["by_threshold"] = by_threshold
-    top_dic["settings"]["preprocessing"]["threshold_stopwords"] = threshold
-    top_dic["settings"]["preprocessing"]["lemmatization"] = lemma
-    top_dic["settings"]["preprocessing"]["pos_filter_setting"] = pos_filter_setting
-    top_dic["settings"]["preprocessing"].update({"preprocessed": "True"})
+    ohtm_file["settings"]["preprocessing"]["cleaned_length"] = {}
+    ohtm_file["settings"]["preprocessing"]["cleaned_length"]["max_length"] = max_length
+    ohtm_file["settings"]["preprocessing"]["cleaned_length"]["min_length"] = min_length
+    ohtm_file["settings"]["preprocessing"]["cleaned_length"]["ave_length"] = average_length
+    ohtm_file["settings"]["preprocessing"]["by_list"] = by_list
+    ohtm_file["settings"]["preprocessing"]["by_particle"] = by_particle
+    ohtm_file["settings"]["preprocessing"]["by_threshold"] = by_threshold
+    ohtm_file["settings"]["preprocessing"]["threshold_stopwords"] = threshold
+    ohtm_file["settings"]["preprocessing"]["lemmatization"] = lemma
+    ohtm_file["settings"]["preprocessing"]["pos_filter_setting"] = pos_filter_setting
+    ohtm_file["settings"]["preprocessing"].update({"preprocessed": "True"})
 
-    top_dic = json.dumps(top_dic, ensure_ascii=False)
+    ohtm_file = json.dumps(ohtm_file, ensure_ascii=False)
 
-    return top_dic
+    return ohtm_file
 
 

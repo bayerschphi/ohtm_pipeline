@@ -1,128 +1,91 @@
-import json
-import pickle
+"""
+
+The function search for the letter e in the chunk values, because very small weight are
+written as: 9.575094194142109e-05. So we filter this numbers out, because they are so low and don't meter.
+
+"""
+
+
 import copy
-from datetime import datetime
-import re
-import gensim
-import pandas as pd
-import json
+from ohtm_pipeline.ohtm.basic_functions.convert_ohtm_file import convert_ohtm_file
 
 
-def print_topic_words(topic_dictionary, number_of_words, name_dataset, save_doc=False):
-    now = str(datetime.now())[:19]
-    now_formatted = now[2:4] + now[5:7] + now[8:10] + now[11:13] + now[14:16] + now[17:19]
-    now = now_formatted
-
-    if type(topic_dictionary) is not dict:
-        top_dic = json.loads(topic_dictionary)
+def print_chunk(ohtm_file, interview_id: str = "", chunk_number: int = 0):
+    ohtm_file = convert_ohtm_file(ohtm_file)
+    if ohtm_file["settings"]["topic_modeling"]["trained"] == "True":
+        chunk_for_print = []
+        for archive in ohtm_file["corpus"]:
+            if interview_id in ohtm_file["corpus"][archive]:
+                for sentence in ohtm_file["corpus"][archive][interview_id]["sent"]:
+                    if ohtm_file["corpus"][archive][interview_id]["sent"][sentence]["chunk"] == chunk_number:
+                        chunk_for_print.append(ohtm_file["corpus"][archive][interview_id]["sent"][sentence]["raw"])
+                print("\n" + "Archive: " + str(archive))
+                print("Interview: " + str(interview_id))
+                print("Chunk number: " + str(chunk_number))
+                print(chunk_for_print)
     else:
-        top_dic = topic_dictionary
+        print("No Topic Model trained")
 
-    word_dic = {}
 
-    if save_doc:
-                out = open('keywords_mallet_' + name_dataset + '_'+ 'topics_' + str(number_of_words) + 'keywords' + now + '.txt', 'w',
-                           encoding='UTF-8')
-                for top_words in top_dic["words"]:
-                    out_line = []
-                    for i in range(number_of_words):
-                        out_line.append((top_dic["words"][top_words])[i][1])
-                    out.write("Topic " + "\n" + str(top_words) + "\n")
-                    out.write(str(out_line) + "\n")
-                    out.write("\n")
-                    word_dic[top_words] = out_line
-                out.close
-
+def print_chunk_with_weight_search(ohtm_file, topic_search: int = 0, chunk_weight: float = 0.3):
+    ohtm_file = convert_ohtm_file(ohtm_file)
+    if ohtm_file["settings"]["topic_modeling"]["trained"] == "True":
+        sent_final = []
+        for archive in ohtm_file["weight"]:
+            for interview in ohtm_file["weight"][archive]:
+                for chunks in ohtm_file["weight"][archive][interview]:
+                    if str(ohtm_file["weight"][archive][interview][chunks][str(topic_search)]) >= str(chunk_weight):
+                        if "e" in str(ohtm_file["weight"][archive][interview][chunks][str(topic_search)]):
+                            next
+                        else:
+                            sent_id = interview
+                            chunk_id = chunks
+                            sent_current = []
+                            for number in ohtm_file["corpus"][archive][interview]["sent"]:
+                                int_sent = copy.deepcopy(ohtm_file["corpus"][archive][interview]["sent"][number]["chunk"])
+                                if int(int_sent) == int(chunks):
+                                    sent_current.append(str(ohtm_file["corpus"][archive][interview]["sent"][number]["raw"]) + " ")
+                            sent_current = " ".join(sent_current)
+                            sent_current_2 = (str(ohtm_file["weight"][archive][interview][chunks][str(topic_search)]),
+                                              sent_id, chunk_id, sent_current)
+                            sent_final.append(sent_current_2)
+        print("\n" + "The Topic Nr. " + str(topic_search) + " above " + str(chunk_weight) + " was found in this chunks:")
+        for interview in sent_final:
+            print(interview)
     else:
-                for top_words in top_dic["words"]:
-                    out_line = []
-                    for i in range(number_of_words):
-                        out_line.append((top_dic["words"][top_words])[i][1])
-                    word_dic[top_words] = out_line
-
-    pd.set_option('display.max_colwidth', None)
-
-    words_df = pd.DataFrame([', '.join([term for term in word_dic[topic]]) for topic in word_dic], columns = ['Terms per Topic'], index=['Topic'+str(topic) for topic in word_dic])
-    words_df.style.set_properties(**{'text-align': 'left'})
+        print("No Topic Model trained")
 
 
-def save_topic_words(top_dic, working_folder: str = "", save_name: str = "", number_of_words: int = 50):
-    if type(top_dic) is not dict:
-        top_dic = json.loads(top_dic)
+def print_chunk_with_interview_weight_search(ohtm_file, interview_id: str = "", topic_search: int = 0,
+                                             chunk_weight: float = 0.3):
+    ohtm_file = convert_ohtm_file(ohtm_file)
+    if ohtm_file["settings"]["topic_modeling"]["trained"] == "True":
+        dff = {}
+        for archive in ohtm_file["weight"]:
+            if interview_id in ohtm_file["weight"][archive]:
+                sent_final = []
+                for chunks in ohtm_file["weight"][archive][interview_id]:
+                    if str(ohtm_file["weight"][archive][interview_id][chunks][str(topic_search)]) >= str(chunk_weight):
+                        if "e" in str(ohtm_file["weight"][archive][interview_id][chunks][str(topic_search)]):
+                            next
+                        else:
+                            chunk_id = chunks
+                            sent_current = []
+                            for sents in ohtm_file["corpus"][archive][interview_id]["sent"]:
+                                int_sent = copy.deepcopy(
+                                    ohtm_file["corpus"][archive][interview_id]["sent"][sents]["chunk"])
+                                if int(int_sent) == int(chunks):
+                                    sent_current.append(
+                                        str(ohtm_file["corpus"][archive][interview_id]["sent"][sents]["raw"]) + " ")
+                            sent_current = " ".join(sent_current)
+                            sent_current_2 = (
+                                str(ohtm_file["weight"][archive][interview_id][chunks][str(topic_search)]),
+                                interview_id, chunk_id, sent_current)
+                            sent_final.append(sent_current_2)
+                print("\n" + "The topic Nr. " +
+                      str(topic_search) + " was found in " + str(interview_id) + " within this chunks:")
+                for sent in sent_final:
+                    print(sent)
     else:
-        top_dic = top_dic
-
-    out = open(working_folder + save_name + "top_words_" "50_words_2" + '.txt', 'w', encoding='UTF-8')
-    number_of_words
-    for top_words in top_dic["words"]:
-        out_line = []
-        for i in range(number_of_words):
-            out_line.append((top_dic["words"][top_words])[i][1])
-        out.write(str(top_words) + " ")
-        out.write(str(out_line) + "\n")
-        out.write("\n")
-
-    out.close
-
-def print_chunk(top_dic, interview_id:str="", chunk_number:int=0):
-    if type(top_dic) is not dict:
-        top_dic = json.loads(top_dic)
-    else:
-        top_dic = top_dic
-    chunk_for_print =[]
-    for sentence in top_dic["corpus"][interview_id[:3]][interview_id]["sent"]:
-        if top_dic["corpus"][interview_id[:3]][interview_id]["sent"][sentence]["chunk"] == chunk_number:
-            chunk_for_print.append(top_dic["corpus"][interview_id[:3]][interview_id]["sent"][sentence]["raw"])
-
-    print(chunk_for_print)
-
-
-def print_chunk_with_weight_search(top_dic, topic_search: int = 0, chunk_weight: float = 0.3):
-    if type(top_dic) is not dict:
-        top_dic = json.loads(top_dic)
-    else:
-        top_dic = top_dic
-
-    sent_final = []
-    for a in top_dic["weight"]:
-        for i in top_dic["weight"][a]:
-            for chunks in top_dic["weight"][a][i]:
-                if str(top_dic["weight"][a][i][chunks][str(topic_search)]) >= str(chunk_weight):
-                    sent_id = i
-                    chunk_id = chunks
-                    sent_current = []
-                    for sents in top_dic["corpus"][a][i]["sent"]:
-                        int_sent = copy.deepcopy(top_dic["corpus"][a][i]["sent"][sents]["chunk"])
-                        if int(int_sent) == int(chunks):
-                            sent_current.append(str(top_dic["corpus"][a][i]["sent"][sents]["raw"]) + " ")
-                    sent_current = " ".join(sent_current)
-                    sent_current_2 = (str(top_dic["weight"][a][i][chunks][str(topic_search)]), sent_id, chunk_id, sent_current)
-                    sent_final.append(sent_current_2)
-    for i in sent_final:
-        print(i)
-
-
-
-def print_chunk_with_interview_weight_search(top_dic, interview_id:str="", topic_search: int = 0, chunk_weight: float = 0.3):
-    if type(top_dic) is not dict:
-        top_dic = json.loads(top_dic)
-    else:
-        top_dic = top_dic
-
-    sent_final = []
-    a = interview_id[:3]
-    i = interview_id
-    for chunks in top_dic["weight"][a][i]:
-        if str(top_dic["weight"][a][i][chunks][str(topic_search)]) >= str(chunk_weight):
-            chunk_id = chunks
-            sent_current = []
-            for sents in top_dic["corpus"][a][i]["sent"]:
-                int_sent = copy.deepcopy(top_dic["corpus"][a][i]["sent"][sents]["chunk"])
-                if int(int_sent) == int(chunks):
-                    sent_current.append(str(top_dic["corpus"][a][i]["sent"][sents]["raw"]) + " ")
-            sent_current = " ".join(sent_current)
-            sent_current_2 = (str(top_dic["weight"][a][i][chunks][str(topic_search)]), i, chunk_id, sent_current)
-            sent_final.append(sent_current_2)
-    for i in sent_final:
-        print(i)
+        print("No Topic Model trained")
 

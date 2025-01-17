@@ -1,9 +1,5 @@
-import spacy
-import pickle
-
 def lemmatization(sentence, nlp_model, goldlist, pos_filter: bool = True,
-                  allowed_postags=['NOUN', 'PROPN', 'VERB', 'ADJ', 'ADV', 'PRON',
-                                   'ADP', 'DET', 'AUX', 'NUM', 'SCONJ', 'CCONJ', 'X']):
+                  allowed_postags=['NOUN', 'PROPN', 'VERB', 'ADJ', 'ADV', 'PRON','ADP', 'DET', 'AUX', 'NUM', 'SCONJ', 'CCONJ', 'X']):
 
     doc = nlp_model(" ".join(sentence))
     if pos_filter:
@@ -16,8 +12,6 @@ def lemmatization(sentence, nlp_model, goldlist, pos_filter: bool = True,
     return sentence_lemmatized_out
 
 
-
-
 def lemmatization_test(sentence, nlp_model, goldlist, goldliste_test, allowed_postags=['NOUN', 'PROPN', 'VERB', 'ADJ', 'ADV', 'PRON', 'ADP', 'DET', 'AUX', 'NUM', 'SCONJ', 'CCONJ', 'X']):
 
     doc = nlp_model(" ".join(sentence))
@@ -27,18 +21,12 @@ def lemmatization_test(sentence, nlp_model, goldlist, goldliste_test, allowed_po
     sentence_lemmatized_filtered = [token.lemma_ for token in doc if token.pos_ in allowed_postags or token.lemma_ in goldlist]
 
     sentence_lemmatized_out = [word for word in sentence_lemmatized_filtered]
-
-
     for word in sentence_lemmatized:
         if word[0] not in sentence_lemmatized_filtered:
 
             # word = word + (str(archiv),)
             goldliste_test.append(word)
-
-
     # hier txt-Datei aus Liste erstellen
-
-
     return sentence_lemmatized_out, goldliste_test, sentence, sentence_lemmatized, sentence_lemmatized_filtered
 
 ###############

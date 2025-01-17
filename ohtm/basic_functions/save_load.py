@@ -1,23 +1,36 @@
 import json
 import os
+from ohtm_pipeline.ohtm.basic_functions.convert_ohtm_file import convert_ohtm_file
 
-def save_json_function(top_dic, working_folder:str = "", save_name:str = ""):
+
+def save_json_function(ohtm_file, working_folder: str = "", save_name: str = ""):
     folder_path = os.path.join(working_folder)
-    if type(top_dic) is not dict:     # The code has to check, if the json file was loaded as a json file. If so, it has to be returned to a dictionary.
-        top_dic = json.loads(top_dic)
+    ohtm_file = convert_ohtm_file(ohtm_file)
+    with open(os.path.join(folder_path, save_name + ".ohtm"), "w", encoding="utf-8") as f:
+        json.dump(ohtm_file, f)
+        print(f"The json was saved in the Folder '{save_name}.ohtm'")
+
+
+def load_json_function(load_file_name: str = "", working_folder: str = ""):
+    with open(os.path.join(working_folder, load_file_name + ".ohtm")) as f:
+        ohtm_file = json.load(f)
+        ohtm_file = convert_ohtm_file(ohtm_file)
+        print(f"The json '{load_file_name}.ohtm' was loaded")
+        return ohtm_file
+
+
+def save_topic_words(ohtm_file, working_folder: str = "", save_name: str = "", number_of_words: int = 50):
+    ohtm_file = convert_ohtm_file(ohtm_file)
+    if ohtm_file["settings"]["topic_modeling"]["trained"] == "True":
+        out = open(os.path.join(working_folder, save_name + "_topic_words_" + str(number_of_words)
+                                + "_words" + '.txt'), 'w', encoding='UTF-8')
+        for top_words in ohtm_file["words"]:
+            out_line = []
+            for i in range(number_of_words):
+                out_line.append((ohtm_file["words"][top_words])[i][1])
+            out.write(str(top_words) + " ")
+            out.write(str(out_line) + "\n")
+            out.write("\n")
+        out.close()
     else:
-        top_dic = top_dic
-    with open(os.path.join(folder_path, save_name + ".json"), "w", encoding="utf-8") as f:
-        json.dump(top_dic, f)
-        print(f"The json was saved in the Folder '{save_name}.json'")
-
-
-def load_json_function(load_file_name:str="", working_folder:str=""):
-    with open(os.path.join(working_folder, load_file_name + ".json")) as f:
-        top_dic = json.load(f)
-        if type(top_dic) is not dict:    # The code has to check, if the json file was loaded as a json file. If so, it has to be returned to a dictionary.
-            top_dic = json.loads(top_dic)
-        else:
-            top_dic = top_dic
-        print(f"The json '{load_file_name}.json' was loaded")
-        return top_dic
+        print("No Topic Model trained")

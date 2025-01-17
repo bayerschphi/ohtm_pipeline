@@ -1,5 +1,5 @@
 def preprocess_outstr(text):
-    text = text.lower() ## Majuskeln durch Minuskeln ersetzen
+    text = text.lower()  # Majuskeln durch Minuskeln ersetzen
 
     # text = text.replace('\n', ' ').replace('- ', '') ## Zeilenumbrüche entfernen
 
@@ -9,8 +9,8 @@ def preprocess_outstr(text):
                 'V', 'W', 'X', 'Y', 'Z', 'Ä', 'Ö', 'Ü', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm',
                 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'ä', 'ö', 'ü', '0', '1', '2', '3', '4',
                 '5', '6', '7', '8', '9', 'ß', ' ', '*']
-    punct_a = []  ## Liste, in der Interpunktionszeichen gesammelt werden
-    punct_b = ['/']  ## Liste mit Schrägstrich
+    punct_a = []   # Liste, in der Interpunktionszeichen gesammelt werden
+    punct_b = ['/']   # Liste mit Schrägstrich
 
     for i in text_alpha:
         if i not in alphabet:
@@ -20,7 +20,7 @@ def preprocess_outstr(text):
             if i in punct_a:
                 continue
 
-    text_norm = text  ## Interpunktion entfernen
+    text_norm = text   # Interpunktion entfernen
 
     for char in text_norm:
         if char in punct_a:
@@ -31,6 +31,6 @@ def preprocess_outstr(text):
     text_clean = text_norm
 
     while '  ' in text_clean:
-        text_clean = text_clean.replace('  ', ' ')  ## überschüssige Leerzeichen entfernen
+        text_clean = text_clean.replace('  ', ' ')   # überschüssige Leerzeichen entfernen
 
     return text_clean

@@ -1,6 +1,9 @@
-def remove_speaker(data):
-    '''Removes Speaker from flat lists of Words - Case Sensitive!'''
+"""
+Removes Speaker from flat lists of Words - Case Sensitive!
+"""
 
+
+def remove_speaker(data):
     for i, word in enumerate(data):
         if "INT_" in word:
             word_clean = word.replace('INT_', '')

@@ -9,9 +9,10 @@ from mallet_wrapper.ldamallet import LdaMallet
 from mallet_wrapper.coherencemodel import CoherenceModel
 import json
 import os
+from ohtm_pipeline.ohtm.basic_functions.convert_ohtm_file import convert_ohtm_file
 
 
-def topic_training_mallet(corpus_dictionary, topics, mallet_path,
+def topic_training_mallet(ohtm_file, topics, mallet_path,
                           optimize_interval_mallet: int = 500, iterations_mallet: int = 5000,
                           random_seed_mallet: int = 100, alpha: int = 5,
                           save_model: bool = False, working_folder: str = "",
@@ -31,32 +32,32 @@ def topic_training_mallet(corpus_dictionary, topics, mallet_path,
     else:
         prefix_value = None
 
-    if type(corpus_dictionary) is not dict:
-        top_dic = json.loads(corpus_dictionary)
-    else:
-        top_dic = corpus_dictionary
+    ohtm_file = convert_ohtm_file(ohtm_file)
 
     # The single sentences are added together to the preprocessed chunks:
     chunk_data = []
-    for a in top_dic["corpus"]:
-        for i in top_dic["corpus"][a]:
+    for a in ohtm_file["corpus"]:
+        for i in ohtm_file["corpus"][a]:
             chunk_count = 0
             chunk_text = []
-            for n in range(1, (len(top_dic["corpus"][a][i]["sent"]) + 1)):
+            for n in range(1, (len(ohtm_file["corpus"][a][i]["sent"]) + 1)):
                 n = str(n)
-                if top_dic["corpus"][a][i]["sent"][n]["chunk"] == chunk_count:
-                    chunk_text += top_dic["corpus"][a][i]["sent"][n]["cleaned"]
-                    if n == str((len(top_dic["corpus"][a][i]["sent"]))):
-                        chunk_data += [[i + " chunk_" + str(chunk_count), chunk_text]]
+                if ohtm_file["corpus"][a][i]["sent"][n]["chunk"] == chunk_count:
+                    chunk_text += ohtm_file["corpus"][a][i]["sent"][n]["cleaned"]
+                    if n == str((len(ohtm_file["corpus"][a][i]["sent"]))):
+                        chunk_data += [[a + "-" + i + " chunk_" + str(chunk_count), chunk_text]]
                 else:
-                    chunk_data += [[i + " chunk_" + str(chunk_count), chunk_text]]
+                    chunk_data += [[a + "-" + i + " chunk_" + str(chunk_count), chunk_text]]
                     chunk_count += 1
                     chunk_text = []
-                    chunk_text += top_dic["corpus"][a][i]["sent"][n]["cleaned"]
+                    chunk_text += ohtm_file["corpus"][a][i]["sent"][n]["cleaned"]
+
+    print(chunk_data[:10])
 
     dataset = []
     for i in chunk_data:
         dataset += [i[1]]
+    print(dataset[:10])
 
     print("LDA started")
     id2word = corpora.Dictionary(dataset)
@@ -107,17 +108,17 @@ def topic_training_mallet(corpus_dictionary, topics, mallet_path,
 
     # The results are written in the dictionary.
     for i in range(len(doc_tops_mallet)):
-        if chunk_data[i][0].split(" ")[0][:3] not in top_dic["weight"]:
-            top_dic["weight"][chunk_data[i][0].split(" ")[0][:3]] = {}
-        if chunk_data[i][0].split(" ")[0] not in top_dic["weight"][chunk_data[i][0].split(" ")[0][:3]]:
-            top_dic["weight"][chunk_data[i][0].split(" ")[0][:3]][chunk_data[i][0].split(" ")[0]] = {}
-        if chunk_data[i][0].split("_")[1] not in top_dic["weight"][chunk_data[i][0].split(" ")[0][:3]][
-            chunk_data[i][0].split(" ")[0]]:
-            top_dic["weight"][chunk_data[i][0].split(" ")[0][:3]][chunk_data[i][0].split(" ")[0]][
-                chunk_data[i][0].split("_")[1]] = {}
+        archive = chunk_data[i][0].split("-")[0]
+        interview = chunk_data[i][0].split("-")[1].split(" ")[0]
+        interview_chunk = chunk_data[i][0].split("_")[1]
+        if archive not in ohtm_file["weight"]:
+            ohtm_file["weight"][archive] = {}
+        if interview not in ohtm_file["weight"][archive]:
+            ohtm_file["weight"][archive][interview] = {}
+        if interview_chunk not in ohtm_file["weight"][archive][interview]:
+            ohtm_file["weight"][archive][interview][interview_chunk] = {}
         for a in doc_tops_mallet[i]:
-            top_dic["weight"][chunk_data[i][0].split(" ")[0][:3]][chunk_data[i][0].split(" ")[0]][
-                chunk_data[i][0].split("_")[1]][a[0]] = a[1]
+            ohtm_file["weight"][archive][interview][interview_chunk][a[0]] = a[1]
 
     # The results from top_words_mallet for every topic are listed as: (0.000*"zetteln" + 0.000*"sozialisten").
     # We have to split the words at "+" and then split the words from the weight to have a tuple (value, word).
@@ -131,32 +132,32 @@ def topic_training_mallet(corpus_dictionary, topics, mallet_path,
             c = float(b.split("*")[0])
             d = ((b.split("*")[1]).split('"')[1::2])[0]
             word_weight_splitted += [(c, d)]
-        top_dic["words"][a[0]] = word_weight_splitted
+        ohtm_file["words"][a[0]] = word_weight_splitted
 
-    for archive in top_dic["corpus"]:
-        for interviews in top_dic["corpus"][archive]:
-            top_dic["corpus"][archive][interviews]["model_base"] = "trained"
+    for archive in ohtm_file["corpus"]:
+        for interviews in ohtm_file["corpus"][archive]:
+            ohtm_file["corpus"][archive][interviews]["model_base"] = "trained"
 
     # Saving metadata and variables.
-    top_dic["settings"]["topic_modeling"].update({"trained":"True"})
-    top_dic["settings"]["topic_modeling"].update({"model": "mallet"})
-    top_dic["settings"]["topic_modeling"].update({"topics": topics})
-    top_dic["settings"]["topic_modeling"].update({"alpha": alpha})
-    top_dic["settings"]["topic_modeling"].update({"optimize_interval_mallet": optimize_interval_mallet})
-    top_dic["settings"]["topic_modeling"].update({"iterations_mallet": iterations_mallet})
-    top_dic["settings"]["topic_modeling"].update({"random_seed_mallet": random_seed_mallet})
-    top_dic["settings"]["topic_modeling"].update({"coherence": coherence_ldamallet})
-    top_dic["settings"]["topic_modeling"].update({"average_weight": average_weight_mallet})
-    top_dic["settings"]["topic_modeling"].update({"min_weight": min_weight_mallet})
-    top_dic["settings"]["topic_modeling"].update({"max_weight": max_weight_mallet})
+    ohtm_file["settings"]["topic_modeling"].update({"trained": "True"})
+    ohtm_file["settings"]["topic_modeling"].update({"model": "mallet"})
+    ohtm_file["settings"]["topic_modeling"].update({"topics": topics})
+    ohtm_file["settings"]["topic_modeling"].update({"alpha": alpha})
+    ohtm_file["settings"]["topic_modeling"].update({"optimize_interval_mallet": optimize_interval_mallet})
+    ohtm_file["settings"]["topic_modeling"].update({"iterations_mallet": iterations_mallet})
+    ohtm_file["settings"]["topic_modeling"].update({"random_seed_mallet": random_seed_mallet})
+    ohtm_file["settings"]["topic_modeling"].update({"coherence": coherence_ldamallet})
+    ohtm_file["settings"]["topic_modeling"].update({"average_weight": average_weight_mallet})
+    ohtm_file["settings"]["topic_modeling"].update({"min_weight": min_weight_mallet})
+    ohtm_file["settings"]["topic_modeling"].update({"max_weight": max_weight_mallet})
 
     print('\nCoherence Score: ', coherence_ldamallet)
     print('Minimales Topic-Weight Mallet: ' + str(min_weight_mallet))
     print('Durchschnittliches Topic-Weight Mallet: ' + str(average_weight_mallet))
     print('Maximales Topic-Weight Mallet: ' + str(max_weight_mallet))
 
-    top_dic = json.dumps(top_dic, ensure_ascii=False)
-    return top_dic
+    ohtm_file = json.dumps(ohtm_file, ensure_ascii=False)
+    return ohtm_file
 
 
 

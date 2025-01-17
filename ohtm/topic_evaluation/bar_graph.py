@@ -1,33 +1,29 @@
-import json
 import pandas as pd
 import plotly_express as px
+from ohtm_pipeline.ohtm.basic_functions.convert_ohtm_file import convert_ohtm_file
 
 
-def bar_graph_corpus(top_dic, show_fig: bool = True, return_fig: bool = False):
-    if type(top_dic) is not dict:
-        top_dic = json.loads(top_dic)
-    else:
-        top_dic = top_dic
-    if top_dic["settings"]["topic_modeling"]["trained"] == "True":
+def bar_graph_corpus(ohtm_file, show_fig: bool = True, return_fig: bool = False):
+    ohtm_file = convert_ohtm_file(ohtm_file)
+    if ohtm_file["settings"]["topic_modeling"]["trained"] == "True":
         interview_dic = {}
-        for archive in top_dic["weight"]:
+        for archive in ohtm_file["weight"]:
             if archive not in interview_dic:
                 interview_dic[archive] = {}
-            for interview in top_dic["weight"][archive]:
+            for interview in ohtm_file["weight"][archive]:
                 interview_dic[archive][interview] = {}
                 count = 0
-                for c in top_dic["weight"][archive][interview]:
+                for c in ohtm_file["weight"][archive][interview]:
                     count += 1
-                    for t in top_dic["weight"][archive][interview][c]:
+                    for t in ohtm_file["weight"][archive][interview][c]:
                         if t not in interview_dic[archive][interview]:
-                            interview_dic[archive][interview].update({t: top_dic["weight"][archive][interview][c][t]})
+                            interview_dic[archive][interview].update({t: ohtm_file["weight"][archive][interview][c][t]})
                         else:
                             interview_dic[archive][interview].update(
-                                {t: interview_dic[archive][interview][t] + top_dic["weight"][archive][interview][c][t]})
+                                {t: interview_dic[archive][interview][t] + ohtm_file["weight"][archive][interview][c][t]})
                 for entry in interview_dic[archive][interview]:
                      interview_dic[archive][interview].update({entry:interview_dic[archive][interview][entry] / count})
 
-        print(interview_dic)
         bar_dic = {}
         for archive in interview_dic:
             bar_dic[archive] = {}
@@ -42,8 +38,6 @@ def bar_graph_corpus(top_dic, show_fig: bool = True, return_fig: bool = False):
             for entry in bar_dic[archive]:
                 bar_dic[archive].update({entry: bar_dic[archive][entry] / count})
 
-
-
         df = pd.DataFrame.from_dict(bar_dic)
 
         # Min-Max-Normalisierung: Skalieren Sie die Daten auf den Wertebereich [0, 1]
@@ -54,9 +48,9 @@ def bar_graph_corpus(top_dic, show_fig: bool = True, return_fig: bool = False):
 
         fig = px.bar(df, color_discrete_sequence=px.colors.qualitative.G10)
         fig.update_layout(margin=dict(l=20, r=20, t=20, b=20))
-        if show_fig == True:
+        if show_fig:
             fig.show()
-        if return_fig == True:
+        if return_fig:
             return fig
     else:
         print("No Topic Model trained")

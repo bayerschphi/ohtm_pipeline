@@ -19,20 +19,19 @@ from ohtm_pipeline.package_load import *
 # Path to your mallet folder.
 mallet_path: str = r'C:\mallet-2.0.8\bin\mallet'
 
-# Path to your working folder.
-working_folder: str = r"C:\Users\phili\Nextcloud2\Python\Topic_Modeling\Testlauf"
-
+# Path to your working folder. Use no paths with blank spaces.
+working_folder: str = r"C:\Users\...."
 
 # Set the path for your stop_word list.
-stopword_file = os.path.join(working_folder + r"\german_stopwords_custome.txt")
+stopword_file = os.path.join(working_folder + r"\.....txt")
 
 # Set the path to your sources. This must be the folder, where your dokuments are stored in another folder.
 source_path: str = (
-    r"C:\Users\phili\sciebo - Bayerschmidt, Philipp (bayerschmidt@fernuni-hagen.de)@fernuni-hagen.sciebo.de\Interviews\Testlauf"
+    r"C:\Users\....."
 )
 
-source = [
-           "Colonia Dignidad", "Hannah", "WDE"
+source = [ "folder_1", 
+           "folder_2"
     ]
 
 """ Topic Modeling Settings: """

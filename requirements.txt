@@ -1,0 +1,13 @@
+python==3.10
+pickle
+gensim
+pandas
+plotly-express
+spacy
+json
+copy
+re
+csv
+de_core_news_lg
+
+

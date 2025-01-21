@@ -12,20 +12,22 @@ The first 3 letters are used as the archive, and the hole name is used as id.
 
 Datastructure:
 
-top_dc:
+
+ohtm_file:
     corpus:
         archive1
         archive2
-            model_base
-            sent
-                sent_number_1
-                sent_number_2
-                    raw
-                    time
-                    tape
-                    cleaned
-                    speaker
-                    chunk
+            Interview
+                model_base
+                sent
+                    sent_number_1
+                    sent_number_2
+                        raw
+                        time
+                        tape
+                        cleaned
+                        speaker
+                        chunk
     weight
     words
     settings
@@ -63,7 +65,7 @@ def ohtm_file_creation_function(source: list = "", source_path: str = "",
     # The Iteration loads every single dokument and transforms it into the dictionary.
 
     for folder in source:   # loads every folder in the source_path folder.
-        archive_id_name_folder = str(folder)
+        archive_id_name_folder = (str(folder)).lower()
         folder_path = os.path.join(source_path, folder)  # creating the path to the single folders.
         print(folder_path)
         for file in os.listdir(folder_path):  # creats the path and loads the files within the folders.
@@ -98,11 +100,11 @@ def ohtm_file_creation_function(source: list = "", source_path: str = "",
                     "'", ' ').replace(" - ", " "))
 
                 text_split = text_unified.split('\n')
-                interview_id = file.split(".")[0]
+                interview_id = file.split(".")[0].lower()
                 if folder_as_archive:
                     archive_id = archive_id_name_folder
                 else:
-                    archive_id = file[:3]
+                    archive_id = file[:3].lower()
                 if archive_id not in ohtm_file["corpus"]:
                     ohtm_file["corpus"][archive_id] = {}
                     ohtm_file["settings"]["interviews"][archive_id] = 0
@@ -145,9 +147,9 @@ def ohtm_file_creation_function(source: list = "", source_path: str = "",
                 if folder_as_archive:
                     archive_id = archive_id_name_folder
                 else:
-                    archive_id = file[:3]
+                    archive_id = (file[:3]).lower()
                 interview = interview.values.tolist()
-                interview_id = file.split(".")[0].split("_")[0]
+                interview_id = (file.split(".")[0].split("_")[0]).lower()
                 if archive_id not in ohtm_file["corpus"]:
                     ohtm_file["corpus"][archive_id] = {}
                     ohtm_file["settings"]["interviews"][archive_id] = 0
@@ -181,11 +183,11 @@ def ohtm_file_creation_function(source: list = "", source_path: str = "",
                 with open(file_path, 'r', newline='', encoding='utf-8') as csvfile:
                     interview = csv.reader(csvfile, delimiter="\t", quotechar= None)
                     next(interview) # Skips the first line, the header line of the file.
-                    interview_id = file.split(".")[0].split("_")[0]
+                    interview_id = (file.split(".")[0].split("_")[0]).lower()
                     if folder_as_archive:
                         archive_id = archive_id_name_folder
                     else:
-                        archive_id = file[:3]
+                        archive_id = (file[:3]).lower()
                     if archive_id not in ohtm_file["corpus"]:
                         ohtm_file["corpus"][archive_id] = {}
                         ohtm_file["settings"]["interviews"][archive_id] = 0
@@ -214,5 +216,7 @@ def ohtm_file_creation_function(source: list = "", source_path: str = "",
                         ohtm_file["corpus"][archive_id][interview_id]["sent"][sent_number]["chunk"] = {}
                         sent_number += 1
 
+    for archive in ohtm_file["corpus"]:
+        print(archive)
     ohtm_file = json.dumps(ohtm_file, ensure_ascii=False)
     return ohtm_file

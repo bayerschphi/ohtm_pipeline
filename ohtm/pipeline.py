@@ -9,6 +9,8 @@ You must not change anything here.
 """
 
 from ohtm_pipeline.package_load import *
+from ohtm_pipeline.ohtm.basic_functions.convert_ohtm_file import convert_ohtm_file
+
 
 def ohtm_pipeline(
         working_folder: str = "", source: list = ["",""], source_path: str = "", stopword_file: str = "",
@@ -27,7 +29,8 @@ def ohtm_pipeline(
         by_list: bool = False, pos_filter_setting: bool = False, lemma: bool = False, save_model: bool = False,
         infer_new_documents: bool = False, trained_ohtm_file: str = "",
         save_separate_ohtm_file: bool = False, separate_ohtm_file_name: str = "", speaker_txt: bool = True,
-        folder_as_archive: bool = False, print_ohtm_file_settings: bool = False
+        folder_as_archive: bool = False, print_ohtm_file_settings: bool = False,
+        spacy_model_name: str = "de_core_news_lg"
 ):
 
     if not infer_new_documents:
@@ -53,7 +56,7 @@ def ohtm_pipeline(
             ohtm_file = preprocessing(ohtm_file=ohtm_file, stoplist_path=stopword_file,
                                       allowed_postags_settings=allowed_postags_settings,
                                       by_list=by_list, lemma=lemma, by_particle=by_particle,
-                                      pos_filter_setting=pos_filter_setting)
+                                      pos_filter_setting=pos_filter_setting, spacy_model=spacy_model_name)
 
         if use_chunking:
             print("Chunking started with " + str(chunk_setting) + " chunks")

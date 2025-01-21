@@ -20,44 +20,43 @@ from ohtm_pipeline.package_load import *
 mallet_path: str = r'C:\mallet-2.0.8\bin\mallet'
 
 # Path to your working folder. Use no paths with blank spaces.
-working_folder: str = r"C:\Users\...."
+working_folder: str = r"C:\Users\phili\Nextcloud2\Python\Topic_Modeling\Mittelalter"
 
 # Set the path for your stop_word list.
 stopword_file = os.path.join(working_folder + r"\.....txt")
 
 # Set the path to your sources. This must be the folder, where your dokuments are stored in another folder.
 source_path: str = (
-    r"C:\Users\....."
+    r"C:\Users\phili\sciebo - Bayerschmidt, Philipp (bayerschmidt@fernuni-hagen.de)@fernuni-hagen.sciebo.de\Interviews\Testlauf\Texte"
 )
 
-source = ["folder_1",
-          "folder_2"
+source = ["Texte"
           ]
 
 """ Topic Modeling Settings: """
 
-create_ohtm_file = False
+create_ohtm_file = True
 
-load_ohtm_file = True
+load_ohtm_file = False
 load_file_name = "Test_7"
 
-save_ohtm_file = False
-save_name = "Test_7"
+save_ohtm_file = True
+save_name = "Test_1"
 # You need to set a save_name and set the option save_json to True to save the model
-save_model = False
+save_model = True
 
-use_preprocessing = False
+use_preprocessing = True
 
-use_chunking = False
-chunk_setting = 100
+use_chunking = True
+chunk_setting = 50000
 
-use_topic_modeling = False
-topics = 100
+use_topic_modeling = True
+topics = 30
 
 use_correlation = False
 
-save_top_words = False
-number_of_words = 100
+save_top_words = True
+number_of_words = 50
 
 print_ohtm_file = False
 print_ohtm_file_settings = False
@@ -66,7 +65,7 @@ show_heatmap_corpus = True
 
 interview_id = "CDG001"
 chunk_number = 10
-show_heatmap_interview = True
+show_heatmap_interview = False
 print_interview_chunk = False
 search_for_topics_in_chunks = False
 topic_search = 50
@@ -76,20 +75,21 @@ search_for_topics_in_interview = False
 ''' advanced options: '''
 
 # topic_modeling
-optimize_interval_mallet = 50
-iterations_mallet = 500
+optimize_interval_mallet = 500
+iterations_mallet = 5000
 alpha = 5
 random_seed = 80
 
 # ohtm_file creation
-speaker_txt = True
+speaker_txt = False
 folder_as_archive = True
 
 # preprocessing
 by_particle = False
-by_list = True
-lemma = True
-pos_filter_setting = True
+by_list = False
+lemma = False
+spacy_model_name = "de_core_news_lg"
+pos_filter_setting = False
 
 # possible settings: 'NOUN', 'PROPN', 'VERB', 'ADJ', 'ADV', 'PRON', 'ADP', 'DET', 'AUX', 'NUM', 'SCONJ', 'CCONJ', 'X'
 allowed_postags_settings = ['NOUN', 'PROPN', 'VERB', 'ADJ', 'NUM', 'ADV']
@@ -121,5 +121,6 @@ if __name__ == "__main__":
         pos_filter_setting=pos_filter_setting, lemma=lemma, save_model=save_model,
         infer_new_documents=infer_new_documents, trained_ohtm_file=trained_ohtm_file,
         save_separate_ohtm_file=save_separate_ohtm_file, separate_ohtm_file_name=separate_ohtm_file_name,
-        speaker_txt=speaker_txt, folder_as_archive=folder_as_archive, print_ohtm_file_settings=print_ohtm_file_settings
+        speaker_txt=speaker_txt, folder_as_archive=folder_as_archive, print_ohtm_file_settings=print_ohtm_file_settings,
+        spacy_model_name=spacy_model_name
     )

@@ -31,9 +31,9 @@ def topic_inferring(ohtm_file,
                 if ohtm_file["corpus"][a][i]["sent"][n]["chunk"] == chunk_count:
                     chunk_text += ohtm_file["corpus"][a][i]["sent"][n]["cleaned"]
                     if n == str((len(ohtm_file["corpus"][a][i]["sent"]))):
-                        chunk_data += [[a + "-" + i + " chunk_" + str(chunk_count), chunk_text]]
+                        chunk_data += [[a + "%" + i + " chunk_" + str(chunk_count), chunk_text]]
                 else:
-                    chunk_data += [[a + "-" + i + " chunk_" + str(chunk_count), chunk_text]]
+                    chunk_data += [[a + "%" + i + " chunk_" + str(chunk_count), chunk_text]]
                     chunk_count += 1
                     chunk_text = []
                     chunk_text += ohtm_file["corpus"][a][i]["sent"][n]["cleaned"]
@@ -77,8 +77,8 @@ def topic_inferring(ohtm_file,
 
     # The results are written in the dictionary.
     for i in range(len(doc_tops_mallet)):
-        archive = chunk_data[i][0].split("-")[0]
-        interview = chunk_data[i][0].split("-")[1].split(" ")[0]
+        archive = chunk_data[i][0].split("%")[0]
+        interview = chunk_data[i][0].split("%")[1].split(" ")[0]
         interview_chunk = chunk_data[i][0].split("_")[1]
         if archive not in ohtm_file["weight"]:
             ohtm_file["weight"][archive] = {}

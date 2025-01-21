@@ -19,7 +19,7 @@ def preprocessing(ohtm_file, stoplist_path: str = "",
                   allowed_postags_settings=None,
                   by_list: bool = False, by_particle: bool = False, by_threshold: bool = False, threshold: int = 0.5,
                   lemma: bool = False, pos_filter_setting: bool = False, stop_words: list = "",
-                  infer_new_documents: bool = False
+                  infer_new_documents: bool = False, spacy_model: str = ""
                   ):
 
     if allowed_postags_settings is None:
@@ -28,7 +28,7 @@ def preprocessing(ohtm_file, stoplist_path: str = "",
     ohtm_file = convert_ohtm_file(ohtm_file)
 
     if lemma:
-        spacy_model = spacy.load('de_core_news_lg', disable=['parser', 'ner'])
+        spacy_model = spacy.load(spacy_model, disable=['parser', 'ner'])
 
     if by_list:
         if infer_new_documents:

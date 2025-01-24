@@ -23,6 +23,6 @@ from ohtm_pipeline.ohtm.topic_evaluation.topics_prints import print_chunk
 from ohtm_pipeline.ohtm.topic_evaluation.topics_prints import print_chunk_with_weight_search
 from ohtm_pipeline.ohtm.topic_evaluation.topics_prints import print_chunk_with_interview_weight_search
 from ohtm_pipeline.ohtm.pipeline import ohtm_pipeline
-from ohtm_pipeline.ohtm.basic_functions.ohtm_file_inferred_combination import combine_infer
 from ohtm_pipeline.ohtm.basic_functions.convert_ohtm_file import convert_ohtm_file
+
 

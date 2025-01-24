@@ -10,6 +10,7 @@ You must not change anything here.
 
 from ohtm_pipeline.package_load import *
 from ohtm_pipeline.ohtm.basic_functions.convert_ohtm_file import convert_ohtm_file
+from ohtm_pipeline.ohtm.basic_functions.ohtm_file_inferred_combination import combine_infer
 
 
 def ohtm_pipeline(
@@ -83,14 +84,18 @@ def ohtm_pipeline(
         model_dic = load_json_function(load_file_name=trained_ohtm_file, working_folder=working_folder)
         if model_dic["settings"]["preprocessing"]["preprocessed"] == "True":
             print("Preprocessing new documents started")
-            if model_dic["settings"]["preprocessing"]["by_list"] == "True":
+            if model_dic["settings"]["preprocessing"]["stopwords_by_list"] == "True":
                 by_list = True
             if model_dic["settings"]["preprocessing"]["lemmatization"] == "True":
                 lemma = True
-            if model_dic["settings"]["preprocessing"]["by_particle"] == "True":
+            if model_dic["settings"]["preprocessing"]["stop_words_by_particle"] == "True":
                 by_particle = True
             if model_dic["settings"]["preprocessing"]["pos_filter_setting"] == "True":
                 pos_filter_setting = True
+            if model_dic["settings"]["preprocessing"]["stop_words_by_threshold"] == "Ture":
+                by_threshold = True
+            if model_dic["settings"]["preprocessing"]["stop_words_by_spacy"] == "True":
+                stopword_removal_by_spacy = True
             stop_words = model_dic["stopwords"]
 
             # The settings are used, to preprocess the to be inferred documents the same way,
@@ -102,6 +107,7 @@ def ohtm_pipeline(
                                       pos_filter_setting=pos_filter_setting,
                                       stop_words=stop_words,
                                       infer_new_documents=infer_new_documents,
+                                      spacy_model=spacy_model_name,
                                       stopword_removal_by_spacy=stopword_removal_by_spacy)
 
         # The chunk settings from the original model are loaded and used:
@@ -109,8 +115,6 @@ def ohtm_pipeline(
             chunk_setting = model_dic["settings"]["preprocessing"]["chunk_setting"]
             print("Chunking started with " + str(chunk_setting) + " chunks")
             infer_dic = chunking(ohtm_file=infer_dic, chunk_setting=chunk_setting)
-        else:
-            infer_dic = no_chunking(ohtm_file=ohtm_file)
 
         if model_dic["settings"]["topic_modeling"]["trained"] == "True":
             print("Inferring started with " + str(topics) + " topics")
@@ -137,7 +141,16 @@ def ohtm_pipeline(
             print("Combined json was saved")
 
     if use_correlation:
-        print("Function will be added")
+        try:
+            from interview_chronology_analysis.Narrative_o_Meter \
+            import (vertical_correlation_matrix, horizontal_correlation_matrix)
+            print("Topic Modeling enrichment started")
+            horizontal_correlation_matrix(ohtm_file, enrich_json = True)
+            vertical_correlation_matrix(ohtm_file, gross_nr_correlations_per_chunk = 2, enrich_json= True)
+            vertical_correlation_matrix(ohtm_file, gross_nr_correlations_per_chunk = 3, enrich_json= True)
+            vertical_correlation_matrix(ohtm_file, gross_nr_correlations_per_chunk = 4, enrich_json= True)
+        except:
+            print("Correlation_function will be added")
 
     if save_top_words:
         save_topic_words(ohtm_file=ohtm_file, working_folder=working_folder,

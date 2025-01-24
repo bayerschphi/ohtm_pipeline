@@ -46,7 +46,8 @@ def preprocessing(ohtm_file, stoplist_path: str = "",
         except OSError:
             print("Your spacy model name is not correct")
             exit()
-
+    if by_particle:
+        print("Stopwords removal by particle is not included so far")
     if by_list:
         if infer_new_documents:
             stoplist = stop_words
@@ -70,8 +71,8 @@ def preprocessing(ohtm_file, stoplist_path: str = "",
                     ohtm_file["stopwords"] = stoplist
                     data_out = remove_stopwords_by_list(data_out, stoplist)
                 if by_particle:
-                    data_out = remove_particles(data_out)
-                    ohtm_file["settings"]["preprocessing"]["particles_removed"] = "True"
+                    # data_out = remove_particles(data_out)
+                    ohtm_file["settings"]["preprocessing"]["particles_removed"] = "False"
                 if by_threshold:
                     ohtm_file["settings"]["preprocessing"].update({"stopwords_removed": "True"})
                     ohtm_file["settings"]["preprocessing"]["stopword_threshold"] = threshold

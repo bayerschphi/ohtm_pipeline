@@ -21,49 +21,51 @@ mallet_path: str = r'C:\mallet-2.0.8\bin\mallet'
 
 
 # Path to your working folder. Use no paths with blank spaces.
-working_folder: str = r"C:\Users\phili\Nextcloud2\Python\Topic_Modeling\Mittelalter\test test"
+working_folder: str = (r"C:\Users\phili\sciebo - Bayerschmidt,"
+                       r" Philipp (bayerschmidt@fernuni-hagen.de)@fernuni-hagen.sciebo.de\Topic Modeling\ohtm_files")
 
 # Set the path for your stop_word list.
-stopword_file = os.path.join(working_folder + r"\.....txt")
+stopword_file = os.path.join(working_folder, r"german_stopwords_custome.txt")
 
 # Set the path to your sources. This must be the folder, where your dokuments are stored in another folder.
 source_path: str = (
-    r"C:\Users\phili\sciebo - Bayerschmidt, Philipp (bayerschmidt@fernuni-hagen.de)@fernuni-hagen.sciebo.de\Interviews\Testlauf\Texte"
+    r"C:\Users\phili\sciebo - Bayerschmidt,"
+    r" Philipp (bayerschmidt@fernuni-hagen.de)@fernuni-hagen.sciebo.de\Interviews\Testlauf"
 )
 
-source = ["Texte"
+source = [ "Hannah", "WDE"
           ]
 
 """ Topic Modeling Settings: """
 
-create_ohtm_file = True
+create_ohtm_file = False
 
-load_ohtm_file = False
-load_file_name = "dir_test"
+load_ohtm_file = True
+load_file_name = "final_test_2"
 
-save_ohtm_file = True
-save_name = "dir_test"
+save_ohtm_file = False
+save_name = "final_test_3"
 # You need to set a save_name and set the option save_json to True to save the model
-save_model = True
+save_model = False
 
-use_preprocessing = True
+use_preprocessing = False
 
 # If you don't want to chunk your documents, set use_chunking to True and chunk_setting to 0
-use_chunking = True
-chunk_setting = 0
+use_chunking = False
+chunk_setting = 100
 
-use_topic_modeling = True
+use_topic_modeling = False
 topics = 30
 
-use_correlation = False
+use_correlation = True
 
-save_top_words = True
+save_top_words = False
 number_of_words = 50
 
 print_ohtm_file = False
 print_ohtm_file_settings = False
-show_bar_graph_corpus = True
-show_heatmap_corpus = True
+show_bar_graph_corpus = False
+show_heatmap_corpus = False
 
 interview_id = "CDG001"
 chunk_number = 10
@@ -87,12 +89,14 @@ speaker_txt = False
 folder_as_archive = True
 
 # preprocessing
-by_particle = False
-stopword_removal_by_stop_list = False
+by_particle = True
+# Select just one of those two:
+stopword_removal_by_stop_list = True
 stopword_removal_by_spacy = True
+
 use_lemmatization = True
-lemmatization_model_spacy = "test"
-use_pos_filter = False
+lemmatization_model_spacy = "de_core_news_lg"
+use_pos_filter = True
 
 # possible settings: 'NOUN', 'PROPN', 'VERB', 'ADJ', 'ADV', 'PRON', 'ADP', 'DET', 'AUX', 'NUM', 'SCONJ', 'CCONJ', 'X'
 allowed_postags_settings_lemmatization = ['NOUN', 'PROPN', 'VERB', 'ADJ', 'NUM', 'ADV']
@@ -100,15 +104,16 @@ allowed_postags_settings_lemmatization = ['NOUN', 'PROPN', 'VERB', 'ADJ', 'NUM',
 ''' Inferring new documents with an trained topic model'''
 
 infer_new_documents = False
-trained_ohtm_file = "dir_test"  # load the trained json and the model to train that json
-save_separate_ohtm_file = True  # save the inferred documents as a new json
-separate_ohtm_file_name = "Inferred_7"
+trained_ohtm_file = "final_test_2"  # load the trained json and the model to train that json
+save_separate_ohtm_file = False  # save the inferred documents as a new json
+separate_ohtm_file_name = "Inferred"
 
 
 if __name__ == "__main__":
     ohtm_pipeline(
         working_folder=working_folder, source=source, source_path=source_path, stopword_file=stopword_file,
-        allowed_postags_settings=allowed_postags_settings_lemmatization, save_name=save_name, load_file_name=load_file_name,
+        allowed_postags_settings=allowed_postags_settings_lemmatization, save_name=save_name,
+        load_file_name=load_file_name,
         mallet_path= mallet_path, interview_id=interview_id,
         chunk_setting=chunk_setting, topics=topics, number_of_words=number_of_words, chunk_number=chunk_number,
         topic_search=topic_search, chunk_weight=chunk_weight, optimize_interval_mallet=optimize_interval_mallet,
@@ -120,7 +125,8 @@ if __name__ == "__main__":
         show_bar_graph_corpus=show_bar_graph_corpus, show_heatmap_corpus=show_heatmap_corpus,
         show_heatmap_interview=show_heatmap_interview, print_interview_chunk=print_interview_chunk,
         search_for_topics_in_chunks=search_for_topics_in_chunks,
-        search_for_topics_in_interview=search_for_topics_in_interview, by_particle=by_particle, by_list=stopword_removal_by_stop_list,
+        search_for_topics_in_interview=search_for_topics_in_interview, by_particle=by_particle,
+        by_list=stopword_removal_by_stop_list,
         pos_filter_setting=use_pos_filter, lemma=use_lemmatization, save_model=save_model,
         infer_new_documents=infer_new_documents, trained_ohtm_file=trained_ohtm_file,
         save_separate_ohtm_file=save_separate_ohtm_file, separate_ohtm_file_name=separate_ohtm_file_name,

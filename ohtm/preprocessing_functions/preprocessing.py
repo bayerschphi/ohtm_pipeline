@@ -19,7 +19,7 @@ def preprocessing(ohtm_file, stoplist_path: str = "",
                   allowed_postags_settings=None,
                   by_list: bool = False, by_particle: bool = False, by_threshold: bool = False, threshold: int = 0.5,
                   lemma: bool = False, pos_filter_setting: bool = False, stop_words: list = "",
-                  infer_new_documents: bool = False, spacy_model: str = ""
+                  infer_new_documents: bool = False, spacy_model: str = "", stopword_removal_by_spacy: bool = False
                   ):
 
     if allowed_postags_settings is None:
@@ -28,7 +28,24 @@ def preprocessing(ohtm_file, stoplist_path: str = "",
     ohtm_file = convert_ohtm_file(ohtm_file)
 
     if lemma:
-        spacy_model = spacy.load(spacy_model, disable=['parser', 'ner'])
+        try:
+            spacy_model_load = spacy.load(spacy_model, disable=['parser', 'ner'])
+        except ValueError:
+            print("You need a spacy model name")
+            exit()
+        except OSError:
+            print("Your spacy model name is not correct")
+            exit()
+    if stopword_removal_by_spacy:
+        try:
+            spacy_model_load = spacy.load(spacy_model, disable=['parser', 'ner'])
+            stop_list_spacy = spacy_model_load.Defaults.stop_words
+        except ValueError:
+            print("You need a spacy model name")
+            exit()
+        except OSError:
+            print("Your spacy model name is not correct")
+            exit()
 
     if by_list:
         if infer_new_documents:
@@ -47,10 +64,27 @@ def preprocessing(ohtm_file, stoplist_path: str = "",
                 text = str(text)
                 pre_line = preprocess_outstr(text)
                 data_out = pre_line.split(" ")  # Tokenization
+                data_out = [word.lower() for word in data_out]
+                if by_list:
+                    ohtm_file["settings"]["preprocessing"].update({"stopwords_removed": "True"})
+                    ohtm_file["stopwords"] = stoplist
+                    data_out = remove_stopwords_by_list(data_out, stoplist)
+                if by_particle:
+                    data_out = remove_particles(data_out)
+                    ohtm_file["settings"]["preprocessing"]["particles_removed"] = "True"
+                if by_threshold:
+                    ohtm_file["settings"]["preprocessing"].update({"stopwords_removed": "True"})
+                    ohtm_file["settings"]["preprocessing"]["stopword_threshold"] = threshold
+                    data_out = remove_stopwords_by_threshold(data_out, threshold)
+                if stopword_removal_by_spacy:
+                    data_out = [word for word in data_out if word.lower() not in stop_list_spacy]
+                    stop_list = [word for word in stop_list_spacy]
+                    ohtm_file["stopwords"] = stop_list
+
                 if lemma:
                     goldlist = [""]  # Placeholder for a goldlist, to exclude words from filtering.
                     data_out_lem = lemmatization(data_out,
-                                                 spacy_model,
+                                                 spacy_model_load,
                                                  goldlist,
                                                  pos_filter=pos_filter_setting,
                                                  allowed_postags=allowed_postags_settings)
@@ -58,21 +92,10 @@ def preprocessing(ohtm_file, stoplist_path: str = "",
                     ohtm_file["settings"]["preprocessing"].update({"lemma": "True"})
                     ohtm_file["settings"]["preprocessing"]["pos_filter"] = pos_filter_setting
                     ohtm_file["settings"]["preprocessing"]["allowed_postags"] = allowed_postags_settings
-                data_out = [word.lower() for word in data_out]
+                else:
+                    ohtm_file["settings"]["preprocessing"]["pos_filter"] = False
+                    ohtm_file["settings"]["preprocessing"]["allowed_postags"] = []
 
-                if by_list:
-                    ohtm_file["settings"]["preprocessing"].update({"stopwords_removed": "True"})
-                    ohtm_file["stopwords"] = stoplist
-                    data_out = remove_stopwords_by_list(data_out, stoplist)
-
-                if by_particle:
-                    data_out = remove_particles(data_out)
-                    ohtm_file["settings"]["preprocessing"]["particles_removed"] = "True"
-
-                if by_threshold:
-                    ohtm_file["settings"]["preprocessing"].update({"stopwords_removed": "True"})
-                    ohtm_file["settings"]["preprocessing"]["stopword_threshold"] = threshold
-                    data_out = remove_stopwords_by_threshold(data_out, threshold)
                 data_out = remove_speaker(data_out)
                 ohtm_file["corpus"][archive][interview]["sent"][sent_nr]["cleaned"] = data_out
                 sent_length.append(len(data_out))
@@ -91,10 +114,11 @@ def preprocessing(ohtm_file, stoplist_path: str = "",
     ohtm_file["settings"]["preprocessing"]["cleaned_length"]["max_length"] = max_length
     ohtm_file["settings"]["preprocessing"]["cleaned_length"]["min_length"] = min_length
     ohtm_file["settings"]["preprocessing"]["cleaned_length"]["ave_length"] = average_length
-    ohtm_file["settings"]["preprocessing"]["by_list"] = by_list
-    ohtm_file["settings"]["preprocessing"]["by_particle"] = by_particle
-    ohtm_file["settings"]["preprocessing"]["by_threshold"] = by_threshold
-    ohtm_file["settings"]["preprocessing"]["threshold_stopwords"] = threshold
+    ohtm_file["settings"]["preprocessing"]["stopwords_by_list"] = by_list
+    ohtm_file["settings"]["preprocessing"]["stop_words_by_particle"] = by_particle
+    ohtm_file["settings"]["preprocessing"]["stop_words_by_threshold"] = by_threshold
+    ohtm_file["settings"]["preprocessing"]["stop_words_by_spacy"] = stopword_removal_by_spacy
+    ohtm_file["settings"]["preprocessing"]["stop_words_by_threshold"] = threshold
     ohtm_file["settings"]["preprocessing"]["lemmatization"] = lemma
     ohtm_file["settings"]["preprocessing"]["pos_filter_setting"] = pos_filter_setting
     ohtm_file["settings"]["preprocessing"].update({"preprocessed": "True"})

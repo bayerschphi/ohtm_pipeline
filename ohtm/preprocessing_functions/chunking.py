@@ -11,29 +11,34 @@ from ohtm_pipeline.ohtm.basic_functions.convert_ohtm_file import convert_ohtm_fi
 
 def chunking(ohtm_file, chunk_setting: int = 0):
     ohtm_file = convert_ohtm_file(ohtm_file)
-    for archive in ohtm_file["corpus"]:
-        for interview in ohtm_file["corpus"][archive]:
-            chunk_count = 0
-            chunk_data = []
-            for nr in range(1, (len(ohtm_file["corpus"][archive][interview]["sent"]) + 1)):
-                new_sent = copy.deepcopy(ohtm_file["corpus"][archive][interview]["sent"][str(nr)]["cleaned"])
-                if len(chunk_data) + len(new_sent) >= chunk_setting:
-                    if len(chunk_data) + len(new_sent) >= chunk_setting + (chunk_setting/5):
-                        chunk_count += 1
-                        ohtm_file["corpus"][archive][interview]["sent"][str(nr)]["chunk"] = chunk_count
-                        chunk_data = new_sent
+    if chunk_setting != 0:
+        for archive in ohtm_file["corpus"]:
+            for interview in ohtm_file["corpus"][archive]:
+                chunk_count = 0
+                chunk_data = []
+                for nr in range(1, (len(ohtm_file["corpus"][archive][interview]["sent"]) + 1)):
+                    new_sent = copy.deepcopy(ohtm_file["corpus"][archive][interview]["sent"][str(nr)]["cleaned"])
+                    if len(chunk_data) + len(new_sent) >= chunk_setting:
+                        if len(chunk_data) + len(new_sent) >= chunk_setting + (chunk_setting/5):
+                            chunk_count += 1
+                            ohtm_file["corpus"][archive][interview]["sent"][str(nr)]["chunk"] = chunk_count
+                            chunk_data = new_sent
+                        else:
+                            ohtm_file["corpus"][archive][interview]["sent"][str(nr)]["chunk"] = chunk_count
+                            chunk_data += ohtm_file["corpus"][archive][interview]["sent"][str(nr)]["cleaned"]
+                            chunk_count += 1
+                            chunk_data = []
                     else:
                         ohtm_file["corpus"][archive][interview]["sent"][str(nr)]["chunk"] = chunk_count
-                        chunk_data += ohtm_file["corpus"][archive][interview]["sent"][str(nr)]["cleaned"]
-                        chunk_count += 1
-                        chunk_data = []
-                else:
-                    ohtm_file["corpus"][archive][interview]["sent"][str(nr)]["chunk"] = chunk_count
-                    chunk_data += new_sent
+                        chunk_data += new_sent
 
-    ohtm_file["settings"]["preprocessing"].update({"chunk_setting": chunk_setting})
-    ohtm_file["settings"]["preprocessing"].update({"chunked": "True"})
+        ohtm_file["settings"]["preprocessing"].update({"chunk_setting": chunk_setting})
+        ohtm_file["settings"]["preprocessing"].update({"chunked": "True"})
 
-    ohtm_file = json.dumps(ohtm_file, ensure_ascii=False)
-
+        ohtm_file = json.dumps(ohtm_file, ensure_ascii=False)
+    else:
+        for archive in ohtm_file["corpus"]:
+            for interview in ohtm_file["corpus"][archive]:
+                for nr in ohtm_file["corpus"][archive][interview]["sent"]:
+                    ohtm_file["corpus"][archive][interview]["sent"][str(nr)]["chunk"] = 0
     return ohtm_file

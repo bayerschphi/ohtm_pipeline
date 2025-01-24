@@ -14,8 +14,8 @@ def topic_inferring(ohtm_file,
     # Load the train model and set all necessary variables.
     model_path = os.path.join(working_folder, "Models", model_name, model_name+"_")
     lda_model_mallet = LdaMallet.load(model_path+"topic_model")
-
-    lda_model_mallet.prefix = model_path
+    os.chdir(os.path.join(working_folder, "Models", model_name))
+    lda_model_mallet.prefix = model_name + "_"
     lda_model_mallet.random_seed = random_seed_mallet
 
     # The single sentences are added together to the preprocessed chunks:

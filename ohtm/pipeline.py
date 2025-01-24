@@ -30,7 +30,7 @@ def ohtm_pipeline(
         infer_new_documents: bool = False, trained_ohtm_file: str = "",
         save_separate_ohtm_file: bool = False, separate_ohtm_file_name: str = "", speaker_txt: bool = True,
         folder_as_archive: bool = False, print_ohtm_file_settings: bool = False,
-        spacy_model_name: str = "de_core_news_lg"
+        spacy_model_name: str = "de_core_news_lg", stopword_removal_by_spacy: bool = False
 ):
 
     if not infer_new_documents:
@@ -56,7 +56,8 @@ def ohtm_pipeline(
             ohtm_file = preprocessing(ohtm_file=ohtm_file, stoplist_path=stopword_file,
                                       allowed_postags_settings=allowed_postags_settings,
                                       by_list=by_list, lemma=lemma, by_particle=by_particle,
-                                      pos_filter_setting=pos_filter_setting, spacy_model=spacy_model_name)
+                                      pos_filter_setting=pos_filter_setting, spacy_model=spacy_model_name,
+                                      stopword_removal_by_spacy=stopword_removal_by_spacy)
 
         if use_chunking:
             print("Chunking started with " + str(chunk_setting) + " chunks")
@@ -75,7 +76,8 @@ def ohtm_pipeline(
 
     if infer_new_documents:
         # The new documents to be inferred are loaded:
-        infer_dic = ohtm_file_creation_function(source=source, source_path=source_path)
+        infer_dic = ohtm_file_creation_function(source=source, source_path=source_path, speaker_txt=speaker_txt,
+                                                    folder_as_archive=folder_as_archive)
 
         # The original model is loaded and all variables are set from the model.
         model_dic = load_json_function(load_file_name=trained_ohtm_file, working_folder=working_folder)
@@ -87,7 +89,7 @@ def ohtm_pipeline(
                 lemma = True
             if model_dic["settings"]["preprocessing"]["by_particle"] == "True":
                 by_particle = True
-            if model_dic["settings"]["preprocessing"]["pos_filter"] == "True":
+            if model_dic["settings"]["preprocessing"]["pos_filter_setting"] == "True":
                 pos_filter_setting = True
             stop_words = model_dic["stopwords"]
 
@@ -99,13 +101,16 @@ def ohtm_pipeline(
                                       by_list=by_list, lemma=lemma, by_particle=by_particle,
                                       pos_filter_setting=pos_filter_setting,
                                       stop_words=stop_words,
-                                      infer_new_documents=infer_new_documents)
+                                      infer_new_documents=infer_new_documents,
+                                      stopword_removal_by_spacy=stopword_removal_by_spacy)
 
         # The chunk settings from the original model are loaded and used:
         if model_dic["settings"]["preprocessing"]["chunked"] == "True":
             chunk_setting = model_dic["settings"]["preprocessing"]["chunk_setting"]
             print("Chunking started with " + str(chunk_setting) + " chunks")
             infer_dic = chunking(ohtm_file=infer_dic, chunk_setting=chunk_setting)
+        else:
+            infer_dic = no_chunking(ohtm_file=ohtm_file)
 
         if model_dic["settings"]["topic_modeling"]["trained"] == "True":
             print("Inferring started with " + str(topics) + " topics")

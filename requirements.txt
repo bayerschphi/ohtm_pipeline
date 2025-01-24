@@ -1,13 +1,14 @@
 python==3.10
 pickle
-gensim
 pandas
 plotly-express
-spacy
+spacy==3.8.4
+gensim
 json
 copy
 re
 csv
 de_core_news_lg
+smart-open
 
 

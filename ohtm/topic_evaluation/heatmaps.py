@@ -52,7 +52,7 @@ def heatmap_corpus(ohtm_file, option_selected: str = "all",
             z_scores = ((df - mean) / std_dev)
             df = z_scores
 
-        df = df.swapaxes("index", "columns")
+        df = df.transpose()
         fig = px.imshow(df, color_continuous_scale='dense', aspect='auto')
         fig.update_traces(hovertemplate="Interview: %{y}" "<br>Topic: %{x}" "<br>Weight: %{z}<extra></extra>")
         fig.update_layout(clickmode='event+select')

@@ -2,11 +2,15 @@
 This function calculates the topic model. The mallet_wrapper is based on the gensim wrapper.
 But the function was deleted in the Version 10. But the developers allowed to copy the wrapper.
 See:
-"""
 
-import mallet_wrapper.corpora as corpora
-from mallet_wrapper.ldamallet import LdaMallet
-from mallet_wrapper.coherencemodel import CoherenceModel
+Mallet cant handle spaces in patch strings. That's why I set the os.chdri for this patch with the sapce, if
+the model is saved.
+"""
+from os import environ
+
+import ohtm_pipeline.ohtm.mallet_wrapper.corpora as corpora
+from ohtm_pipeline.ohtm.mallet_wrapper.ldamallet import LdaMallet
+from ohtm_pipeline.ohtm.mallet_wrapper.coherencemodel import CoherenceModel
 import json
 import os
 from ohtm_pipeline.ohtm.basic_functions.convert_ohtm_file import convert_ohtm_file
@@ -18,16 +22,16 @@ def topic_training_mallet(ohtm_file, topics, mallet_path,
                           save_model: bool = False, working_folder: str = "",
                           save_name: str = "", save_json: bool = False,
                           ):
-
     if save_model:
         if save_json:
             if not os.path.exists(os.path.join(working_folder, "Models")):
                 os.makedirs(os.path.join(working_folder, "Models"))
             if not os.path.exists(os.path.join(working_folder, "Models", save_name)):
                 os.makedirs(os.path.join(working_folder, "Models", save_name))
-            prefix_value = os.path.join(working_folder, "Models", save_name, save_name + "_")
+            os.chdir(os.path.join(working_folder, "Models", save_name))
+            prefix_value = save_name + "_"
         else:
-            print("You need to set a save_name and set the option save_json to True to save the model")
+            print("You need to set a save_name and set the option save_ohtm_file to True to save the model")
             exit()
     else:
         prefix_value = None
@@ -51,19 +55,16 @@ def topic_training_mallet(ohtm_file, topics, mallet_path,
                     chunk_count += 1
                     chunk_text = []
                     chunk_text += ohtm_file["corpus"][a][i]["sent"][n]["cleaned"]
-
     print(chunk_data[:10])
-
     dataset = []
     for i in chunk_data:
         dataset += [i[1]]
     print(dataset[:10])
-
     print("LDA started")
     id2word = corpora.Dictionary(dataset)
     corpus = [id2word.doc2bow(text) for text in dataset]
 
-    lda_model_mallet = LdaMallet(mallet_path,
+    lda_model_mallet = LdaMallet(mallet_path=mallet_path,
                                  corpus=corpus,
                                  id2word=id2word,
                                  num_topics=topics,
@@ -71,7 +72,8 @@ def topic_training_mallet(ohtm_file, topics, mallet_path,
                                  iterations=iterations_mallet,
                                  optimize_interval=optimize_interval_mallet,
                                  random_seed=random_seed_mallet,
-                                 prefix=prefix_value)
+                                 prefix=prefix_value
+                                 )
 
     if save_model:
         lda_model_mallet.save(os.path.join(working_folder, "Models", save_name, save_name + "_topic_model "))

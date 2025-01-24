@@ -1,19 +1,24 @@
 # Copyright (C) 2018 Radim Rehurek <radimrehurek@seznam.cz>
 # cython: embedsignature=True
-# cython: language_level=3
 
 """Reader for corpus in the Matrix Market format."""
+
+from __future__ import with_statement
+
+from gensim import utils
+
+from six import string_types
+from six.moves import range
 import logging
 
 cimport cython
 from libc.stdio cimport sscanf
 
-from gensim import utils
 
 logger = logging.getLogger(__name__)
 
 
-cdef class MmReader():
+cdef class MmReader(object):
     """Matrix market file reader (fast Cython version), used internally in :class:`~gensim.corpora.mmcorpus.MmCorpus`.
 
     Wrap a term-document matrix on disk (in matrix-market format), and present it
@@ -22,7 +27,7 @@ cdef class MmReader():
     Attributes
     ----------
     num_docs : int
-        Number of documents in the market matrix file.
+        Number of documents in market matrix file.
     num_terms : int
         Number of terms.
     num_nnz : int
@@ -182,7 +187,7 @@ cdef class MmReader():
 
         if offset == -1:
             return []
-        if isinstance(self.input, str):
+        if isinstance(self.input, string_types):
             fin, close_fin = utils.open(self.input, 'rb'), True
         else:
             fin, close_fin = self.input, False

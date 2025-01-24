@@ -13,16 +13,15 @@ from itertools import chain
 import logging
 import math
 
-from mallet_wrapper import utils
-from mallet_wrapper.utils import deprecated
-
+from ohtm_pipeline.ohtm.mallet_wrapper import utils
+from ohtm_pipeline.ohtm.mallet_wrapper.utils import deprecated
 
 import numpy as np
 import scipy.sparse
 from scipy.stats import entropy
 import scipy.linalg
 from scipy.linalg.lapack import get_lapack_funcs
-from scipy.linalg.special_matrices import triu
+from numpy import triu
 from scipy.special import psi  # gamma function utils
 
 from six import iteritems, itervalues

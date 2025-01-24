@@ -59,8 +59,9 @@ from mallet_wrapper.utils import check_output, revdict
 
 from mallet_wrapper import utils, matutils, basemodel
 from mallet_wrapper.ldamodel import LdaModel
-
-
+import os
+import subprocess
+import shlex
 
 
 logger = logging.getLogger(__name__)
@@ -240,8 +241,6 @@ class LdaMallet(utils.SaveLoad, basemodel.BaseTopicModel):
         corpus : iterable of iterable of (int, int)
             Collection of texts in BoW format.
         infer : bool, optional
-            ...
-        serialize_corpus : bool, optional
             ...
 
         """

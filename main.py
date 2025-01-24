@@ -21,19 +21,17 @@ mallet_path: str = r'C:\mallet-2.0.8\bin\mallet'
 
 
 # Path to your working folder. Use no paths with blank spaces.
-working_folder: str = (r"C:\Users\phili\sciebo - Bayerschmidt,"
-                       r" Philipp (bayerschmidt@fernuni-hagen.de)@fernuni-hagen.sciebo.de\Topic Modeling\ohtm_files")
+working_folder: str = (r".....")
 
-# Set the path for your stop_word list.
-stopword_file = os.path.join(working_folder, r"german_stopwords_custome.txt")
+# Set the path for your stop_word list. It has to be inside the working folder
+stopword_file = os.path.join(working_folder, r"....")
 
 # Set the path to your sources. This must be the folder, where your dokuments are stored in another folder.
 source_path: str = (
-    r"C:\Users\phili\sciebo - Bayerschmidt,"
-    r" Philipp (bayerschmidt@fernuni-hagen.de)@fernuni-hagen.sciebo.de\Interviews\Testlauf"
+    r"..."
 )
 
-source = [ "Hannah", "WDE"
+source = [ "folder_1", "folder_2"
           ]
 
 """ Topic Modeling Settings: """
@@ -41,10 +39,10 @@ source = [ "Hannah", "WDE"
 create_ohtm_file = False
 
 load_ohtm_file = True
-load_file_name = "final_test_2"
+ohtm_file_load_name = "load_name"
 
 save_ohtm_file = False
-save_name = "final_test_3"
+ohtm_file_save_name = "save_name"
 # You need to set a save_name and set the option save_json to True to save the model
 save_model = False
 
@@ -67,7 +65,7 @@ print_ohtm_file_settings = False
 show_bar_graph_corpus = False
 show_heatmap_corpus = False
 
-interview_id = "CDG001"
+interview_id = "interview_id"
 chunk_number = 10
 show_heatmap_interview = False
 print_interview_chunk = False
@@ -104,16 +102,16 @@ allowed_postags_settings_lemmatization = ['NOUN', 'PROPN', 'VERB', 'ADJ', 'NUM',
 ''' Inferring new documents with an trained topic model'''
 
 infer_new_documents = False
-trained_ohtm_file = "final_test_2"  # load the trained json and the model to train that json
+trained_ohtm_file = "trained_ohtm_file_name"  # load the trained json and the model to train that json
 save_separate_ohtm_file = False  # save the inferred documents as a new json
-separate_ohtm_file_name = "Inferred"
+separate_ohtm_file_name = "inferred_ohmt_file_name"
 
 
 if __name__ == "__main__":
     ohtm_pipeline(
         working_folder=working_folder, source=source, source_path=source_path, stopword_file=stopword_file,
-        allowed_postags_settings=allowed_postags_settings_lemmatization, save_name=save_name,
-        load_file_name=load_file_name,
+        allowed_postags_settings=allowed_postags_settings_lemmatization, save_name=ohtm_file_save_name,
+        load_file_name=ohtm_file_load_name,
         mallet_path= mallet_path, interview_id=interview_id,
         chunk_setting=chunk_setting, topics=topics, number_of_words=number_of_words, chunk_number=chunk_number,
         topic_search=topic_search, chunk_weight=chunk_weight, optimize_interval_mallet=optimize_interval_mallet,

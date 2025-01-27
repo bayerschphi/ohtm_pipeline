@@ -1,7 +1,9 @@
 """
 
 """
-from mallet_wrapper.ldamallet import LdaMallet
+import ohtm_pipeline.ohtm.mallet_wrapper.corpora as corpora
+from ohtm_pipeline.ohtm.mallet_wrapper.ldamallet import LdaMallet
+from ohtm_pipeline.ohtm.mallet_wrapper.coherencemodel import CoherenceModel
 import json
 import os
 from ohtm_pipeline.ohtm.basic_functions.convert_ohtm_file import convert_ohtm_file

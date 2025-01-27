@@ -54,7 +54,7 @@ def ohtm_pipeline(
 
         if use_preprocessing:
             print("Preprocessing started")
-            ohtm_file = preprocessing(ohtm_file=ohtm_file, stoplist_path=stopword_file,
+            ohtm_file = preprocessing(ohtm_file=ohtm_file, stoplist_name=stopword_file,
                                       allowed_postags_settings=allowed_postags_settings,
                                       by_list=by_list, lemma=lemma, by_particle=by_particle,
                                       pos_filter_setting=pos_filter_setting, spacy_model=spacy_model_name,

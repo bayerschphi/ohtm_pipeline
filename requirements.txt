@@ -9,5 +9,8 @@ copy
 re
 csv
 de_core_news_lg
+os
+copy
+
 
 

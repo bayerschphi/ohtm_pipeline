@@ -23,8 +23,8 @@ mallet_path: str = r'C:\mallet-2.0.8\bin\mallet'
 # Path to your working folder. Use no paths with blank spaces.
 working_folder: str = (r".....")
 
-# Set the path for your stop_word list. It has to be inside the working folder
-stopword_file = os.path.join(working_folder, r"....")
+# Set the name of your stopword_list.txt file. It has to be in the working folder
+stopword_file = r"...."
 
 # Set the path to your sources. This must be the folder, where your dokuments are stored in another folder.
 source_path: str = (
@@ -65,14 +65,16 @@ print_ohtm_file_settings = False
 show_bar_graph_corpus = False
 show_heatmap_corpus = False
 
+search_for_topics_in_interview = False
+topic_search = 50
+chunk_weight = 0.1
+
 interview_id = "interview_id"
 chunk_number = 10
 show_heatmap_interview = False
 print_interview_chunk = False
 search_for_topics_in_chunks = False
-topic_search = 50
-chunk_weight = 0.1
-search_for_topics_in_interview = False
+
 
 ''' advanced options: '''
 

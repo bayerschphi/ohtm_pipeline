@@ -11,6 +11,13 @@ csv
 de_core_news_lg
 os
 copy
-
-
-
+logging
+logging
+csv
+itertools
+sys
+six
+zlib
+numpy
+collections
+scipy

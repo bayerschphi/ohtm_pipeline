@@ -15,8 +15,8 @@ from math import sqrt
 import numpy as np
 from scipy import sparse
 
-from mallet_wrapper.matutils import corpus2csc
-from mallet_wrapper.utils import SaveLoad, is_corpus
+from ohtm_pipeline.ohtm.mallet_wrapper.matutils import corpus2csc
+from ohtm_pipeline.ohtm.mallet_wrapper.utils import SaveLoad, is_corpus
 
 logger = logging.getLogger(__name__)
 

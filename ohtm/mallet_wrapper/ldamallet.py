@@ -55,10 +55,10 @@ from itertools import chain
 
 import numpy
 
-from mallet_wrapper.utils import check_output, revdict
+from ohtm_pipeline.ohtm.mallet_wrapper.utils import check_output, revdict
 
-from mallet_wrapper import utils, matutils, basemodel
-from mallet_wrapper.ldamodel import LdaModel
+from ohtm_pipeline.ohtm.mallet_wrapper import utils, matutils, basemodel
+from ohtm_pipeline.ohtm.mallet_wrapper.ldamodel import LdaModel
 import os
 import subprocess
 import shlex

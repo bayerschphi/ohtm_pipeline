@@ -41,9 +41,9 @@ import random
 import re
 import sys
 
-from mallet_wrapper import interfaces, utils
-from mallet_wrapper.corpora.dictionary import Dictionary
-from mallet_wrapper.parsing.preprocessing import (
+from ohtm_pipeline.ohtm.mallet_wrapper import interfaces, utils
+from ohtm_pipeline.ohtm.mallet_wrapper.corpora.dictionary import Dictionary
+from ohtm_pipeline.ohtm.mallet_wrapper.parsing.preprocessing import (
     remove_stopword_tokens, remove_short_tokens,
     lower_to_unicode, strip_multiple_whitespaces,
 )

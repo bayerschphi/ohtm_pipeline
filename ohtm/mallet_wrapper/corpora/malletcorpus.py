@@ -9,8 +9,8 @@ from __future__ import with_statement
 
 import logging
 
-from mallet_wrapper import utils
-from mallet_wrapper.corpora import LowCorpus
+from ohtm_pipeline.ohtm.mallet_wrapper import utils
+from ohtm_pipeline.ohtm.mallet_wrapper.corpora import LowCorpus
 
 
 logger = logging.getLogger(__name__)

@@ -131,9 +131,9 @@ import threading
 import itertools
 import warnings
 
-from mallet_wrapper.utils import keep_vocab_item, call_on_class_only
-from mallet_wrapper.keyedvectors import Vocab, Word2VecKeyedVectors
-from mallet_wrapper.base_any2vec import BaseWordEmbeddingsModel
+from ohtm_pipeline.ohtm.mallet_wrapper.utils import keep_vocab_item, call_on_class_only
+from ohtm_pipeline.ohtm.mallet_wrapper.keyedvectors import Vocab, Word2VecKeyedVectors
+from ohtm_pipeline.ohtm.mallet_wrapper.base_any2vec import BaseWordEmbeddingsModel
 
 try:
     from queue import Queue, Empty
@@ -146,8 +146,8 @@ from numpy import exp, dot, zeros, random, dtype, float32 as REAL,\
 
 from scipy.special import expit
 
-from mallet_wrapper import utils, matutils  # utility fnc for pickling, common scipy operations etc
-from mallet_wrapper.utils import deprecated
+from ohtm_pipeline.ohtm.mallet_wrapper import utils, matutils  # utility fnc for pickling, common scipy operations etc
+from ohtm_pipeline.ohtm.mallet_wrapper.utils import deprecated
 from six import iteritems, itervalues, string_types
 from six.moves import range
 

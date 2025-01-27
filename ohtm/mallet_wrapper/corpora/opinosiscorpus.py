@@ -17,9 +17,9 @@ References
 
 import os
 import re
-from mallet_wrapper.corpora import Dictionary
-from mallet_wrapper.parsing.porter import PorterStemmer
-from mallet_wrapper.parsing.preprocessing import STOPWORDS
+from ohtm_pipeline.ohtm.mallet_wrapper.corpora import Dictionary
+from ohtm_pipeline.ohtm.mallet_wrapper.parsing.porter import PorterStemmer
+from ohtm_pipeline.ohtm.mallet_wrapper.parsing.preprocessing import STOPWORDS
 
 
 class OpinosisCorpus:

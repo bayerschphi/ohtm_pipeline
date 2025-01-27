@@ -174,23 +174,23 @@ from numpy import dot, float32 as REAL, memmap as np_memmap, \
     ndarray, sum as np_sum, prod, argmax
 import numpy as np
 
-from mallet_wrapper import utils, matutils  # utility fnc for pickling, common scipy operations etc
-from mallet_wrapper.corpora import Dictionary
+from ohtm_pipeline.ohtm.mallet_wrapper import utils, matutils  # utility fnc for pickling, common scipy operations etc
+from ohtm_pipeline.ohtm.mallet_wrapper.corpora import Dictionary
 from six import string_types, integer_types
 from six.moves import zip, range
 from scipy import stats
-from mallet_wrapper.utils import deprecated
-from mallet_wrapper.utils_any2vec import (
+from ohtm_pipeline.ohtm.mallet_wrapper.utils import deprecated
+from ohtm_pipeline.ohtm.mallet_wrapper.utils_any2vec import (
     _save_word2vec_format,
     _load_word2vec_format,
     ft_ngram_hashes,
 )
-from mallet_wrapper.termsim import TermSimilarityIndex, SparseTermSimilarityMatrix
+from ohtm_pipeline.ohtm.mallet_wrapper.termsim import TermSimilarityIndex, SparseTermSimilarityMatrix
 
 #
 # For backwards compatibility, see https://github.com/RaRe-Technologies/gensim/issues/2201
 #
-from mallet_wrapper.deprecated.keyedvectors import EuclideanKeyedVectors  # noqa
+from ohtm_pipeline.ohtm.mallet_wrapper.deprecated.keyedvectors import EuclideanKeyedVectors  # noqa
 
 logger = logging.getLogger(__name__)
 

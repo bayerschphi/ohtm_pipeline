@@ -28,8 +28,8 @@ import numpy
 import scipy.sparse as sparse
 
 import mallet_wrapper
-from ohtm.mallet_wrapper.corpora import IndexedCorpus
-from ohtm.mallet_wrapper.interfaces import TransformedCorpus
+from ohtm_pipeline.ohtm.mallet_wrapper.corpora import IndexedCorpus
+from ohtm_pipeline.ohtm.mallet_wrapper.interfaces import TransformedCorpus
 
 logger = logging.getLogger(__name__)
 

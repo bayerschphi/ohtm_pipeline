@@ -6,7 +6,8 @@ The chunks are build by adding words until the maximum (chunk_setting) is reache
 
 import json
 import copy
-from ohtm.basic_functions.convert_ohtm_file import convert_ohtm_file
+import convert_ohtm_file
+
 
 
 def chunking(ohtm_file, chunk_setting: int = 0):

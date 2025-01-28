@@ -17,7 +17,7 @@ import sys
 import logging
 import itertools
 
-from ohtm.mallet_wrapper import utils
+from ohtm_pipeline.ohtm.mallet_wrapper import utils
 
 from six import PY3, iteritems, iterkeys, itervalues, string_types
 from six.moves import zip, range

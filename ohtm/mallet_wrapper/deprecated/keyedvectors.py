@@ -35,7 +35,7 @@ in the original Google's word2vec C format as a KeyedVectors instance:
 
 .. sourcecode:: pycon
 
-    >>> from ohtm.mallet_wrapper.keyedvectors import KeyedVectors
+    >>> from ohtm_pipeline.ohtm.mallet_wrapper.keyedvectors import KeyedVectors
     >>> word_vectors = KeyedVectors.load_word2vec_format('/tmp/vectors.txt', binary=False)  # C text format
     >>> word_vectors = KeyedVectors.load_word2vec_format('/tmp/vectors.bin', binary=True)  # C binary format
 
@@ -95,8 +95,8 @@ from numpy import dot, zeros, dtype, float32 as REAL,\
     argmax
 import numpy as np
 
-from ohtm.mallet_wrapper import utils, matutils  # utility fnc for pickling, common scipy operations etc
-from ohtm.mallet_wrapper.corpora import Dictionary
+from ohtm_pipeline.ohtm.mallet_wrapper import utils, matutils  # utility fnc for pickling, common scipy operations etc
+from ohtm_pipeline.ohtm.mallet_wrapper.corpora import Dictionary
 from six import string_types, iteritems
 from six.moves import range
 from scipy import stats

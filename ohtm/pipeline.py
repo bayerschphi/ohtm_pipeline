@@ -8,22 +8,22 @@ You must not change anything here.
 
 """
 
-from ohtm.basic_functions.ohtm_file_inferred_combination import combine_infer
-from ohtm.basic_functions.save_load import save_json_function
-from ohtm.basic_functions.save_load import load_json_function
-from ohtm.preprocessing_functions.chunking import chunking
-from ohtm.basic_functions.ohtm_file_creation import ohtm_file_creation_function
-from ohtm.topic_evaluation.bar_graph import bar_graph_corpus
-from ohtm.topic_evaluation.heatmaps import heatmap_interview
-from ohtm.topic_evaluation.heatmaps import heatmap_corpus
-from ohtm.topic_modeling_functions.topic_training_mallet import topic_training_mallet
-from ohtm.topic_modeling_functions.topic_inferring import topic_inferring
-from ohtm.preprocessing_functions.preprocessing import preprocessing
-from ohtm.basic_functions.save_load import save_topic_words
-from ohtm.topic_evaluation.topics_prints import print_chunk
-from ohtm.topic_evaluation.topics_prints import print_chunk_with_weight_search
-from ohtm.topic_evaluation.topics_prints import print_chunk_with_interview_weight_search
-from ohtm.basic_functions.convert_ohtm_file import convert_ohtm_file
+from ohtm_pipeline.ohtm.basic_functions.ohtm_file_inferred_combination import combine_infer
+from ohtm_pipeline.ohtm.basic_functions.save_load import save_json_function
+from ohtm_pipeline.ohtm.basic_functions.save_load import load_json_function
+from ohtm_pipeline.ohtm.preprocessing_functions.chunking import chunking
+from ohtm_pipeline.ohtm.basic_functions.ohtm_file_creation import ohtm_file_creation_function
+from ohtm_pipeline.ohtm.topic_evaluation.bar_graph import bar_graph_corpus
+from ohtm_pipeline.ohtm.topic_evaluation.heatmaps import heatmap_interview
+from ohtm_pipeline.ohtm.topic_evaluation.heatmaps import heatmap_corpus
+from ohtm_pipeline.ohtm.topic_modeling_functions.topic_training_mallet import topic_training_mallet
+from ohtm_pipeline.ohtm.topic_modeling_functions.topic_inferring import topic_inferring
+from ohtm_pipeline.ohtm.preprocessing_functions.preprocessing import preprocessing
+from ohtm_pipeline.ohtm.basic_functions.save_load import save_topic_words
+from ohtm_pipeline.ohtm.topic_evaluation.topics_prints import print_chunk
+from ohtm_pipeline.ohtm.topic_evaluation.topics_prints import print_chunk_with_weight_search
+from ohtm_pipeline.ohtm.topic_evaluation.topics_prints import print_chunk_with_interview_weight_search
+from ohtm_pipeline.ohtm.basic_functions.convert_ohtm_file import convert_ohtm_file
 
 
 def ohtm_pipeline_function(

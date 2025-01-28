@@ -10,7 +10,7 @@ Examples
 
 .. sourcecode:: pycon
 
-    >>> from ohtm.mallet_wrapper.parsing.preprocessing import remove_stopwords, preprocess_string
+    >>> from ohtm_pipeline.ohtm.mallet_wrapper.parsing.preprocessing import remove_stopwords, preprocess_string
     >>> remove_stopwords("Better late than never, but better never late.")
     u'Better late never, better late.'
     >>>
@@ -23,8 +23,8 @@ import re
 import string
 import glob
 
-from ohtm.mallet_wrapper import utils
-from ohtm.mallet_wrapper.parsing.porter import PorterStemmer
+from ohtm_pipeline.ohtm.mallet_wrapper import utils
+from ohtm_pipeline.ohtm.mallet_wrapper.parsing.porter import PorterStemmer
 
 
 STOPWORDS = frozenset([

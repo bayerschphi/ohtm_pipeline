@@ -26,10 +26,10 @@ from pickle import PicklingError
 from xml.etree.ElementTree import iterparse
 
 
-from ohtm.mallet_wrapper import utils
+from ohtm_pipeline.ohtm.mallet_wrapper import utils
 # cannot import whole gensim.corpora, because that imports wikicorpus...
-from ohtm.mallet_wrapper.corpora.dictionary import Dictionary
-from ohtm.mallet_wrapper.corpora.textcorpus import TextCorpus
+from ohtm_pipeline.ohtm.mallet_wrapper.corpora.dictionary import Dictionary
+from ohtm_pipeline.ohtm.mallet_wrapper.corpora.textcorpus import TextCorpus
 
 
 logger = logging.getLogger(__name__)

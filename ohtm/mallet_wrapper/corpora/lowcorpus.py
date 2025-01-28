@@ -9,9 +9,9 @@
 import logging
 from collections import Counter
 
-from ohtm.mallet_wrapper import utils
-from ohtm.mallet_wrapper.corpora import IndexedCorpus
-from ohtm.mallet_wrapper.parsing.preprocessing import split_on_space
+from ohtm_pipeline.ohtm.mallet_wrapper import utils
+from ohtm_pipeline.ohtm.mallet_wrapper.corpora import IndexedCorpus
+from ohtm_pipeline.ohtm.mallet_wrapper.parsing.preprocessing import split_on_space
 
 logger = logging.getLogger(__name__)
 

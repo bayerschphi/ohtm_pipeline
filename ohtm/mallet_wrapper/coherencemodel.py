@@ -32,15 +32,15 @@ from collections import namedtuple
 import numpy as np
 
 
-from ohtm.mallet_wrapper import interfaces, matutils
+from ohtm_pipeline.ohtm.mallet_wrapper import interfaces, matutils
 
-from ohtm.mallet_wrapper import utils
-from ohtm.mallet_wrapper.topic_coherence import (segmentation, probability_estimation,
+from ohtm_pipeline.ohtm.mallet_wrapper import utils
+from ohtm_pipeline.ohtm.mallet_wrapper.topic_coherence import (segmentation, probability_estimation,
                                             direct_confirmation_measure, indirect_confirmation_measure,
                                             aggregation)
 
 
-from ohtm.mallet_wrapper.topic_coherence.probability_estimation import unique_ids_from_segments
+from ohtm_pipeline.ohtm.mallet_wrapper.topic_coherence.probability_estimation import unique_ids_from_segments
 
 logger = logging.getLogger(__name__)
 

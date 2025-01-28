@@ -160,9 +160,9 @@ With this pipeline you can process this options and settings:
 3. Installation
 Install all the necessary packages in the requirements.txt
 
-When you downloaded the repro and added it to your python ... you can start the pipeline via the main.py file.
-Copy this to your project and run all starts via this copied file. So you can update the program and not have to
-reset all your file paths.
+When you downloaded the repro and added it to your python ... you can start the pipeline via the main_template.py file.
+Copy the main_template.py fyle and rename it to main.py. Start the pipeline from this main.py file.
+With this structure, you can update the ohtm_pipeline without rearranging your path files all the time.
 
 First you have to install mallet. Download and installation information on: https://mimno.github.io/Mallet/index
 Set the folder to your mallet path: r'C:\mallet-2.0.8\bin\mallet' like this.

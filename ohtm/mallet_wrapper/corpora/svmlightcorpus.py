@@ -12,8 +12,8 @@ from __future__ import with_statement
 
 import logging
 
-from ohtm.mallet_wrapper import utils
-from ohtm.mallet_wrapper.corpora import IndexedCorpus
+from ohtm_pipeline.ohtm.mallet_wrapper import utils
+from ohtm_pipeline.ohtm.mallet_wrapper.corpora import IndexedCorpus
 
 
 logger = logging.getLogger(__name__)

@@ -8,12 +8,25 @@ You must not change anything here.
 
 """
 
-from ohtm_pipeline.package_load import *
-from ohtm_pipeline.ohtm.basic_functions.convert_ohtm_file import convert_ohtm_file
-from ohtm_pipeline.ohtm.basic_functions.ohtm_file_inferred_combination import combine_infer
+from ohtm.basic_functions.ohtm_file_inferred_combination import combine_infer
+from ohtm.basic_functions.save_load import save_json_function
+from ohtm.basic_functions.save_load import load_json_function
+from ohtm.preprocessing_functions.chunking import chunking
+from ohtm.basic_functions.ohtm_file_creation import ohtm_file_creation_function
+from ohtm.topic_evaluation.bar_graph import bar_graph_corpus
+from ohtm.topic_evaluation.heatmaps import heatmap_interview
+from ohtm.topic_evaluation.heatmaps import heatmap_corpus
+from ohtm.topic_modeling_functions.topic_training_mallet import topic_training_mallet
+from ohtm.topic_modeling_functions.topic_inferring import topic_inferring
+from ohtm.preprocessing_functions.preprocessing import preprocessing
+from ohtm.basic_functions.save_load import save_topic_words
+from ohtm.topic_evaluation.topics_prints import print_chunk
+from ohtm.topic_evaluation.topics_prints import print_chunk_with_weight_search
+from ohtm.topic_evaluation.topics_prints import print_chunk_with_interview_weight_search
+from ohtm.basic_functions.convert_ohtm_file import convert_ohtm_file
 
 
-def ohtm_pipeline(
+def ohtm_pipeline_function(
         working_folder: str = "", source: list = ["",""], source_path: str = "", stopword_file: str = "",
         allowed_postags_settings: list = ['NOUN', 'PROPN', 'VERB', 'ADJ', 'NUM', 'ADV'],
         save_name: str = "", load_file_name: str = "", mallet_path: str = "", interview_id: str = "",
@@ -58,7 +71,8 @@ def ohtm_pipeline(
                                       allowed_postags_settings=allowed_postags_settings,
                                       by_list=by_list, lemma=lemma, by_particle=by_particle,
                                       pos_filter_setting=pos_filter_setting, spacy_model=spacy_model_name,
-                                      stopword_removal_by_spacy=stopword_removal_by_spacy)
+                                      stopword_removal_by_spacy=stopword_removal_by_spacy,
+                                      working_folder=working_folder)
 
         if use_chunking:
             print("Chunking started with " + str(chunk_setting) + " chunks")
@@ -108,7 +122,8 @@ def ohtm_pipeline(
                                       stop_words=stop_words,
                                       infer_new_documents=infer_new_documents,
                                       spacy_model=spacy_model_name,
-                                      stopword_removal_by_spacy=stopword_removal_by_spacy)
+                                      stopword_removal_by_spacy=stopword_removal_by_spacy,
+                                      working_folder=working_folder)
 
         # The chunk settings from the original model are loaded and used:
         if model_dic["settings"]["preprocessing"]["chunked"] == "True":

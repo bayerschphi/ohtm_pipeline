@@ -11,8 +11,14 @@ First set the required paths.
     - your stopword file must be stored in this working folder.
 """
 
-from ohtm.pipeline import ohtm_pipeline_function
-import os
+"""
+This demo fail is used to test, if the code runs proper and is linked to the demo folder and its demo files.
+- You can test importing you text files and preprocessing them. 
+- You can print the prepared ohmt_files or create the graphs for this file or use the search functions
+- If you want to calculate a topic model you have to install mallet first.
+"""
+
+from ohtm_pipeline.package_load import *
 
 ''' Path Settings: '''
 

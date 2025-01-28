@@ -18,8 +18,8 @@ import scipy.sparse as sps
 from six import iteritems, string_types
 
 
-from ohtm_pipeline.ohtm.mallet_wrapper import utils
-from ohtm_pipeline.ohtm.mallet_wrapper import word2vec
+from ohtm.mallet_wrapper import utils
+from ohtm.mallet_wrapper import word2vec
 
 logger = logging.getLogger(__name__)
 

@@ -5,11 +5,12 @@ This code preprocesses your interviews with the different settings.
     - stopword removal
 
 """
-from main_pipeline.main import working_folder
-from ohtm_pipeline.ohtm.preprocessing_functions.stopwords import *
-from ohtm_pipeline.ohtm.preprocessing_functions.preprocess_outstr import *
-from ohtm_pipeline.ohtm.preprocessing_functions.lemmatization import lemmatization
-from ohtm_pipeline.ohtm.basic_functions.convert_ohtm_file import convert_ohtm_file
+
+from ohtm.preprocessing_functions.stopwords import (remove_stopwords_by_list,
+                                                remove_particles, remove_stopwords_by_threshold)
+from ohtm.preprocessing_functions.preprocess_outstr import preprocess_outstr
+from ohtm.preprocessing_functions.lemmatization import lemmatization
+from ohtm.basic_functions.convert_ohtm_file import convert_ohtm_file
 import copy
 import json
 import spacy
@@ -20,7 +21,8 @@ def preprocessing(ohtm_file, stoplist_name: str = "",
                   allowed_postags_settings=None,
                   by_list: bool = False, by_particle: bool = False, by_threshold: bool = False, threshold: int = 0.5,
                   lemma: bool = False, pos_filter_setting: bool = False, stop_words: list = "",
-                  infer_new_documents: bool = False, spacy_model: str = "", stopword_removal_by_spacy: bool = False
+                  infer_new_documents: bool = False, spacy_model: str = "", stopword_removal_by_spacy: bool = False,
+                  working_folder: str = ""
                   ):
 
     if allowed_postags_settings is None:

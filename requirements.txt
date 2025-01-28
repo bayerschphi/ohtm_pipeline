@@ -8,10 +8,8 @@ json
 copy
 re
 csv
-de_core_news_lg
 os
 copy
-logging
 logging
 csv
 itertools
@@ -21,3 +19,4 @@ zlib
 numpy
 collections
 scipy
+smart_open

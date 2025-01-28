@@ -1,12 +1,10 @@
 """
 
 """
-import ohtm_pipeline.ohtm.mallet_wrapper.corpora as corpora
-from ohtm_pipeline.ohtm.mallet_wrapper.ldamallet import LdaMallet
-from ohtm_pipeline.ohtm.mallet_wrapper.coherencemodel import CoherenceModel
+from ohtm.mallet_wrapper.ldamallet import LdaMallet
 import json
 import os
-from ohtm_pipeline.ohtm.basic_functions.convert_ohtm_file import convert_ohtm_file
+from ohtm.basic_functions.convert_ohtm_file import convert_ohtm_file
 
 
 def topic_inferring(ohtm_file,

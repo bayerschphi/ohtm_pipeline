@@ -1,7 +1,7 @@
 from builtins import print
 import pandas as pd
 import plotly_express as px
-from ohtm_pipeline.ohtm.basic_functions.convert_ohtm_file import convert_ohtm_file
+from ohtm.basic_functions.convert_ohtm_file import convert_ohtm_file
 
 
 def heatmap_corpus(ohtm_file, option_selected: str = "all",

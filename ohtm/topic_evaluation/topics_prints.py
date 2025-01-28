@@ -7,7 +7,7 @@ written as: 9.575094194142109e-05. So we filter this numbers out, because they a
 
 
 import copy
-from ohtm_pipeline.ohtm.basic_functions.convert_ohtm_file import convert_ohtm_file
+from ohtm.basic_functions.convert_ohtm_file import convert_ohtm_file
 
 
 def print_chunk(ohtm_file, interview_id: str = "", chunk_number: int = 0):

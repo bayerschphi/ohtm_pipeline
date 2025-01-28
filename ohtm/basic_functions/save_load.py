@@ -1,6 +1,6 @@
 import json
 import os
-from ohtm_pipeline.ohtm.basic_functions.convert_ohtm_file import convert_ohtm_file
+from ohtm.basic_functions.convert_ohtm_file import convert_ohtm_file
 
 
 def save_json_function(ohtm_file, working_folder: str = "", save_name: str = ""):

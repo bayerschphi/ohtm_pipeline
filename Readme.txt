@@ -189,7 +189,7 @@ source = ["folder_1", "folder_2", "folder_3"]
 ------|--------|---------|-----------|
  Tape |Timecode| Speaker | sentences |
 
- Tape: a fragment of intervies split over multiple tapes. So we track the tape number.
+ Tape: a fragment of interviews split over multiple tapes. So we track the tape number.
  Timecode: Timecodes of the sentences
  Speaker: Speaker of the sentence
  Sentences: The transcript should be in this row as sentences combined with the time codes.

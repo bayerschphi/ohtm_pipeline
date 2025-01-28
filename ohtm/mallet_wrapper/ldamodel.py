@@ -96,10 +96,10 @@ from scipy.special import polygamma
 from six.moves import range
 from collections import defaultdict
 
-from ohtm_pipeline.ohtm.mallet_wrapper import interfaces, utils, matutils
-from ohtm_pipeline.ohtm.mallet_wrapper.matutils import (kullback_leibler, hellinger, jaccard_distance, jensen_shannon,
+from ohtm.mallet_wrapper import interfaces, utils, matutils
+from ohtm.mallet_wrapper.matutils import (kullback_leibler, hellinger, jaccard_distance, jensen_shannon,
     dirichlet_expectation, logsumexp, mean_absolute_difference)
-from ohtm_pipeline.ohtm.mallet_wrapper import basemodel, coherencemodel
+from ohtm.mallet_wrapper import basemodel, coherencemodel
 # from gensim.models.callbacks import Callback
 
 

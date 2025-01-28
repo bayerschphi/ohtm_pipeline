@@ -31,7 +31,7 @@ import logging
 import itertools
 import zlib
 
-from ohtm_pipeline.ohtm.mallet_wrapper import utils
+from ohtm.mallet_wrapper import utils
 
 
 logger = logging.getLogger(__name__)

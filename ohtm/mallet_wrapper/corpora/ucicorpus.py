@@ -11,11 +11,11 @@
 import logging
 from collections import defaultdict
 
-from ohtm_pipeline.ohtm.mallet_wrapper import utils
-from ohtm_pipeline.ohtm.mallet_wrapper.corpora import Dictionary
-from ohtm_pipeline.ohtm.mallet_wrapper.corpora import IndexedCorpus
-from ohtm_pipeline.ohtm.mallet_wrapper.matutils import MmReader
-from ohtm_pipeline.ohtm.mallet_wrapper.matutils import MmWriter
+from ohtm.mallet_wrapper import utils
+from ohtm.mallet_wrapper.corpora import Dictionary
+from ohtm.mallet_wrapper.corpora import IndexedCorpus
+from ohtm.mallet_wrapper.matutils import MmReader
+from ohtm.mallet_wrapper.matutils import MmWriter
 
 
 logger = logging.getLogger(__name__)

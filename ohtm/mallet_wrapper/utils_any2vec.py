@@ -26,8 +26,8 @@ current Facebook implementation, use :py:func:`compute_ngrams_bytes` and
 """
 
 import logging
-from ohtm_pipeline.ohtm.mallet_wrapper import utils
-from ohtm_pipeline.ohtm.mallet_wrapper import keyedvectors
+from ohtm.mallet_wrapper import utils
+from ohtm.mallet_wrapper import keyedvectors
 
 from numpy import zeros, dtype, float32 as REAL, ascontiguousarray, frombuffer
 
@@ -61,7 +61,7 @@ def _is_utf8_continue(b):
 
 
 try:
-    from ohtm_pipeline.ohtm.mallet_wrapper._utils_any2vec import (
+    from ohtm.mallet_wrapper._utils_any2vec import (
         compute_ngrams,
         compute_ngrams_bytes,
         ft_hash_broken,

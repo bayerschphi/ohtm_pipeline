@@ -1,5 +1,5 @@
 import copy
-from ohtm_pipeline.ohtm.basic_functions.convert_ohtm_file import convert_ohtm_file
+from ohtm.basic_functions.convert_ohtm_file import convert_ohtm_file
 
 
 def combine_infer(ohtm_file, infer_dic):

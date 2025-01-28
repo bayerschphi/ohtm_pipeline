@@ -13,8 +13,8 @@ from itertools import chain
 import logging
 import math
 
-from ohtm_pipeline.ohtm.mallet_wrapper import utils
-from ohtm_pipeline.ohtm.mallet_wrapper.utils import deprecated
+from ohtm.mallet_wrapper import utils
+from ohtm.mallet_wrapper.utils import deprecated
 
 import numpy as np
 import scipy.sparse

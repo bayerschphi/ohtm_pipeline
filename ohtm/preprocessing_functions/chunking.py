@@ -6,7 +6,7 @@ The chunks are build by adding words until the maximum (chunk_setting) is reache
 
 import json
 import copy
-import convert_ohtm_file
+from ohtm.basic_functions.convert_ohtm_file import convert_ohtm_file
 
 
 

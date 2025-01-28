@@ -8,12 +8,12 @@ the model is saved.
 """
 from os import environ
 
-import ohtm_pipeline.ohtm.mallet_wrapper.corpora as corpora
-from ohtm_pipeline.ohtm.mallet_wrapper.ldamallet import LdaMallet
-from ohtm_pipeline.ohtm.mallet_wrapper.coherencemodel import CoherenceModel
+import ohtm.mallet_wrapper.corpora as corpora
+from ohtm.mallet_wrapper.ldamallet import LdaMallet
+from ohtm.mallet_wrapper.coherencemodel import CoherenceModel
 import json
 import os
-from ohtm_pipeline.ohtm.basic_functions.convert_ohtm_file import convert_ohtm_file
+from ohtm.basic_functions.convert_ohtm_file import convert_ohtm_file
 
 
 def topic_training_mallet(ohtm_file, topics, mallet_path,
@@ -153,10 +153,7 @@ def topic_training_mallet(ohtm_file, topics, mallet_path,
     ohtm_file["settings"]["topic_modeling"].update({"min_weight": min_weight_mallet})
     ohtm_file["settings"]["topic_modeling"].update({"max_weight": max_weight_mallet})
 
-    print('\nCoherence Score: ', coherence_ldamallet)
-    print('Minimales Topic-Weight Mallet: ' + str(min_weight_mallet))
-    print('Durchschnittliches Topic-Weight Mallet: ' + str(average_weight_mallet))
-    print('Maximales Topic-Weight Mallet: ' + str(max_weight_mallet))
+    print("Topic modeling and ohtm_file enrichment finished")
 
     ohtm_file = json.dumps(ohtm_file, ensure_ascii=False)
     return ohtm_file

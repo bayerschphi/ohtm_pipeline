@@ -8,26 +8,26 @@ You must not change anything here.
 
 """
 
-from ohtm_pipeline.ohtm.basic_functions.ohtm_file_inferred_combination import combine_infer
-from ohtm_pipeline.ohtm.basic_functions.save_load import save_json_function
-from ohtm_pipeline.ohtm.basic_functions.save_load import load_json_function
-from ohtm_pipeline.ohtm.preprocessing_functions.chunking import chunking
-from ohtm_pipeline.ohtm.basic_functions.ohtm_file_creation import ohtm_file_creation_function
-from ohtm_pipeline.ohtm.topic_evaluation.bar_graph import bar_graph_corpus
-from ohtm_pipeline.ohtm.topic_evaluation.heatmaps import heatmap_interview
-from ohtm_pipeline.ohtm.topic_evaluation.heatmaps import heatmap_corpus
-from ohtm_pipeline.ohtm.topic_modeling_functions.topic_training_mallet import topic_training_mallet
-from ohtm_pipeline.ohtm.topic_modeling_functions.topic_inferring import topic_inferring
-from ohtm_pipeline.ohtm.preprocessing_functions.preprocessing import preprocessing
-from ohtm_pipeline.ohtm.basic_functions.save_load import save_topic_words
-from ohtm_pipeline.ohtm.topic_evaluation.topics_prints import print_chunk
-from ohtm_pipeline.ohtm.topic_evaluation.topics_prints import print_chunk_with_weight_search
-from ohtm_pipeline.ohtm.topic_evaluation.topics_prints import print_chunk_with_interview_weight_search
-from ohtm_pipeline.ohtm.basic_functions.convert_ohtm_file import convert_ohtm_file
+from ohtm.basic_functions.ohtm_file_inferred_combination import combine_infer
+from ohtm.basic_functions.save_load import save_json_function
+from ohtm.basic_functions.save_load import load_json_function
+from ohtm.preprocessing_functions.chunking import chunking
+from ohtm.basic_functions.ohtm_file_creation import ohtm_file_creation_function
+from ohtm.topic_evaluation.bar_graph import bar_graph_corpus
+from ohtm.topic_evaluation.heatmaps import heatmap_interview
+from ohtm.topic_evaluation.heatmaps import heatmap_corpus
+from ohtm.topic_modeling_functions.topic_training_mallet import topic_training_mallet
+from ohtm.topic_modeling_functions.topic_inferring import topic_inferring
+from ohtm.preprocessing_functions.preprocessing import preprocessing
+from ohtm.basic_functions.save_load import save_topic_words
+from ohtm.topic_evaluation.topics_prints import print_chunk
+from ohtm.topic_evaluation.topics_prints import print_chunk_with_weight_search
+from ohtm.topic_evaluation.topics_prints import print_chunk_with_interview_weight_search
+from ohtm.basic_functions.convert_ohtm_file import convert_ohtm_file
 
 
 def ohtm_pipeline_function(
-        working_folder: str = "", source: list = ["",""], source_path: str = "", stopword_file: str = "",
+        output_folder: str = "", source_folder: list = ["", ""], source_path: str = "", stopword_file_name: str = "",
         allowed_postags_settings: list = ['NOUN', 'PROPN', 'VERB', 'ADJ', 'NUM', 'ADV'],
         save_name: str = "", load_file_name: str = "", mallet_path: str = "", interview_id: str = "",
         chunk_setting: int = 40, topics: int = 50, number_of_words: int = 50, chunk_number: int = 0,
@@ -51,15 +51,16 @@ def ohtm_pipeline_function(
 
         if create_ohtm_file:
             print("Starting to create the ohtm_file")
-            ohtm_file = ohtm_file_creation_function(source=source, source_path=source_path, speaker_txt=speaker_txt,
+            ohtm_file = ohtm_file_creation_function(source=source_folder, source_path=source_path,
+                                                    speaker_txt=speaker_txt,
                                                     folder_as_archive=folder_as_archive)
             if save_ohtm_file:
-                save_json_function(ohtm_file=ohtm_file, working_folder=working_folder, save_name=save_name)
+                save_json_function(ohtm_file=ohtm_file, working_folder=output_folder, save_name=save_name)
 
         if load_ohtm_file:
-            ohtm_file = load_json_function(load_file_name=load_file_name, working_folder=working_folder)
+            ohtm_file = load_json_function(load_file_name=load_file_name, working_folder=output_folder)
             if save_ohtm_file:
-                save_json_function(ohtm_file=ohtm_file, working_folder=working_folder,
+                save_json_function(ohtm_file=ohtm_file, working_folder=output_folder,
                                    save_name=save_name)
 
         if ohtm_file == None:
@@ -67,12 +68,12 @@ def ohtm_pipeline_function(
 
         if use_preprocessing:
             print("Preprocessing started")
-            ohtm_file = preprocessing(ohtm_file=ohtm_file, stoplist_name=stopword_file,
+            ohtm_file = preprocessing(ohtm_file=ohtm_file, stoplist_name=stopword_file_name,
                                       allowed_postags_settings=allowed_postags_settings,
                                       by_list=by_list, lemma=lemma, by_particle=by_particle,
                                       pos_filter_setting=pos_filter_setting, spacy_model=spacy_model_name,
                                       stopword_removal_by_spacy=stopword_removal_by_spacy,
-                                      working_folder=working_folder)
+                                      working_folder=output_folder)
 
         if use_chunking:
             print("Chunking started with " + str(chunk_setting) + " chunks")
@@ -80,22 +81,22 @@ def ohtm_pipeline_function(
 
         if use_topic_modeling:
             print("Topic Modeling started with " + str(topics) + " topics")
-            ohtm_file = topic_training_mallet(ohtm_file=ohtm_file, working_folder=working_folder,
+            ohtm_file = topic_training_mallet(ohtm_file=ohtm_file, working_folder=output_folder,
                                               save_name=save_name, topics=topics, mallet_path=mallet_path,
                                               optimize_interval_mallet=optimize_interval_mallet,
                                               iterations_mallet=iterations_mallet, random_seed_mallet=random_seed,
                                               alpha=alpha, save_model=save_model, save_json=save_ohtm_file)
 
         if save_ohtm_file:
-            save_json_function(ohtm_file=ohtm_file, working_folder=working_folder, save_name=save_name)
+            save_json_function(ohtm_file=ohtm_file, working_folder=output_folder, save_name=save_name)
 
     if infer_new_documents:
         # The new documents to be inferred are loaded:
-        infer_dic = ohtm_file_creation_function(source=source, source_path=source_path, speaker_txt=speaker_txt,
-                                                    folder_as_archive=folder_as_archive)
+        infer_dic = ohtm_file_creation_function(source=source_folder, source_path=source_path, speaker_txt=speaker_txt,
+                                                folder_as_archive=folder_as_archive)
 
         # The original model is loaded and all variables are set from the model.
-        model_dic = load_json_function(load_file_name=trained_ohtm_file, working_folder=working_folder)
+        model_dic = load_json_function(load_file_name=trained_ohtm_file, working_folder=output_folder)
         if model_dic["settings"]["preprocessing"]["preprocessed"] == "True":
             print("Preprocessing new documents started")
             if model_dic["settings"]["preprocessing"]["stopwords_by_list"] == "True":
@@ -123,7 +124,7 @@ def ohtm_pipeline_function(
                                       infer_new_documents=infer_new_documents,
                                       spacy_model=spacy_model_name,
                                       stopword_removal_by_spacy=stopword_removal_by_spacy,
-                                      working_folder=working_folder)
+                                      working_folder=output_folder)
 
         # The chunk settings from the original model are loaded and used:
         if model_dic["settings"]["preprocessing"]["chunked"] == "True":
@@ -137,7 +138,7 @@ def ohtm_pipeline_function(
         infer_dic = topic_inferring(ohtm_file=infer_dic,
                                     model_name=trained_ohtm_file,
                                     mallet_path=mallet_path,
-                                    working_folder=working_folder,
+                                    working_folder=output_folder,
                                     topics=int(model_dic["settings"]["topic_modeling"]["topics"]),
                                     iterations_mallet=int(model_dic["settings"]["topic_modeling"]["iterations_mallet"]),
                                     random_seed_mallet=int(
@@ -146,13 +147,13 @@ def ohtm_pipeline_function(
 
         if save_separate_ohtm_file:
             save_json_function(ohtm_file=infer_dic,
-                               working_folder=working_folder,
+                               working_folder=output_folder,
                                save_name=separate_ohtm_file_name + "_" + save_name + "_inferred")
             print("Inferred ohtm_file was saved")
             ohtm_file = infer_dic
         else:
             ohtm_file = combine_infer(ohtm_file=model_dic, infer_dic=infer_dic)
-            save_json_function(ohtm_file=ohtm_file, working_folder=working_folder, save_name=trained_ohtm_file)
+            save_json_function(ohtm_file=ohtm_file, working_folder=output_folder, save_name=trained_ohtm_file)
             print("Combined json was saved")
 
     if use_correlation:
@@ -168,7 +169,7 @@ def ohtm_pipeline_function(
             print("Correlation_function will be added")
 
     if save_top_words:
-        save_topic_words(ohtm_file=ohtm_file, working_folder=working_folder,
+        save_topic_words(ohtm_file=ohtm_file, working_folder=output_folder,
                          save_name=save_name, number_of_words=number_of_words)
         print("Topic Words Top " + str(number_of_words) + " was saved.")
 

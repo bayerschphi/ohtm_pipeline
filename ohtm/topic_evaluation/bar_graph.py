@@ -1,6 +1,6 @@
 import pandas as pd
 import plotly_express as px
-from ohtm_pipeline.ohtm.basic_functions.convert_ohtm_file import convert_ohtm_file
+from ohtm.basic_functions.convert_ohtm_file import convert_ohtm_file
 
 
 def bar_graph_corpus(ohtm_file, show_fig: bool = True, return_fig: bool = False):

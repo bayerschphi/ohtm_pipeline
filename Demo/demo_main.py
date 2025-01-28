@@ -12,13 +12,14 @@ First set the required paths.
 """
 
 """
-This demo fail is used to test, if the code runs proper and is linked to the demo folder and its demo files.
-- You can test importing you text files and preprocessing them. 
+This demo is used to test, if the code runs proper and is linked to the demo folder and its demo files.
+- You can test importing the text files and preprocessing them. 
 - You can print the prepared ohmt_files or create the graphs for this file or use the search functions
-- If you want to calculate a topic model you have to install mallet first.
+- Topic modeling is not able, because you need to install mallet first.
 """
 
-from ohtm_pipeline.package_load import *
+from ohtm.pipeline import ohtm_pipeline_function
+import os
 
 ''' Path Settings: '''
 
@@ -118,7 +119,7 @@ separate_ohtm_file_name = "inferred_ohmt_file_name"
 
 if __name__ == "__main__":
     ohtm_pipeline_function(
-        working_folder=working_folder, source=source, source_path=source_path, stopword_file=stopword_file,
+        output_folder=working_folder, source_folder=source, source_path=source_path, stopword_file_name=stopword_file,
         allowed_postags_settings=allowed_postags_settings_lemmatization, save_name=ohtm_file_save_name,
         load_file_name=ohtm_file_load_name,
         mallet_path= mallet_path, interview_id=interview_id,

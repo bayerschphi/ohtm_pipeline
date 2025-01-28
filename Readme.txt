@@ -168,8 +168,8 @@ First you have to install mallet. Download and installation information on: http
 Set the folder to your mallet path: r'C:\mallet-2.0.8\bin\mallet' like this.
 
 All filepath have to be raw string.
-Chose a folder, where you want to save your files and load them from. this is your working_folder. Set the path
-to your working folder as a simple string.
+Chose a folder, where you want to save your files and load them from. this is your output_folder. Set the path
+to your output_folder as a simple string.
 The custome stop_word file has to be in this folder.
 
 Set the name of your custome stop_word file.
@@ -223,7 +223,7 @@ mallet_path: = r"......"
 -> set the fail path to your mallet folder inside the main mallet folder inside the bin folder.
 -> Example: mallet_path: str = r'C:\mallet-2.0.8\bin\mallet'
 
-working_folder: r"...."
+output_folder: r"...."
 -> set the path to the folder, you want to save and load your ohtm_files, and stop_word_lists
 
 stopword_file = r".....txt"
@@ -242,9 +242,10 @@ create_ohtm_file = True/False
 -> If you want to use new douments, you need to run this function.
 
 load_ohtm_file: True/False
--> True: load an ohtm_file from the workin folder.
+-> True: load an ohtm_file from the output_folder.
 -> False: nothing happens.
--> If you have create and load on True, the new files will be importet but loaded file will be processed in the later
+-> If you have create_ohtm_file and load on True,
+ the new files will be importet but loaded file will be processed in the later
 steps of the code.
 
 ohtm_file_load_name: "...."
@@ -299,9 +300,6 @@ use_topic_modeling = True/False
 
 topics = int
 -> set the numbers of topics for the topic-modeling calculation
-
-use_correlation = True/False
--> will be added later
 
 save_top_words = True/False
 -> True: saves a .txt file with the top words of the topic lists. It will be saved with the ohtm_file_save_name inside

@@ -13,7 +13,7 @@ import logging
 import csv
 import itertools
 
-from ohtm_pipeline.ohtm.mallet_wrapper import interfaces, utils
+from ohtm.mallet_wrapper import interfaces, utils
 
 logger = logging.getLogger(__name__)
 

@@ -32,16 +32,16 @@ See Also
 
 """
 
-from ohtm_pipeline.ohtm.mallet_wrapper import utils
+from ohtm.mallet_wrapper import utils
 import logging
 from timeit import default_timer
 import threading
 from six.moves import range
 from six import itervalues, string_types
-from ohtm_pipeline.ohtm.mallet_wrapper import matutils
+from ohtm.mallet_wrapper import matutils
 from numpy import float32 as REAL, ones, random, dtype
 from types import GeneratorType
-from ohtm_pipeline.ohtm.mallet_wrapper.utils import deprecated
+from ohtm.mallet_wrapper.utils import deprecated
 import os
 import copy
 

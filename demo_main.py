@@ -5,14 +5,21 @@ With this board you can select every option for your topic model.
 You can set the different options on and off via "True" and "False".
 
 First set the required paths.
-    - the first "mallet_path" to your mallet directory. (see https://mimno.github.io/Mallet/index)
-    - the second one to your output_folder. This folder is your working environment.
+    - the first "mallet_path" to your mallet directory. (see ....)
+    - the second one to your working folder. This folder is your working environment.
       All models are saved there and can be loaded from this folder.
-    - your stopword file must be stored in this output_folder.
+    - your stopword file must be stored in this working folder.
 """
 
-import os
+"""
+This demo is used to test, if the code runs proper and is linked to the demo folder and its demo files.
+- You can test importing the text files and preprocessing them. 
+- You can print the prepared ohmt_files or create the graphs for this file or use the search functions
+- Topic modeling is not able, because you need to install mallet first.
+"""
+
 from ohtm.pipeline import ohtm_pipeline_function
+import os
 
 ''' Path Settings: '''
 # Path to your mallet folder.
@@ -21,44 +28,44 @@ mallet_path: str = r'C:\mallet-2.0.8\bin\mallet'
 
 
 # Path to your output_folder.
-output_folder: str = (r"...")
+output_folder: str = (r"Demo")
 
 # Set the path for your stop_word list.
-stopword_file_name = "....txt"
+stopword_file_name = "german_stopwords_standard.txt"
 
 # Set the path to your sources. This must be the folder, where your documents are stored in another folder.
-source_path: str = (r"...")
+source_path: str = (r"Demo\demo_interviews")
 
-source_folder = ["folder_1", "folder_2"]
+source_folder = ["txt_files_without_speaker"]
 
 """ Topic Modeling Settings: """
 
-load_ohtm_file = False
-load_file_name = "..."
+load_ohtm_file = True
+load_file_name = "demo_ohtm_file_2"
 
-create_ohtm_file = True
-save_ohtm_file = True
-save_name = "..."
+create_ohtm_file = False
+save_ohtm_file = False
+save_name = "demo_ohtm_file"
 
 # You need to set a save_name and set the option save_json to True to save the model
-save_model = True
+save_model = False
 
-use_preprocessing = True
+use_preprocessing = False
 
 # If you don't want to chunk your documents, set use_chunking to True and chunk_setting to 0
-use_chunking = True
-chunk_setting = 0
+use_chunking = False
+chunk_setting = 20
 
-use_topic_modeling = True
+use_topic_modeling = False
 topics = 0
 
 save_top_words = False
 number_of_words = 0
 
-print_ohtm_file = False
-print_ohtm_file_settings = False
-show_bar_graph_corpus = True
-show_heatmap_corpus = True
+print_ohtm_file = True
+print_ohtm_file_settings = True
+show_bar_graph_corpus = False
+show_heatmap_corpus = False
 
 interview_id = "...."
 chunk_number = 0
@@ -84,11 +91,11 @@ folder_as_archive = True
 # preprocessing
 # Select just one of those two:
 stopword_removal_by_stop_list = True
-stopword_removal_by_spacy = True
+stopword_removal_by_spacy = False
 
-use_lemmatization = True
+use_lemmatization = False
 lemmatization_model_spacy = "...."
-use_pos_filter = True
+use_pos_filter = False
 
 # possible settings: 'NOUN', 'PROPN', 'VERB', 'ADJ', 'ADV', 'PRON', 'ADP', 'DET', 'AUX', 'NUM', 'SCONJ', 'CCONJ', 'X'
 allowed_postags_settings_lemmatization = ['NOUN', 'PROPN', 'VERB', 'ADJ', 'NUM', 'ADV']

@@ -49,6 +49,7 @@ save_model = False
 
 use_preprocessing = False
 
+# You need to use_preprocessing to use chunking. You can specify preprocessing in the advanced settings
 # If you don't want to chunk your documents, set use_chunking to True and chunk_setting to 0
 use_chunking = False
 chunk_setting = 100

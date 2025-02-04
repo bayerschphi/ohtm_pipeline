@@ -1,0 +1,20 @@
+0 ['mutter', 'vater', 'kopf', 'erzählen', 'hören', 'doktors', 'besuch', 'besen', 'alten', 'kämet', 'landes', 'locken', 'steckte', 'stiel', 'doktor', 'teil', 'entdecktet', 'tür', 'unterscheiden', 'flachsblonde']
+
+1 ['liebe', 'tuch', 'sitzen', 'schmuck', 'perlmuttknöpfe', 'lose', 'lieblingsstellung', 'lebensgröße', 'weißen', 'hut', 'geschmack', 'geschlungenes', 'bezug', 'bevorzuge', 'bequem', 'angeht', 'hals', 'ch', 'fallen', 'bloß']
+
+2 ['tablett', 'doktor', 'wahrscheinlicher', 'ursache', 'unschuldig', 'tisch', 'sprechzimmer', 'wand', 'lächelnde', 'gelehnt', 'aufstellte', 'quäkende', 'verlor', 'familie', 'alte', 'zeit', 'wetten', 'versetzte', 'untergebracht', 'harmlos']
+
+3 ['betrachtet', 'schwange', 'registers', 'register', 'zufälligerweise', 'außerdem', 'aufgekommen', 'zugesagt', 'willum', 'verließ', 'standpunkt', 'sache', 'welt', 'marigold', 'weitermachen', 'ewig', 'ebensowenig', '', 'sechspencestück', 'med']
+
+4 ['doktor', 'teetablett', 'vater', 'kirche', 'annahm', 'anhöhe', 'honorar', 'gentleman', 'genannt', 'freundlicher', 'dankbarkeit', 'besondere', 'aufmerksamkeit', 'annehmen', 'eintrat', 'ereignis', 'geboren', 'gemeindewiese', 'holte', 'mutter']
+
+5 ['willum', 'standpunkt', 'william', 'vermuteten', 'vaters', 'vater', 'sache', 'marigold', 'lebzeiten', 'leute', 'hieße', 'hartnäckig', 'fahrender', 'betrachten', 'behauptete', 'begnüge', 'angeht', 'händler', 'tür', 'aha']
+
+6 ['sklaverei', 'gestattet', 'namen', 'herrscht', 'aha', 'dr', 'einzustecken', 'herr', 'kollege', 'komm', 'lust', 'med', 'sechspencestück', 'kennen', 'land', 'lande', 'freien', 'erlaubt', 'wißt', 'mutter']
+
+7 ['höhe', 'schlankheit', 'dame', 'wort', 'schwäne', 'los', 'höher', 'nenne', 'breit', 'gewichtige', 'beziehung', 'ansicht', 'absicht', 'herbeigeflattert', 'teil', 'tür', 'stiel', '', 'locken', 'landes']
+
+8 ['gegenwärtig', 'fehlt', 'gestalt', 'jahren', 'ledergamaschen', 'manchesterhosen', 'mittleren', 'ausbessern', 'riegel', 'saiten', 'untersetzter', 'violine', 'weste', 'ärmeln', 'platzt', 'geschirr', 'fahrenden', 'essen', 'besitz', 'beschäftigt']
+
+9 ['violine', 'weste', 'flüstere', 'violinspieler', 'theater', 'saite', 'platzte', 'ordnung', 'hörtet', 'herumdrehte', 'genauso', 'einander', 'gehorcht', 'fürchte', 'geheimnis', 'stiel', '', 'teil', 'tür', 'unterscheiden']
+

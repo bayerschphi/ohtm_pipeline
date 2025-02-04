@@ -5,7 +5,8 @@ With this board you can select every option for your topic model.
 You can set the different options on and off via "True" and "False".
 
 First set the required paths.
-    - the first "mallet_path" to your mallet directory. (see ....)
+    - the first "mallet_path" to your mallet directory.
+     (see https://programminghistorian.org/en/lessons/topic-modeling-and-mallet)
     - the second one to your working folder. This folder is your working environment.
       All models are saved there and can be loaded from this folder.
     - your stopword file must be stored in this working folder.
@@ -23,8 +24,8 @@ import os
 
 ''' Path Settings: '''
 # Path to your mallet folder.
-os.environ['MALLET_HOME'] = r'C:\\mallet-2.0.8'
-mallet_path: str = r'C:\mallet-2.0.8\bin\mallet'
+os.environ['MALLET_HOME'] = r'C:\\mallet-2.0.8' # does not work in the demo_main, just leave it, as it is
+mallet_path: str = r'C:\mallet-2.0.8\bin\mallet' # does not work in the demo_main, just leave it, as it is
 
 
 # Path to your output_folder.
@@ -36,19 +37,19 @@ stopword_file_name = "german_stopwords_standard.txt"
 # Set the path to your sources. This must be the folder, where your documents are stored in another folder.
 source_path: str = (r"Demo\demo_interviews")
 
-source_folder = ["txt_files_without_speaker"]
+source_folder = ["archive_1", "archive_2", "txt_files"]
 
 """ Topic Modeling Settings: """
 
 load_ohtm_file = True
-load_file_name = "demo_ohtm_file_2"
+load_file_name = "demo_ohtm_file_trained"
 
 create_ohtm_file = False
 save_ohtm_file = False
-save_name = "demo_ohtm_file"
+save_name = "demo_ohtm_file_trained"
 
 # You need to set a save_name and set the option save_json to True to save the model
-save_model = False
+save_model = False # does not work in the demo_main, just leave it, as it is
 
 use_preprocessing = False
 
@@ -56,16 +57,16 @@ use_preprocessing = False
 use_chunking = False
 chunk_setting = 20
 
-use_topic_modeling = False
-topics = 0
+use_topic_modeling = False # does not work in the demo_main, just leave it, as it is
+topics = 10 # does not work in the demo_main, just leave it, as it is
 
-save_top_words = False
-number_of_words = 0
+save_top_words = True
+number_of_words = 20
 
 print_ohtm_file = True
 print_ohtm_file_settings = True
-show_bar_graph_corpus = False
-show_heatmap_corpus = False
+show_bar_graph_corpus = True
+show_heatmap_corpus = True
 
 interview_id = "...."
 chunk_number = 0
@@ -85,17 +86,18 @@ alpha = 5
 random_seed = 80
 
 # ohtm_file creation
-speaker_txt = False
-folder_as_archive = True
+speaker_txt = True
+folder_as_archive = False
 
 # preprocessing
 # Select just one of those two:
 stopword_removal_by_stop_list = True
-stopword_removal_by_spacy = False
 
-use_lemmatization = False
-lemmatization_model_spacy = "...."
-use_pos_filter = False
+# To use this options, you have to select a valid spacy model:
+stopword_removal_by_spacy = False # does not work in the demo_main, just leave it, as it is
+use_lemmatization = False # does not work in the demo_main, just leave it, as it is
+lemmatization_model_spacy = "de_core_news_lg" # does not work in the demo_main, just leave it, as it is
+use_pos_filter = False # does not work in the demo_main, just leave it, as it is
 
 # possible settings: 'NOUN', 'PROPN', 'VERB', 'ADJ', 'ADV', 'PRON', 'ADP', 'DET', 'AUX', 'NUM', 'SCONJ', 'CCONJ', 'X'
 allowed_postags_settings_lemmatization = ['NOUN', 'PROPN', 'VERB', 'ADJ', 'NUM', 'ADV']
@@ -104,7 +106,7 @@ allowed_postags_settings_lemmatization = ['NOUN', 'PROPN', 'VERB', 'ADJ', 'NUM',
 
 infer_new_documents = False
 trained_ohtm_file = "...."  # load the trained json and the model to train that json
-save_separate_ohtm_file = True  # save the inferred documents as a new json
+save_separate_ohtm_file = False  # save the inferred documents as a new json
 separate_ohtm_file_name = "...."
 
 

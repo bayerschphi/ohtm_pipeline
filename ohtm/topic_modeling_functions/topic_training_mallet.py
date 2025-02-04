@@ -76,7 +76,7 @@ def topic_training_mallet(ohtm_file, topics, mallet_path,
                                  )
 
     if save_model:
-        lda_model_mallet.save(os.path.join(working_folder, "Models", save_name, save_name + "_topic_model "))
+        lda_model_mallet.save(os.path.join(working_folder, "Models", save_name, (save_name + "_topic_model")))
 
     # Converting the results and saving them in the dictionary.
     doc_tops_import = open(lda_model_mallet.fdoctopics(), mode='r', encoding='UTF-8').read()

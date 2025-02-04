@@ -1,5 +1,5 @@
 """
-This is the maine pipeline, that transforms the settings from "main.py" to the different functions.
+This is the maine pipeline, that transforms the settings from "main_template.py" to the different functions.
 The main variable is the created dictionary (in this code it is called json, because it is saved as a json).
 
 The json is processed in every single function, returned and given to the next function.

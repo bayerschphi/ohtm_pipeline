@@ -5,7 +5,8 @@ With this board you can select every option for your topic model.
 You can set the different options on and off via "True" and "False".
 
 First set the required paths.
-    - the first "mallet_path" to your mallet directory. (see https://mimno.github.io/Mallet/index)
+    - the first "mallet_path" to your mallet directory.
+    (see https://programminghistorian.org/en/lessons/topic-modeling-and-mallet)
     - the second one to your output_folder. This folder is your working environment.
       All models are saved there and can be loaded from this folder.
     - your stopword file must be stored in this output_folder.
@@ -21,42 +22,42 @@ mallet_path: str = r'C:\mallet-2.0.8\bin\mallet'
 
 
 # Path to your output_folder.
-output_folder: str = (r"...")
+output_folder: str = (r"C:\Users\...")
 
 # Set the path for your stop_word list.
-stopword_file_name = "....txt"
+stopword_file_name = "stop_word_file_name.txt"
 
 # Set the path to your sources. This must be the folder, where your documents are stored in another folder.
-source_path: str = (r"...")
+source_path: str = (r"C:\Users\...")
 
-source_folder = ["folder_1", "folder_2"]
+source_folder = ["folder_name_1", "folder_name_2"]
 
 """ Topic Modeling Settings: """
 
 load_ohtm_file = False
-load_file_name = "..."
+load_file_name = "ohtm_file_name_to_load"
 
 create_ohtm_file = True
 save_ohtm_file = True
-save_name = "..."
+save_name = "ohtm_file_save_name"
 
 # You need to set a save_name and set the option save_json to True to save the model
-save_model = True
+save_model = False
 
 use_preprocessing = True
 
 # If you don't want to chunk your documents, set use_chunking to True and chunk_setting to 0
 use_chunking = True
-chunk_setting = 0
+chunk_setting = 20
 
 use_topic_modeling = True
-topics = 0
+topics = 20
 
-save_top_words = False
-number_of_words = 0
+save_top_words = True
+number_of_words = 50
 
-print_ohtm_file = False
-print_ohtm_file_settings = False
+print_ohtm_file = True
+print_ohtm_file_settings = True
 show_bar_graph_corpus = True
 show_heatmap_corpus = True
 
@@ -84,11 +85,12 @@ folder_as_archive = True
 # preprocessing
 # Select just one of those two:
 stopword_removal_by_stop_list = True
-stopword_removal_by_spacy = True
 
-use_lemmatization = True
-lemmatization_model_spacy = "...."
-use_pos_filter = True
+# To use this options, you have to select a valid spacy model:
+stopword_removal_by_spacy = False
+use_lemmatization = False
+lemmatization_model_spacy = "de_core_news_lg"
+use_pos_filter = False
 
 # possible settings: 'NOUN', 'PROPN', 'VERB', 'ADJ', 'ADV', 'PRON', 'ADP', 'DET', 'AUX', 'NUM', 'SCONJ', 'CCONJ', 'X'
 allowed_postags_settings_lemmatization = ['NOUN', 'PROPN', 'VERB', 'ADJ', 'NUM', 'ADV']
@@ -97,7 +99,7 @@ allowed_postags_settings_lemmatization = ['NOUN', 'PROPN', 'VERB', 'ADJ', 'NUM',
 
 infer_new_documents = False
 trained_ohtm_file = "...."  # load the trained json and the model to train that json
-save_separate_ohtm_file = True  # save the inferred documents as a new json
+save_separate_ohtm_file = False  # save the inferred documents as a new json
 separate_ohtm_file_name = "...."
 
 

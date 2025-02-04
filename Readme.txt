@@ -28,10 +28,11 @@ ohtm_file["correlation"]: will be added later
 ohtm_file["settings"]: contains information about all the selected options
 
 The corpus level contains the archive or collection and all the documents within this archive or collection.
-The documents are separated to the level of a single sentence that can be enriched with metadata. This lowes level was
+The documents are separated to the level of a single sentence that can be enriched with metadata. This lowest level was
 the main idea of this structure because it contains the raw sentence and the sentence after the preprocessing.
-So we are able to redirect the results of topic modeling, that are calculated on the chunks of preprocesses sentence back
+So we can redirect the results of topic modeling, that are calculated on the chunks of preprocesses sentence back
 to the original sentence of the document.
+
 Corpus structure:
 ohtm_file["corpus"]
     - ["archive_1"]
@@ -158,16 +159,22 @@ With this pipeline you can process this options and settings:
     - infer new documents with an already trained model, save the ohtm_file separately or combine them
 
 3. Installation
+This pipeline runs on every system. Windows/ Os/ and Linux. Just insert the direct string of your file_path into the
+r"insert_text". The pipeline will create the correct file_path with os.path.join()
+
 Install all the necessary packages in the requirements.txt
 
-When you downloaded the repro and added it to your python ... you can start the pipeline via the main_template.py file.
-Copy the main_template.py fyle and rename it to main.py. Start the pipeline from this main.py file.
-With this structure, you can update the ohtm_pipeline without rearranging your path files all the time.
+After downloading the repro and added it to your python environment you can start the pipeline
+via the main_template.py file. Copy the main_template.py file and rename it to main.py.
+Start the pipeline from this main.py file. With this usage, you can update the ohtm_pipeline without rearranging
+your path files all the time.
 
-First you have to install mallet. Download and installation information on: https://mimno.github.io/Mallet/index
-Set the folder to your mallet path: r'C:\mallet-2.0.8\bin\mallet' like this.
+First you have to install mallet. Follow the instructions in this step-by-step guide:
+https://programminghistorian.org/en/lessons/topic-modeling-and-mallet.
+You need the Java developer’s kit in the Version 20.0.2 or higher.
 
-All filepath have to be raw string.
+Set the path to your mallet folder. Just insert the file_path: r'C:\mallet-2.0.8\bin\mallet' like this.
+
 Chose a folder, where you want to save your files and load them from. this is your output_folder. Set the path
 to your output_folder as a simple string.
 The custome stop_word file has to be in this folder.
@@ -179,6 +186,9 @@ folder, with the documents in it. Each folder in your source_path can be used as
 
 Set the folders inside your source_path inside the source. Just add the names of the folder intot the list.
 source = ["folder_1", "folder_2", "folder_3"]
+
+If you want to use spacy for lemmatization or stopword removal, you have to install a spacy model and insert the
+spacy model name in  "lemmatization_model_spacy: "
 
 4. file structure of your interviews/documents
 
@@ -244,9 +254,9 @@ create_ohtm_file = True/False
 load_ohtm_file: True/False
 -> True: load an ohtm_file from the output_folder.
 -> False: nothing happens.
--> If you have create_ohtm_file and load on True,
- the new files will be importet but loaded file will be processed in the later
-steps of the code.
+-> Just add the name, not the ending .ohtm. Use it wihtout the .ohtm.
+-> If you have create_ohtm_file and load on True, the new files will be created but loaded file will be processed
+    in the later steps of the code.
 
 ohtm_file_load_name: "...."
 -> insert the name of the ohtm_file you want to load.

@@ -13,19 +13,26 @@ from ohtm.basic_functions.convert_ohtm_file import convert_ohtm_file
 def print_chunk(ohtm_file, interview_id: str = "", chunk_number: int = 0):
     ohtm_file = convert_ohtm_file(ohtm_file)
     if ohtm_file["settings"]["topic_modeling"]["trained"] == "True":
-        chunk_for_print = []
+        sent_example = []
+        speaker = "None"
         for archive in ohtm_file["corpus"]:
             if interview_id in ohtm_file["corpus"][archive]:
-                for sentence in ohtm_file["corpus"][archive][interview_id]["sent"]:
-                    if ohtm_file["corpus"][archive][interview_id]["sent"][sentence]["chunk"] == chunk_number:
-                        chunk_for_print.append(ohtm_file["corpus"][archive][interview_id]["sent"][sentence]["raw"])
+                for sentence_number in ohtm_file["corpus"][archive][interview_id]["sent"]:
+                    if ohtm_file["corpus"][archive][interview_id]["sent"][sentence_number]["chunk"] == chunk_number:
+                        if ohtm_file["corpus"][archive][interview_id]["sent"][sentence_number]["speaker"] == {}:
+                            sent_example.append(ohtm_file["corpus"][archive][interview_id]["sent"][sentence_number]["raw"] + " ")
+                        else:
+                            if speaker == ohtm_file["corpus"][archive][interview_id]["sent"][sentence_number]["speaker"]:
+                                sent_example.append(ohtm_file["corpus"][archive][interview_id]["sent"][sentence_number]["raw"] )
+                            else:
+                                sent_example.append("*" + ohtm_file["corpus"][archive][interview_id]["sent"][sentence_number]["speaker"] + "*: ")
+                                sent_example.append(ohtm_file["corpus"][archive][interview_id]["sent"][sentence_number]["raw"])
+                                speaker = ohtm_file["corpus"][archive][interview_id]["sent"][sentence_number]["speaker"]
                 print("\n" + "Archive: " + str(archive))
                 print("Interview: " + str(interview_id))
                 print("Chunk number: " + str(chunk_number))
-                print(chunk_for_print)
-    else:
-        print("No Topic Model trained")
-
+                for sent in sent_example:
+                    print(sent)
 
 def print_chunk_with_weight_search(ohtm_file, topic_search: int = 0, chunk_weight: float = 0.3):
     ohtm_file = convert_ohtm_file(ohtm_file)
@@ -34,6 +41,7 @@ def print_chunk_with_weight_search(ohtm_file, topic_search: int = 0, chunk_weigh
         for archive in ohtm_file["weight"]:
             for interview in ohtm_file["weight"][archive]:
                 for chunks in ohtm_file["weight"][archive][interview]:
+                    speaker = "None"
                     if str(ohtm_file["weight"][archive][interview][chunks][str(topic_search)]) >= str(chunk_weight):
                         if "e" in str(ohtm_file["weight"][archive][interview][chunks][str(topic_search)]):
                             next
@@ -44,14 +52,28 @@ def print_chunk_with_weight_search(ohtm_file, topic_search: int = 0, chunk_weigh
                             for number in ohtm_file["corpus"][archive][interview]["sent"]:
                                 int_sent = copy.deepcopy(ohtm_file["corpus"][archive][interview]["sent"][number]["chunk"])
                                 if int(int_sent) == int(chunks):
-                                    sent_current.append(str(ohtm_file["corpus"][archive][interview]["sent"][number]["raw"]) + " ")
+                                    if ohtm_file["corpus"][archive][interview]["sent"][number]["speaker"] == {}:
+                                        sent_current.append(str(ohtm_file["corpus"][archive][interview]["sent"][number]["raw"]) + " ")
+                                    else:
+                                        if speaker == ohtm_file["corpus"][archive][interview]["sent"][number]["speaker"]:
+                                            sent_current.append(str(
+                                                ohtm_file["corpus"][archive][interview]["sent"][number]["raw"]) + " ")
+                                        else:
+                                            sent_current.append(str("*" +
+                                                ohtm_file["corpus"][archive][interview]["sent"][number]["speaker"]) + ":* ")
+                                            sent_current.append(str(
+                                                ohtm_file["corpus"][archive][interview]["sent"][number]["raw"]) + " ")
+                                            speaker = ohtm_file["corpus"][archive][interview]["sent"][number]["speaker"]
                             sent_current = " ".join(sent_current)
                             sent_current_2 = (str(ohtm_file["weight"][archive][interview][chunks][str(topic_search)]),
                                               sent_id, chunk_id, sent_current)
                             sent_final.append(sent_current_2)
         print("\n" + "The Topic Nr. " + str(topic_search) + " above " + str(chunk_weight) + " was found in this chunks:")
+        print("weight | interview-id | chunk | raw-text")
         for interview in sent_final:
             print(interview)
+        print("\n")
+        print("To view one chunk in a better presentation, print the chunk you want directly with 'print_interview_chunk'.")
     else:
         print("No Topic Model trained")
 
@@ -65,6 +87,7 @@ def print_chunk_with_interview_weight_search(ohtm_file, interview_id: str = "", 
             if interview_id in ohtm_file["weight"][archive]:
                 sent_final = []
                 for chunks in ohtm_file["weight"][archive][interview_id]:
+                    speaker = "None"
                     if str(ohtm_file["weight"][archive][interview_id][chunks][str(topic_search)]) >= str(chunk_weight):
                         if "e" in str(ohtm_file["weight"][archive][interview_id][chunks][str(topic_search)]):
                             next
@@ -75,17 +98,35 @@ def print_chunk_with_interview_weight_search(ohtm_file, interview_id: str = "", 
                                 int_sent = copy.deepcopy(
                                     ohtm_file["corpus"][archive][interview_id]["sent"][sents]["chunk"])
                                 if int(int_sent) == int(chunks):
-                                    sent_current.append(
-                                        str(ohtm_file["corpus"][archive][interview_id]["sent"][sents]["raw"]) + " ")
+                                    if ohtm_file["corpus"][archive][interview_id]["sent"][sents]["speaker"] == {}:
+                                        sent_current.append(str(ohtm_file["corpus"][archive][interview_id]["sent"][sents]["raw"]) + " ")
+                                    else:
+                                        if speaker == ohtm_file["corpus"][archive][interview_id]["sent"][sents]["speaker"]:
+                                            sent_current.append(str(
+                                                ohtm_file["corpus"][archive][interview_id]["sent"][sents]["raw"]) + " ")
+                                        else:
+                                            sent_current.append(str("*" +
+                                                ohtm_file["corpus"][archive][interview_id]["sent"][sents]["speaker"]) + ":* ")
+                                            sent_current.append(str(
+                                                ohtm_file["corpus"][archive][interview_id]["sent"][sents]["raw"]) + " ")
+                                            speaker = ohtm_file["corpus"][archive][interview_id]["sent"][sents]["speaker"]
                             sent_current = " ".join(sent_current)
                             sent_current_2 = (
                                 str(ohtm_file["weight"][archive][interview_id][chunks][str(topic_search)]),
                                 interview_id, chunk_id, sent_current)
                             sent_final.append(sent_current_2)
-                print("\n" + "The topic Nr. " +
-                      str(topic_search) + " was found in " + str(interview_id) + " within this chunks:")
-                for sent in sent_final:
-                    print(sent)
+                if not sent_final:
+                    print("\n" + "No chunk with the topic nr. "+str(topic_search)+
+                          " with a weight above " + str(chunk_weight) + " was found in " + str(interview_id)+".")
+                else:
+                    print("\n" + "The topic nr. " +
+                          str(topic_search) + " was found in " + str(interview_id) + " within this chunks:")
+                    print("weight | interview-id | chunk | raw-text")
+                    for sent in sent_final:
+                        print(sent)
+                    print("\n")
+                    print(
+                        "To view one chunk in a better presentation, print the chunk you want directly with 'print_interview_chunk'.")
     else:
         print("No Topic Model trained")
 

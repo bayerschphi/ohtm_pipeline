@@ -16,6 +16,11 @@ created around the structure of interviews.
 But this pipeline can also be used with other sources, if they based on plane .txt files. How to use the pipeline with
 those files, you can see in 5.10.
 
+`Mallet` is neccesarry, if you want to perfom topic modeling.
+
+`Spacy` is required, if you want to use lemmatization or stopword removal with a spacy model.
+Other stopword removal otpions can be used without spacy. 
+
 ## 1. ohtm_file
 The main part of this pipeline is the `ohtm_file`. This is a nested dictionary that contains all the necessary information
 and saves the output of topic modeling.
@@ -388,4 +393,5 @@ standard for the ohd-files.
 - if you want to save the inferred documents as a new `ohtm_file` you have to set the name here.
 
 
+created by Philipp Bayerschmidt 20.02.2025
 

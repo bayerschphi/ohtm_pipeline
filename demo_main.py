@@ -68,14 +68,14 @@ print_ohtm_file_settings = True
 show_bar_graph_corpus = True
 show_heatmap_corpus = True
 
-interview_id = "...."
+interview_id = "abc0001"
 chunk_number = 0
 show_heatmap_interview = False
-print_interview_chunk = False
-search_for_topics_in_chunks = False
+print_interview_chunk = True
+search_for_topics_in_chunks = True
 topic_search = 0
-chunk_weight = 0
-search_for_topics_in_interview = False
+chunk_weight = 0.2
+search_for_topics_in_interview = True
 
 ''' advanced options: '''
 

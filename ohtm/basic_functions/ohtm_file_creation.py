@@ -9,30 +9,6 @@ Then each sentence is split by punctuation and will be loaded.
 
 The archive name and the interview id are build from the file name.
 The first 3 letters are used as the archive, and the hole name is used as id.
-
-Datastructure:
-
-
-ohtm_file:
-    corpus:
-        archive1
-        archive2
-            Interview
-                model_base
-                sent
-                    sent_number_1
-                    sent_number_2
-                        raw
-                        time
-                        tape
-                        cleaned
-                        speaker
-                        chunk
-    weight
-    words
-    settings
-        model
-        topic_numbuer
 """
 
 import pandas as pd
@@ -60,6 +36,10 @@ def ohtm_file_creation_function(source: list = "", source_path: str = "",
     ohtm_file["settings"]["preprocessing"]["lemma"] = "False"
     ohtm_file["settings"]["preprocessing"]["chunked"] = "False"
     ohtm_file["settings"]["preprocessing"]["chunk_setting"] = "None"
+    ohtm_file["settings"]["anonymized"] = {}
+    ohtm_file["settings"]["anonymized"]["anonymized"] = "False"
+    ohtm_file["settings"]["anonymized"]["exceptions"] = ()
+    ohtm_file["settings"]["ohtm_file_version"] = 0.8
 
     # The documents are loaded from the source_path by creating the path to the folder in the source path.
     # The Iteration loads every single dokument and transforms it into the dictionary.
@@ -113,6 +93,7 @@ def ohtm_file_creation_function(source: list = "", source_path: str = "",
                 ohtm_file["settings"]["interviews"]["total"] = (ohtm_file["settings"]["interviews"]["total"])+1
                 ohtm_file["corpus"][archive_id][interview_id]["sent"] = {}
                 ohtm_file["corpus"][archive_id][interview_id]["model_base"] = {}
+                ohtm_file["corpus"][archive_id][interview_id]["anonymized"] = False
                 sent_number = 1
                 for line in text_split:
                     if len(line) == 1:

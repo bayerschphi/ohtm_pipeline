@@ -24,6 +24,7 @@ from ohtm.topic_evaluation.topics_prints import print_chunk
 from ohtm.topic_evaluation.topics_prints import print_chunk_with_weight_search
 from ohtm.topic_evaluation.topics_prints import print_chunk_with_interview_weight_search
 from ohtm.basic_functions.convert_ohtm_file import convert_ohtm_file
+from ohtm.basic_functions.anonymize_function import anonymize_function
 
 
 def ohtm_pipeline_function(
@@ -44,7 +45,8 @@ def ohtm_pipeline_function(
         infer_new_documents: bool = False, trained_ohtm_file: str = "",
         save_separate_ohtm_file: bool = False, separate_ohtm_file_name: str = "", speaker_txt: bool = True,
         folder_as_archive: bool = False, print_ohtm_file_settings: bool = False,
-        spacy_model_name: str = "de_core_news_lg", stopword_removal_by_spacy: bool = False
+        spacy_model_name: str = "de_core_news_lg", stopword_removal_by_spacy: bool = False, anonymize: bool = False,
+            exceptions: list = (" ", " "), show_links:bool = False
 ):
 
     if not infer_new_documents:
@@ -86,6 +88,9 @@ def ohtm_pipeline_function(
                                               optimize_interval_mallet=optimize_interval_mallet,
                                               iterations_mallet=iterations_mallet, random_seed_mallet=random_seed,
                                               alpha=alpha, save_model=save_model, save_json=save_ohtm_file)
+
+        if anonymize:
+            ohtm_file = anonymize_function(ohtm_file=ohtm_file, exceptions=exceptions)
 
         if save_ohtm_file:
             save_json_function(ohtm_file=ohtm_file, working_folder=output_folder, save_name=save_name)
@@ -195,13 +200,15 @@ def ohtm_pipeline_function(
         heatmap_interview(ohtm_file, interview_id, show_fig=True, return_fig=False)
 
     if print_interview_chunk:
-        print_chunk(ohtm_file, interview_id, chunk_number)
+        print_chunk(ohtm_file, interview_id, chunk_number, show_links)
 
     if search_for_topics_in_chunks:
-        print_chunk_with_weight_search(ohtm_file=ohtm_file, topic_search=topic_search, chunk_weight=chunk_weight)
+        print_chunk_with_weight_search(ohtm_file=ohtm_file, topic_search=topic_search, chunk_weight=chunk_weight,
+                                       show_links=show_links)
 
     if search_for_topics_in_interview:
         print_chunk_with_interview_weight_search(ohtm_file=ohtm_file,
                                                  interview_id=interview_id,
                                                  topic_search=topic_search,
-                                                 chunk_weight=chunk_weight)
+                                                 chunk_weight=chunk_weight,
+                                                 show_links=show_links)

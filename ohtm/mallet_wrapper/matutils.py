@@ -1101,7 +1101,7 @@ def jaccard_distance(set1, set2):
 
 try:
     # try to load fast, cythonized code if possible
-    from gensim._matutils import logsumexp, mean_absolute_difference, dirichlet_expectation
+    from ohtm.mallet_wrapper.matutils import logsumexp, mean_absolute_difference, dirichlet_expectation
 
 except ImportError:
     def logsumexp(x):

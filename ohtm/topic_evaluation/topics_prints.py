@@ -22,8 +22,11 @@ def print_chunk(ohtm_file, interview_id: str = "", chunk_number: int = 0, show_l
         link_tape = "1"
         for archive in ohtm_file["corpus"]:
             if interview_id in ohtm_file["corpus"][archive]:
-                if ohtm_file["corpus"][archive][interview_id]["anonymized"] == "True":
-                    anonymized_status = True
+                try:
+                    if ohtm_file["corpus"][archive][interview_id]["anonymized"] == "True":
+                        anonymized_status = True
+                except KeyError:
+                    anonymized_status = False
                 for sentence_number in ohtm_file["corpus"][archive][interview_id]["sent"]:
                     if ohtm_file["corpus"][archive][interview_id]["sent"][sentence_number]["chunk"] == chunk_number:
                         chunk_start_marker +=1
@@ -79,8 +82,11 @@ def print_chunk_with_weight_search(ohtm_file, topic_search: int = 0, chunk_weigh
         link_tape = "1"
         for archive in ohtm_file["weight"]:
             for interview in ohtm_file["weight"][archive]:
-                if ohtm_file["corpus"][archive][interview]["anonymized"] == "True":
-                    anonymized_status = True
+                try:
+                    if ohtm_file["corpus"][archive][interview]["anonymized"] == "True":
+                        anonymized_status = True
+                except KeyError:
+                    anonymized_status = False
                 for chunks in ohtm_file["weight"][archive][interview]:
                     chunk_start_marker = 0
                     speaker = "None"
@@ -167,8 +173,11 @@ def print_chunk_with_interview_weight_search(ohtm_file, interview_id: str = "", 
     if ohtm_file["settings"]["topic_modeling"]["trained"] == "True":
         for archive in ohtm_file["weight"]:
             if interview_id in ohtm_file["weight"][archive]:
-                if ohtm_file["corpus"][archive][interview_id]["anonymized"] == "True":
-                    anonymized_status = True
+                try:
+                    if ohtm_file["corpus"][archive][interview_id]["anonymized"] == "True":
+                        anonymized_status = True
+                except KeyError:
+                    anonymized_status = False
                 sent_final = []
                 for chunks in ohtm_file["weight"][archive][interview_id]:
                     speaker = "None"

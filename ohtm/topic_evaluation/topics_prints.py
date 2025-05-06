@@ -94,8 +94,6 @@ def print_chunk_with_weight_search(ohtm_file, topic_search: int = 0, chunk_weigh
                         if "e" in str(ohtm_file["weight"][archive][interview][chunks][str(topic_search)]):
                             next
                         else:
-                            sent_id = interview
-                            chunk_id = chunks
                             sent_current = []
                             for number in ohtm_file["corpus"][archive][interview]["sent"]:
                                 int_sent = copy.deepcopy(ohtm_file["corpus"][archive][interview]["sent"][number]["chunk"])
@@ -132,13 +130,14 @@ def print_chunk_with_weight_search(ohtm_file, topic_search: int = 0, chunk_weigh
                                                 ohtm_file["corpus"][archive][interview]["sent"][number]["time"]
                             sent_current = " ".join(sent_current)
                             sent_current_2 = (str(ohtm_file["weight"][archive][interview][chunks][str(topic_search)]),
-                                              sent_id, chunk_id, sent_current, chunk_start_time, chunk_end_time,
+                                              interview, chunks, sent_current, chunk_start_time, chunk_end_time,
                                               timcodes_available, link_tape, archive, anonymized_status
                                               )
                             sent_final.append(sent_current_2)
         print("\n" + "The Topic Nr. " + str(topic_search) + " above " + str(chunk_weight)
               + " was found in this chunks:")
         print("weight | interview-id | chunk | raw-text")
+        sent_final.sort(reverse = True)
         for interview in sent_final:
             if interview[-1]:
                 if interview[-4]:
@@ -185,48 +184,46 @@ def print_chunk_with_interview_weight_search(ohtm_file, interview_id: str = "", 
                         if "e" in str(ohtm_file["weight"][archive][interview_id][chunks][str(topic_search)]):
                             next
                         else:
-                            chunk_id = chunks
                             sent_current = []
                             chunk_start_marker = 0
-                            link_tape = "1"
-                            for sents in ohtm_file["corpus"][archive][interview_id]["sent"]:
+                            for sent in ohtm_file["corpus"][archive][interview_id]["sent"]:
                                 int_sent = copy.deepcopy(
-                                    ohtm_file["corpus"][archive][interview_id]["sent"][sents]["chunk"])
+                                    ohtm_file["corpus"][archive][interview_id]["sent"][sent]["chunk"])
                                 if int(int_sent) == int(chunks):
                                     chunk_start_marker += 1
                                     if chunk_start_marker == 1:  # to mark the beginning of the chunk for the first timecode
-                                        if ohtm_file["corpus"][archive][interview_id]["sent"][sents]["time"] != {}:
+                                        if ohtm_file["corpus"][archive][interview_id]["sent"][sent]["time"] != {}:
                                             timcodes_available = True
                                             chunk_start_time = \
-                                            ohtm_file["corpus"][archive][interview_id]["sent"][sents]["time"]
+                                            ohtm_file["corpus"][archive][interview_id]["sent"][sent]["time"]
                                             link_tape = \
-                                            ohtm_file["corpus"][archive][interview_id]["sent"][sents]["tape"]
+                                            ohtm_file["corpus"][archive][interview_id]["sent"][sent]["tape"]
                                         else:
                                             timcodes_available = False
                                             link_tape = "1"
                                             chunk_start_time = "False"
-                                    if ohtm_file["corpus"][archive][interview_id]["sent"][sents]["speaker"] == {}:
-                                        sent_current.append(str(ohtm_file["corpus"][archive][interview_id]["sent"][sents]["raw"]) + "")
+                                    if ohtm_file["corpus"][archive][interview_id]["sent"][sent]["speaker"] == {}:
+                                        sent_current.append(str(ohtm_file["corpus"][archive][interview_id]["sent"][sent]["raw"]) + "")
                                         chunk_end_time = \
-                                        ohtm_file["corpus"][archive][interview_id]["sent"][sents]["time"]
+                                        ohtm_file["corpus"][archive][interview_id]["sent"][sent]["time"]
                                     else:
-                                        if speaker == ohtm_file["corpus"][archive][interview_id]["sent"][sents]["speaker"]:
+                                        if speaker == ohtm_file["corpus"][archive][interview_id]["sent"][sent]["speaker"]:
                                             sent_current.append(str(
-                                                ohtm_file["corpus"][archive][interview_id]["sent"][sents]["raw"]) + "")
+                                                ohtm_file["corpus"][archive][interview_id]["sent"][sent]["raw"]) + "")
                                             chunk_end_time = \
-                                                ohtm_file["corpus"][archive][interview_id]["sent"][sents]["time"]
+                                                ohtm_file["corpus"][archive][interview_id]["sent"][sent]["time"]
                                         else:
                                             sent_current.append(str("*" +
-                                                ohtm_file["corpus"][archive][interview_id]["sent"][sents]["speaker"]) + ":* ")
+                                                ohtm_file["corpus"][archive][interview_id]["sent"][sent]["speaker"]) + ":* ")
                                             sent_current.append(str(
-                                                ohtm_file["corpus"][archive][interview_id]["sent"][sents]["raw"]) + "")
-                                            speaker = ohtm_file["corpus"][archive][interview_id]["sent"][sents]["speaker"]
+                                                ohtm_file["corpus"][archive][interview_id]["sent"][sent]["raw"]) + "")
+                                            speaker = ohtm_file["corpus"][archive][interview_id]["sent"][sent]["speaker"]
                                             chunk_end_time = \
-                                                ohtm_file["corpus"][archive][interview_id]["sent"][sents]["time"]
+                                                ohtm_file["corpus"][archive][interview_id]["sent"][sent]["time"]
                             sent_current = " ".join(sent_current)
                             sent_current_2 = (
                                 str(ohtm_file["weight"][archive][interview_id][chunks][str(topic_search)]),
-                                interview_id, chunk_id, sent_current, chunk_start_time, chunk_end_time,
+                                interview_id, chunks, sent_current, chunk_start_time, chunk_end_time,
                                 timcodes_available, link_tape, archive
                             )
                             sent_final.append(sent_current_2)

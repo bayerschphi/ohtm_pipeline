@@ -73,6 +73,10 @@ def preprocessing(ohtm_file, stoplist_name: str = "",
                     ohtm_file["settings"]["preprocessing"].update({"stopwords_removed": "True"})
                     ohtm_file["stopwords"] = stoplist
                     data_out = remove_stopwords_by_list(data_out, stoplist)
+                if stopword_removal_by_spacy:
+                    data_out = [word for word in data_out if word.lower() not in stop_list_spacy]
+                    stop_list = [word for word in stop_list_spacy]
+                    ohtm_file["stopwords"] = stop_list
                 if by_particle:
                     # data_out = remove_particles(data_out)
                     ohtm_file["settings"]["preprocessing"]["particles_removed"] = "False"
@@ -80,11 +84,6 @@ def preprocessing(ohtm_file, stoplist_name: str = "",
                     ohtm_file["settings"]["preprocessing"].update({"stopwords_removed": "True"})
                     ohtm_file["settings"]["preprocessing"]["stopword_threshold"] = threshold
                     data_out = remove_stopwords_by_threshold(data_out, threshold)
-                if stopword_removal_by_spacy:
-                    data_out = [word for word in data_out if word.lower() not in stop_list_spacy]
-                    stop_list = [word for word in stop_list_spacy]
-                    ohtm_file["stopwords"] = stop_list
-
                 if lemma:
                     goldlist = [""]  # Placeholder for a goldlist, to exclude words from filtering.
                     data_out_lem = lemmatization(data_out,

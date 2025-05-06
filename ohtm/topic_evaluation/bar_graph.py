@@ -13,18 +13,17 @@ def bar_graph_corpus(ohtm_file, show_fig: bool = True, return_fig: bool = False)
             for interview in ohtm_file["weight"][archive]:
                 interview_dic[archive][interview] = {}
                 count = 0
-                for c in ohtm_file["weight"][archive][interview]:
+                for chunk in ohtm_file["weight"][archive][interview]:
                     count += 1
-                    for t in ohtm_file["weight"][archive][interview][c]:
+                    for t in ohtm_file["weight"][archive][interview][chunk]:
                         if t not in interview_dic[archive][interview]:
-                            interview_dic[archive][interview].update({t: ohtm_file["weight"][archive][interview][c][t]})
+                            interview_dic[archive][interview].update({t: ohtm_file["weight"][archive][interview][chunk][t]})
                         else:
                             interview_dic[archive][interview].update(
-                                {t: interview_dic[archive][interview][t] + ohtm_file["weight"][archive][interview][c][t]})
+                                {t: interview_dic[archive][interview][t] + ohtm_file["weight"][archive][interview][chunk][t]})
                 for entry in interview_dic[archive][interview]:
                      interview_dic[archive][interview].update({entry:interview_dic[archive][interview][entry] / count})
 
-        all_interview = ohtm_file["settings"]["interviews"]["total"]
         bar_dic = {}
         for archive in interview_dic:
             bar_dic[archive] = {}
@@ -40,14 +39,7 @@ def bar_graph_corpus(ohtm_file, show_fig: bool = True, return_fig: bool = False)
                 bar_dic[archive].update({entry: bar_dic[archive][entry]})
 
         df = pd.DataFrame.from_dict(bar_dic)
-
-        # Min-Max-Normalisierung: Skalieren Sie die Daten auf den Wertebereich [0, 1]
-        # min_val = df.min()
-        # max_val = df.max()
-        # normalized_data = (df - min_val) / (max_val - min_val)
-        # df = normalized_data
         df.index = pd.to_numeric(df.index)
-
         fig = px.bar(df, color_discrete_sequence=px.colors.qualitative.G10)
         fig.update_layout(margin=dict(l=20, r=20, t=20, b=20))
         if show_fig:

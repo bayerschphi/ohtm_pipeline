@@ -1,0 +1,11 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+authors:
+- family-names: "Bayerschmidt"
+  given-names: "Philipp"
+  orcid: "https://orcid.org/0009-0002-2743-2455"
+title: "ohtm_pipeline"
+version: 0.8.0
+doi: 
+date-released: 2025-05-19
+url: "https://github.com/bayerschphi/ohtm_pipeline"

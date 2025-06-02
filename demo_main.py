@@ -8,7 +8,7 @@ First set the required paths.
     - the first "mallet_path" to your mallet directory.
      (see https://programminghistorian.org/en/lessons/topic-modeling-and-mallet)
     - the second one to your working folder. This folder is your working environment.
-      All models are saved there and can be loaded from this folder.
+      All models are saved there and can be loaded from this folder.a
     - your stopword file must be stored in this working folder.
 """
 
@@ -57,7 +57,7 @@ use_preprocessing = False
 use_chunking = False
 chunk_setting = 20
 
-use_topic_modeling = False # does not work in the demo_main, just leave it, as it is
+use_topic_modeling = True # does not work in the demo_main, just leave it, as it is
 topics = 10 # does not work in the demo_main, just leave it, as it is
 
 save_top_words = True

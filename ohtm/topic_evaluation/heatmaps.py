@@ -94,7 +94,7 @@ def heatmap_interview(ohtm_file, interview_id: str = "", show_fig: bool = True, 
         z_scores = ((df - mean)/std_dev)
 
         titel = "Heatmap Interview: " + interview_id
-        fig = px.imshow(df, color_continuous_scale='deep')
+        fig = px.imshow(df, color_continuous_scale='dense')
         fig.update_traces(hovertemplate="Chunk: %{x}" "<br>Topic: %{y}" "<br>Weight: %{z}<extra></extra>")
         fig.update(layout_coloraxis_showscale=False)
         if show_fig:

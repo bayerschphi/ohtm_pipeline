@@ -1,9 +1,9 @@
 """
 This function calculates the topic model. The mallet_wrapper is based on the gensim wrapper.
-But the function was deleted in the Version 10. But the developers allowed to copy the wrapper.
-See:
+The function was deleted in the Version 10. But the developers allowed to copy the wrapper.
+See: https://github.com/piskvorky/gensim/releases/tag/4.0.0
 
-Mallet cant handle spaces in patch strings. That's why I set the os.chdri for this patch with the sapce, if
+Mallet cant handle spaces in patch strings. That's why I set the os.chdri for this patch with the space, if
 the model is saved.
 """
 from os import environ
@@ -14,6 +14,7 @@ from ohtm.mallet_wrapper.coherencemodel import CoherenceModel
 import json
 import os
 from ohtm.basic_functions.convert_ohtm_file import convert_ohtm_file
+
 
 
 def topic_training_mallet(ohtm_file, topics, mallet_path,

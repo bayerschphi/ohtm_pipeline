@@ -7,6 +7,7 @@ import os
 from ohtm.basic_functions.convert_ohtm_file import convert_ohtm_file
 
 
+
 def topic_inferring(ohtm_file,
                     mallet_path: str = "", model_name: str = "", working_folder: str = "",
                     topics: int = 0, iterations_mallet: int = 5000, random_seed_mallet: int = 100):

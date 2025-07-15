@@ -27,7 +27,7 @@ def save_topic_words(ohtm_file, working_folder: str = "", save_name: str = "", n
         for top_words in ohtm_file["words"]:
             out_line = []
             for i in range(number_of_words):
-                out_line.append((ohtm_file["words"][top_words])[i][1])
+                out_line.append((ohtm_file["words"][top_words])[i][1].lower())
             out.write(str(top_words) + " ")
             out.write(str(out_line) + "\n")
             out.write("\n")

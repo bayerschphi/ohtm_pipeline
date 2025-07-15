@@ -9,10 +9,10 @@ import matplotlib.pyplot as plt
 import plotly.express as px
 import pandas as pd
 
-input_folder: str = (r"C:\...")
-load_file_name = "..."
+input_folder: str = (r"C:\Users\phili\sciebo - Bayerschmidt,"
+                       r" Philipp (bayerschmidt@fernuni-hagen.de)@fernuni-hagen.sciebo.de\Topic Modeling\ohtm_files")
+load_file_name = "ohtm_100c_120T"
 
 ohtm_file = load_json_function(load_file_name, input_folder)
 
-#Example: print
-print(ohtm_file["corpus"])
+print(ohtm_file["stopwords"])

@@ -47,6 +47,7 @@ def preprocessing(ohtm_file, stoplist_name: str = "",
             print("You need a spacy model name")
             exit()
         except OSError:
+            print(OSError)
             print("Your spacy model name is not correct")
             exit()
     if by_particle:
@@ -55,7 +56,29 @@ def preprocessing(ohtm_file, stoplist_name: str = "",
         if infer_new_documents:
             stoplist = stop_words
         else:
-            stoplist = open(os.path.join(working_folder, stoplist_name), encoding='UTF-16', mode='r').read().split()
+            try:
+                stoplist = open(os.path.join(working_folder, stoplist_name), encoding='UTF-8', mode='r').read().split()
+            except UnicodeDecodeError:
+                try:
+                    stoplist = open(os.path.join(working_folder, stoplist_name), encoding='UTF-8-sig',
+                                    mode='r').read().split()
+                except UnicodeDecodeError:
+                    try:
+                        stoplist = open(os.path.join(working_folder, stoplist_name), encoding='UTF-16',
+                                        mode='r').read().split()
+                    except UnicodeDecodeError:
+                        try:
+                            stoplist = open(os.path.join(working_folder, stoplist_name), encoding='UTF-16-le',
+                                            mode='r').read().split()
+                        except UnicodeDecodeError:
+                            try:
+                                stoplist = open(os.path.join(working_folder, stoplist_name), encoding='UTF-16-be',
+                                                mode='r').read().split()
+                            except UnicodeDecodeError:
+                                text = open(os.path.join(working_folder, stoplist_name), 'r', encoding='ANSI').read()
+                                text = text.encode('UTF-8')
+                                text = text.decode('UTF-8', 'ignore')
+
         stoplist = [word.lower()for word in stoplist]
 
     sent_length = []

@@ -37,11 +37,28 @@ def chunking(ohtm_file, chunk_setting: int = 0):
         ohtm_file["settings"]["preprocessing"].update({"chunked": "True"})
 
         ohtm_file = json.dumps(ohtm_file, ensure_ascii=False)
+    # else:
+    #     for archive in ohtm_file["corpus"]:
+    #         for interview in ohtm_file["corpus"][archive]:
+    #             for nr in ohtm_file["corpus"][archive][interview]["sent"]:
+    #                 ohtm_file["corpus"][archive][interview]["sent"][str(nr)]["chunk"] = 0
+    #
+    #     ohtm_file["settings"]["preprocessing"].update({"chunk_setting": chunk_setting})
+    #     ohtm_file["settings"]["preprocessing"].update({"chunked": "False"})
+    #
+    #     ohtm_file = json.dumps(ohtm_file, ensure_ascii=False)
+
     else:
         for archive in ohtm_file["corpus"]:
             for interview in ohtm_file["corpus"][archive]:
+                chunk_count = 0
+                sent_count = 0
                 for nr in ohtm_file["corpus"][archive][interview]["sent"]:
-                    ohtm_file["corpus"][archive][interview]["sent"][str(nr)]["chunk"] = 0
+                    ohtm_file["corpus"][archive][interview]["sent"][str(nr)]["chunk"] = chunk_count
+                    sent_count += 1
+                    if sent_count == 25:
+                        chunk_count += 1
+                        sent_count = 0
 
         ohtm_file["settings"]["preprocessing"].update({"chunk_setting": chunk_setting})
         ohtm_file["settings"]["preprocessing"].update({"chunked": "False"})

@@ -11,8 +11,12 @@ import pandas as pd
 
 input_folder: str = (r"C:\Users\phili\sciebo - Bayerschmidt,"
                        r" Philipp (bayerschmidt@fernuni-hagen.de)@fernuni-hagen.sciebo.de\Topic Modeling\ohtm_files")
-load_file_name = "ohtm_100c_120T"
+load_file_name = "jdh_ohtm_pipeline_50_topics_eng"
 
 ohtm_file = load_json_function(load_file_name, input_folder)
 
-print(ohtm_file["stopwords"])
+for settings in ohtm_file["settings"]["interviews"]:
+    print(settings)
+
+
+print(ohtm_file["settings"])

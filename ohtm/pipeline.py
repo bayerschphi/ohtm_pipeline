@@ -19,7 +19,8 @@ from ohtm.topic_evaluation.heatmaps import heatmap_corpus
 from ohtm.topic_modeling_functions.topic_training_mallet import topic_training_mallet
 from ohtm.topic_modeling_functions.topic_inferring import topic_inferring
 from ohtm.preprocessing_functions.preprocessing import preprocessing
-from ohtm.basic_functions.save_load import save_topic_words
+from ohtm.topic_evaluation.print_topics import save_topic_words
+from ohtm.topic_evaluation.print_topics import print_topic_words_function
 from ohtm.topic_evaluation.topics_prints import print_chunk
 from ohtm.topic_evaluation.topics_prints import print_chunk_with_weight_search
 from ohtm.topic_evaluation.topics_prints import print_chunk_with_interview_weight_search
@@ -37,7 +38,9 @@ def ohtm_pipeline_function(
         save_ohtm_file: bool = False, create_ohtm_file: bool = False, load_ohtm_file: bool = False,
         use_preprocessing: bool = False, use_chunking: bool = False,
         use_topic_modeling: bool = False, use_correlation: bool = False, save_top_words: bool = False,
+        print_topic_words: bool = False,
         print_ohtm_file: bool = False, show_bar_graph_corpus: bool = False, show_heatmap_corpus: bool = False,
+        filter_heatmap_corpus: bool = False, archive_selected: str = "all", z_score_filter:bool = False,
         show_heatmap_interview: bool = False,
         print_interview_chunk: bool = False, search_for_topics_in_chunks: bool = False,
         search_for_topics_in_interview: bool = False, by_particle: bool = False,
@@ -46,7 +49,8 @@ def ohtm_pipeline_function(
         save_separate_ohtm_file: bool = False, separate_ohtm_file_name: str = "", speaker_txt: bool = True,
         folder_as_archive: bool = False, print_ohtm_file_settings: bool = False,
         spacy_model_name: str = "de_core_news_lg", stopword_removal_by_spacy: bool = False, anonymize: bool = False,
-            exceptions: list = (" ", " "), show_links:bool = False
+        exceptions: list = (" ", " "), show_links:bool = False,
+        topic_words_with_weight:bool = False
 ):
 
     if not infer_new_documents:
@@ -175,8 +179,13 @@ def ohtm_pipeline_function(
 
     if save_top_words:
         save_topic_words(ohtm_file=ohtm_file, working_folder=output_folder,
-                         save_name=save_name, number_of_words=number_of_words)
+                         save_name=save_name, number_of_words=number_of_words,
+                         topic_words_with_weight=topic_words_with_weight)
         print("Topic Words Top " + str(number_of_words) + " was saved.")
+
+    if print_topic_words:
+        print_topic_words_function(ohtm_file=ohtm_file, number_of_words=number_of_words,
+                                   topic_words_with_weight=topic_words_with_weight)
 
     if print_ohtm_file:
         ohtm_file = convert_ohtm_file(ohtm_file=ohtm_file)
@@ -194,7 +203,11 @@ def ohtm_pipeline_function(
         bar_graph_corpus(ohtm_file, show_fig=True, return_fig=False)
 
     if show_heatmap_corpus:
-        heatmap_corpus(ohtm_file, option_selected="all", show_fig=True, return_fig=False, z_score=False)
+        if filter_heatmap_corpus:
+            heatmap_corpus(ohtm_file, option_selected=archive_selected, show_fig=True, return_fig=False, z_score=z_score_filter)
+        else:
+            heatmap_corpus(ohtm_file, option_selected="all", show_fig=True, return_fig=False, z_score=z_score_filter)
+
 
     if show_heatmap_interview:
         heatmap_interview(ohtm_file, interview_id, show_fig=True, return_fig=False)

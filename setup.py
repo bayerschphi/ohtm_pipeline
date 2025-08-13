@@ -9,5 +9,6 @@ setup(
     author="Philipp Bayerschmidt",
     author_email="philipp.bayerschmidt@fernuni-hagen.de",
     url="https://github.com/bayerschphi/ohtm_pipeline",
-    packages=find_packages()
+    packages=find_packages() + ["ohtm"],  # explicitly include top-level ohtm
+    package_dir={"ohtm": "ohtm_pipeline/ohtm"}  # map 'ohtm' to that subfolder
 )

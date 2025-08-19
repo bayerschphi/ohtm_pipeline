@@ -204,16 +204,16 @@ def ohtm_pipeline_function(
 
     if show_heatmap_corpus:
         if filter_heatmap_corpus:
-            heatmap_corpus(ohtm_file, option_selected=archive_selected, show_fig=True, return_fig=False, z_score=z_score_filter)
+            heatmap_corpus(ohtm_file, option_selected=archive_selected.lower(), show_fig=True, return_fig=False, z_score=z_score_filter)
         else:
             heatmap_corpus(ohtm_file, option_selected="all", show_fig=True, return_fig=False, z_score=z_score_filter)
 
 
     if show_heatmap_interview:
-        heatmap_interview(ohtm_file, interview_id, show_fig=True, return_fig=False)
+        heatmap_interview(ohtm_file, interview_id.lower(), show_fig=True, return_fig=False)
 
     if print_interview_chunk:
-        print_chunk(ohtm_file, interview_id, chunk_number, show_links)
+        print_chunk(ohtm_file, interview_id.lower(), chunk_number, show_links)
 
     if search_for_topics_in_chunks:
         print_chunk_with_weight_search(ohtm_file=ohtm_file, topic_search=topic_search, chunk_weight=chunk_weight,
@@ -221,7 +221,7 @@ def ohtm_pipeline_function(
 
     if search_for_topics_in_interview:
         print_chunk_with_interview_weight_search(ohtm_file=ohtm_file,
-                                                 interview_id=interview_id,
+                                                 interview_id=interview_id.lower(),
                                                  topic_search=topic_search,
                                                  chunk_weight=chunk_weight,
                                                  show_links=show_links)

@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
 setup(
-    name="Oral-History-Topic-Modelling-Pipeline",
+    name="ohtm_pipeline",
     version="0.8.0",
     description="Kurzbeschreibung des Projekts",
     long_description=open("README.md").read(),

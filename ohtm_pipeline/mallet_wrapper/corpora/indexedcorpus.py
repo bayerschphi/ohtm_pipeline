@@ -11,7 +11,7 @@ import logging
 
 import numpy
 
-from ohtm_pipeline.mallet_wrapper import interfaces, utils
+from .. import interfaces, utils
 
 logger = logging.getLogger(__name__)
 

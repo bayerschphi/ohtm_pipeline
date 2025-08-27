@@ -18,7 +18,8 @@ from __future__ import with_statement
 
 import logging
 
-from ohtm_pipeline.mallet_wrapper import utils, matutils
+from . import utils
+from . import matutils
 from six.moves import range
 
 

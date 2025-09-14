@@ -1,5 +1,5 @@
 # OHTM Pipeline - Version 0.8
-(Orahl History Topic Modeling Pipeline)
+(Oral History Topic Modeling Pipeline)
 
 # Overview
 This pipeline presents a complete function set to perform lda mallet topic modeling. With a simple main hub, all options

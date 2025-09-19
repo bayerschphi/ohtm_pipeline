@@ -27,7 +27,6 @@ working_folder: str = (r"C:\Users\bayerschmidt\sciebo - Bayerschmidt,"
 ohtm_file_name = "ohtm_100c_120T_final"
 
 
-
 """ Create Topic Labels """
 create_labels = True
 topic_label_file_name = "topic_labels_template.txt"

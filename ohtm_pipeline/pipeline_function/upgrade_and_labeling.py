@@ -19,14 +19,16 @@ def ohtm_label_upgrade(ohtm_file_name: str = "",
     if create_labels: 
         if "topic_labels" in ohtm_file:
             ohtm_file["topic_labels"] = {}
+            ohtm_file["topic_labels"]["labels"] = {}
+            ohtm_file["topic_labels"]["clusters"] = {}
         else: 
             ohtm_file["topic_labels"] = {}        
         with open(os.path.join(working_folder, label_txt), encoding='UTF-8', mode='r') as file: 
             zeilen = file.readlines()
         for line in zeilen: 
-            ohtm_file["topic_labels"][line.split(": ")[0]] = line.split(": ")[1].split("\n")[0]
+            ohtm_file["topic_labels"]["labels"][line.split(": ")[0]] = line.split(": ")[1].split("\n")[0]
 
-    print(ohtm_file["topic_labels"])
+    print(ohtm_file["topic_labels"]["labels"])
     for settings in ohtm_file: 
         print(settings)
 

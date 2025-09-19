@@ -8,7 +8,9 @@ import os
 def ohtm_label_upgrade(ohtm_file_name: str = "",
                        working_folder: str = "",
                        label_txt: str = "",
-                       create_labels: bool = False,                        
+                       create_labels: bool = False,
+                       create_clusters: bool = False, 
+                       cluster_txt: str = "",                     
                        ):
 
     ohtm_file = load_json_function(load_file_name=ohtm_file_name, working_folder=working_folder)
@@ -17,23 +19,38 @@ def ohtm_label_upgrade(ohtm_file_name: str = "",
         print(settings)
 
     if create_labels: 
-        if "topic_labels" in ohtm_file:
+        if "topic_labels" not in ohtm_file:
             ohtm_file["topic_labels"] = {}
             ohtm_file["topic_labels"]["labels"] = {}
-            ohtm_file["topic_labels"]["clusters"] = {}
+
         else: 
-            ohtm_file["topic_labels"] = {}        
+            ohtm_file["topic_labels"]["labels"] = {}        
         with open(os.path.join(working_folder, label_txt), encoding='UTF-8', mode='r') as file: 
             zeilen = file.readlines()
         for line in zeilen: 
             ohtm_file["topic_labels"]["labels"][line.split(": ")[0]] = line.split(": ")[1].split("\n")[0]
-
-    print(ohtm_file["topic_labels"]["labels"])
-    for settings in ohtm_file: 
-        print(settings)
+    
 
 
+    if create_clusters: 
+        if "topic_labels" not in ohtm_file:
+            ohtm_file["topic_labels"] = {}
+        if "clusters" in ohtm_file["topic_labels"]:
+            ohtm_file["topic_labels"]["clusters"] = {}
+        else:
+            ohtm_file["topic_labels"]["clusters"] = {}
+        with open(os.path.join(working_folder, cluster_txt), encoding='UTF-8', mode='r') as file: 
+            zeilen = file.readlines()
+        
+        for lines in zeilen: 
+            ohtm_file["topic_labels"]["clusters"][lines.split(": ")[0]] = (lines.split(": ")[1].split(" - ")[0], lines.split(": ")[1].split(" - ")[1].split("\n")[0])
 
+        
+        for entrys in ohtm_file["topic_labels"]["clusters"]:
+            print(ohtm_file["topic_labels"]["clusters"][entrys])
+
+
+    print(ohtm_file["topic_labels"])
 
 
     save_json_function(

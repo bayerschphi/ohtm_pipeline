@@ -1,0 +1,4 @@
+1: Heimat
+2: Haus
+3: Familie
+4: Größe

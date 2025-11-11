@@ -2,6 +2,8 @@ from builtins import print
 import pandas as pd
 import plotly_express as px
 from ohtm_pipeline.basic_functions.convert_ohtm_file import convert_ohtm_file
+import numpy as np
+import ast
 
 
 def heatmap_corpus(ohtm_file, option_selected: str = "all",
@@ -53,12 +55,54 @@ def heatmap_corpus(ohtm_file, option_selected: str = "all",
             df = z_scores
 
         df = df.transpose()
+        
+        # # DataFrame mit 3 Rows und 6 Columns ("0"–"5")
+
+        # groups = ohtm_file["topic_labels"]["clusters"]
+
+        # grouped = pd.DataFrame({
+        #     key: df[[str(c) for c in (cols if isinstance(cols, list) else ast.literal_eval(cols))]].sum(axis=1)
+        #     for key, (_, cols) in groups.items()
+        # })
+
+
+        # # Labels extra abspeichern (z. B. für Plotly hovertext)
+        # labels = {key: label for key, (label, _) in groups.items()}
+
+
+        # print(grouped)
+
+        # df = grouped 
+            
+
+        # fig = px.imshow(df, color_continuous_scale='dense', aspect='auto', labels=dict(x="Group", y="Sample", color="Sum"))
         fig = px.imshow(df, color_continuous_scale='dense', aspect='auto')
         fig.update_traces(hovertemplate="Interview: %{y}" "<br>Topic: %{x}" "<br>Weight: %{z}<extra></extra>")
         fig.update_layout(clickmode='event+select')
         fig.update_layout(clickmode='event+select')
         fig.update(layout_coloraxis_showscale=False)
+
         fig.update_layout(margin=dict(l=20, r=20, t=20, b=20))
+        # hover_text = [
+        #     [labels[str(col)] for col in grouped.columns]  # Labels pro Column
+        #     for _ in grouped.index
+        # ]
+
+        # fig.update_traces(
+        #     text=hover_text,
+        #     hovertemplate="Interview: %{y}<br>Cluster: %{x}<br>Label: %{text}<br>Value: %{z}<extra></extra>"
+        #     )
+
+
+        # label_dict = ohtm_file["topic_labels"]["labels"] 
+        # x_labels = [label_dict[c] for c in df.columns] 
+        # customdata = np.tile(x_labels, (len(df.index), 1))
+
+        # # customdata und Hovertemplate setzen
+        # fig.data[0].update(
+        #     customdata=customdata,
+        #     hovertemplate="Variable: %{y}<br>X-Label: %{customdata}<br>Wert: %{z}<extra></extra>"
+        # )
         if show_fig:
             fig.show()
         if return_fig:

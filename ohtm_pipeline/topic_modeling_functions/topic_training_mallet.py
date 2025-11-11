@@ -61,6 +61,7 @@ def topic_training_mallet(ohtm_file, topics, mallet_path,
     for i in chunk_data:
         dataset += [i[1]]
     print(dataset[:10])
+    print(len(dataset))
     print("LDA started")
     id2word = corpora.Dictionary(dataset)
     corpus = [id2word.doc2bow(text) for text in dataset]

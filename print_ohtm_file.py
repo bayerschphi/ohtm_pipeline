@@ -11,12 +11,11 @@ import pandas as pd
 
 input_folder: str = (r"C:\Users\phili\sciebo - Bayerschmidt,"
                        r" Philipp (bayerschmidt@fernuni-hagen.de)@fernuni-hagen.sciebo.de\Topic Modeling\ohtm_files")
-load_file_name = "jdh_ohtm_pipeline_50_topics_eng"
+load_file_name = "OHD_final_100c_100T_A5_final"
 
 ohtm_file = load_json_function(load_file_name, input_folder)
 
-for settings in ohtm_file["settings"]["interviews"]:
-    print(settings)
+for sents in ohtm_file["corpus"]["ADG"]["ADG1806"]["sent"]:
+    if ohtm_file["corpus"]["ADG"]["ADG1806"]["sent"][sents]["chunk"] == 7:
+        print(ohtm_file["corpus"]["ADG"]["ADG1806"]["sent"][sents]["cleaned"])
 
-
-print(ohtm_file["settings"])

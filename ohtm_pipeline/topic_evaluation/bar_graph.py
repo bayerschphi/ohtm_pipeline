@@ -39,6 +39,20 @@ def bar_graph_corpus(ohtm_file, show_fig: bool = True, return_fig: bool = False)
                 bar_dic[archive].update({entry: bar_dic[archive][entry]})
 
         df = pd.DataFrame.from_dict(bar_dic)
+
+        # labels_dict = ohtm_file["topic_labels"]["labels"]  
+        # df["Label"] = df.index.map(lambda x: labels_dict.get(str(x), "unknown"))
+        # df.index = pd.to_numeric(df.index)
+        # fig = px.bar(df, color_discrete_sequence=px.colors.qualitative.G10, custom_data=["Label"])
+        # fig.update_layout(margin=dict(l=20, r=20, t=20, b=20))
+        # fig.update_traces(
+        # hovertemplate="<br>".join([
+        #     "Index: %{x}",
+        #     "Label: %{customdata}",
+        #     "ZWA: %{y}",
+        #     "<extra></extra>"
+        # ]))
+        
         df.index = pd.to_numeric(df.index)
         fig = px.bar(df, color_discrete_sequence=px.colors.qualitative.G10)
         fig.update_layout(margin=dict(l=20, r=20, t=20, b=20))

@@ -13,13 +13,13 @@ from ohtm_pipeline.pipeline_function.upgrade_and_labeling import ohtm_label_upgr
 ''' Path Settings: '''
 
 # Path to your output_folder.
-working_folder: str = (r"C:\Users\bayerschmidt\sciebo - Bayerschmidt,"
+working_folder: str = (r"C:\Users\phili\sciebo - Bayerschmidt,"
                        r" Philipp (bayerschmidt@fernuni-hagen.de)@fernuni-hagen.sciebo.de\Topic Modeling\ohtm_files")
 
 
 """ Upgrade Settings: """
 
-ohtm_file_name = "OHD_final_adg_sorted_test"
+ohtm_file_name = "OHD_final_100c_100T_A5_final_anonymized_full"
 
 
 """ Create Topic Labels """

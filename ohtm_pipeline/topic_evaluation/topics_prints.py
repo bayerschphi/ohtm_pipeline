@@ -82,6 +82,7 @@ def print_chunk_with_weight_search(ohtm_file, topic_search: int = 0, chunk_weigh
         link_tape = "1"
         for archive in ohtm_file["weight"]:
             for interview in ohtm_file["weight"][archive]:
+                anonymized_status = False
                 try:
                     if ohtm_file["corpus"][archive][interview]["anonymized"] == "True":
                         anonymized_status = True
@@ -111,20 +112,20 @@ def print_chunk_with_weight_search(ohtm_file, topic_search: int = 0, chunk_weigh
                                             link_tape = "1"
                                             chunk_start_time = "False"
                                     if ohtm_file["corpus"][archive][interview]["sent"][number]["speaker"] == {}:
-                                        sent_current.append(str(ohtm_file["corpus"][archive][interview]["sent"][number]["raw"]) + " ")
+                                        sent_current.append(str(ohtm_file["corpus"][archive][interview]["sent"][number]["raw"]))
                                         chunk_end_time = \
                                         ohtm_file["corpus"][archive][interview]["sent"][number]["time"]
                                     else:
                                         if speaker == ohtm_file["corpus"][archive][interview]["sent"][number]["speaker"]:
                                             sent_current.append(str(
-                                                ohtm_file["corpus"][archive][interview]["sent"][number]["raw"]) + " ")
+                                                ohtm_file["corpus"][archive][interview]["sent"][number]["raw"]))
                                             chunk_end_time = \
                                                 ohtm_file["corpus"][archive][interview]["sent"][number]["time"]
                                         else:
                                             sent_current.append(str("*" +
                                                 ohtm_file["corpus"][archive][interview]["sent"][number]["speaker"]) + ":* ")
                                             sent_current.append(str(
-                                                ohtm_file["corpus"][archive][interview]["sent"][number]["raw"]) + " ")
+                                                ohtm_file["corpus"][archive][interview]["sent"][number]["raw"]))
                                             speaker = ohtm_file["corpus"][archive][interview]["sent"][number]["speaker"]
                                             chunk_end_time = \
                                                 ohtm_file["corpus"][archive][interview]["sent"][number]["time"]

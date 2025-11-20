@@ -79,10 +79,10 @@ archive_selected = "MFL"
 interview_id = "MFL20006"
 chunk_number = 23
 show_heatmap_interview = False
-print_interview_chunk = True
-search_for_topics_in_chunks = False
+print_interview_chunk = False
+search_for_topics_in_chunks = True
 topic_search = 44
-chunk_weight = 0.4
+chunk_weight = 0.5
 search_for_topics_in_interview = False
 
 ''' advanced options: '''

@@ -1,4 +1,6 @@
 """
+This is a testfunction, and is still in testing phase.
+
 With this function you can set custome labels to eacht topic and further more create 
 clusters with individual names for topic combinations.
 

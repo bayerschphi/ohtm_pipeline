@@ -30,44 +30,50 @@ stopword_file_name = "stop_word_file_name.txt"
 # Set the path to your sources. This must be the folder, where your documents are stored in another folder.
 source_path: str = (r"C:\Users\...")
 
-source_folder = ["folder_name_1", "folder_name_2"]
+source = ["folder_name_1", "folder_name_2"]
 
 """ Topic Modeling Settings: """
 
-load_ohtm_file = False
-load_file_name = "ohtm_file_name_to_load"
+ohtm_file_load_name = True
+load_file_name = "...."
 
-create_ohtm_file = True
-save_ohtm_file = True
-save_name = "ohtm_file_save_name"
+create_ohtm_file = False
+save_ohtm_file = False
+ohtm_file_save_name = "...."
 
 # You need to set a save_name and set the option save_json to True to save the model
 save_model = False
 
-use_preprocessing = True
+use_preprocessing = False
 
 # If you don't want to chunk your documents, set use_chunking to True and chunk_setting to 0
-use_chunking = True
-chunk_setting = 20
+use_chunking = False
+chunk_setting = 100
 
-use_topic_modeling = True
-topics = 20
+use_topic_modeling = False
+topics = 10
 
-save_top_words = True
-number_of_words = 50
 
-print_ohtm_file = True
-print_ohtm_file_settings = True
-show_bar_graph_corpus = True
-show_heatmap_corpus = True
+save_topic_words = False
+print_topic_words = False
+number_of_words = 100
 
-interview_id = "...."
-chunk_number = 0
+print_ohtm_file = False
+print_ohtm_file_settings = False
+show_bar_graph_corpus = False
+show_heatmap_corpus = False
+
+z_score_filter = False
+filter_heatmap_corpus = False
+archive_selected = "..."
+
+interview_id = "..."
+chunk_number = 23
 show_heatmap_interview = False
 print_interview_chunk = False
 search_for_topics_in_chunks = False
-topic_search = 0
-chunk_weight = 0
+topic_search = 44
+chunk_weight = 0.4
 search_for_topics_in_interview = False
 
 ''' advanced options: '''
@@ -76,41 +82,47 @@ search_for_topics_in_interview = False
 optimize_interval_mallet = 50
 iterations_mallet = 500
 alpha = 5
-random_seed = 80
+random_seed = 100
 
 # ohtm_file creation
 speaker_txt = False
-folder_as_archive = True
+folder_as_archive = False
 
 # preprocessing
-# Select just one of those two:
-stopword_removal_by_stop_list = True
-
-# To use this options, you have to select a valid spacy model:
+# Select just ONE of those two:
+stopword_removal_by_stop_list = False
 stopword_removal_by_spacy = False
+
 use_lemmatization = False
 lemmatization_model_spacy = "de_core_news_lg"
 use_pos_filter = False
-
 # possible settings: 'NOUN', 'PROPN', 'VERB', 'ADJ', 'ADV', 'PRON', 'ADP', 'DET', 'AUX', 'NUM', 'SCONJ', 'CCONJ', 'X'
 allowed_postags_settings_lemmatization = ['NOUN', 'PROPN', 'VERB', 'ADJ', 'NUM', 'ADV']
+
+# Anonymization settings
+anonymize = False
+# List of interviews, that should not be anonymized
+exceptions = []
+
+#Processing
+
+topic_words_with_weight = False
 
 ''' Inferring new documents with an trained topic model'''
 
 infer_new_documents = False
-trained_ohtm_file = "...."  # load the trained json and the model to train that json
-save_separate_ohtm_file = False  # save the inferred documents as a new json
-separate_ohtm_file_name = "...."
-
+trained_ohtm_file = "..."  # load the trained json and the model to train that json
+save_separate_ohtm_file = True  # save the inferred documents as a new json
+separate_ohtm_file_name = "..."
 
 if __name__ == "__main__":
     ohtm_pipeline_function(
         output_folder=output_folder,
-        source_folder=source_folder,
+        source_folder=source,
         source_path=source_path,
         stopword_file_name=stopword_file_name,
         allowed_postags_settings=allowed_postags_settings_lemmatization,
-        save_name=save_name,
+        save_name=ohtm_file_save_name,
         load_file_name=load_file_name,
         mallet_path= mallet_path,
         interview_id=interview_id,
@@ -126,14 +138,18 @@ if __name__ == "__main__":
         random_seed=random_seed,
         save_ohtm_file=save_ohtm_file,
         create_ohtm_file=create_ohtm_file,
-        load_ohtm_file=load_ohtm_file,
+        load_ohtm_file=ohtm_file_load_name,
         use_preprocessing=use_preprocessing,
         use_chunking=use_chunking,
         use_topic_modeling=use_topic_modeling,
-        save_top_words=save_top_words,
+        save_top_words=save_topic_words,
+        print_topic_words=print_topic_words,
         print_ohtm_file=print_ohtm_file,
         show_bar_graph_corpus=show_bar_graph_corpus,
         show_heatmap_corpus=show_heatmap_corpus,
+        filter_heatmap_corpus=filter_heatmap_corpus,
+        archive_selected=archive_selected,
+        z_score_filter=z_score_filter,
         show_heatmap_interview=show_heatmap_interview,
         print_interview_chunk=print_interview_chunk,
         search_for_topics_in_chunks=search_for_topics_in_chunks,
@@ -150,5 +166,9 @@ if __name__ == "__main__":
         folder_as_archive=folder_as_archive,
         print_ohtm_file_settings=print_ohtm_file_settings,
         spacy_model_name=lemmatization_model_spacy,
-        stopword_removal_by_spacy=stopword_removal_by_spacy
+        stopword_removal_by_spacy=stopword_removal_by_spacy,
+        anonymize=anonymize,
+        exceptions=exceptions,
+        show_links = False,
+        topic_words_with_weight=topic_words_with_weight
     )

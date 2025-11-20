@@ -103,6 +103,10 @@ def heatmap_corpus(ohtm_file, option_selected: str = "all",
         #     customdata=customdata,
         #     hovertemplate="Variable: %{y}<br>X-Label: %{customdata}<br>Wert: %{z}<extra></extra>"
         # )
+        fig.update_layout(
+                xaxis_title="Topics",
+                yaxis_title="Interviews", 
+            )
         if show_fig:
             fig.show()
         if return_fig:
@@ -141,6 +145,12 @@ def heatmap_interview(ohtm_file, interview_id: str = "", show_fig: bool = True, 
         fig = px.imshow(df, color_continuous_scale='dense')
         fig.update_traces(hovertemplate="Chunk: %{x}" "<br>Topic: %{y}" "<br>Weight: %{z}<extra></extra>")
         fig.update(layout_coloraxis_showscale=False)
+        fig.update_layout(
+                xaxis_title="Chunks",
+                yaxis_title="Topics",
+                title = "Interviewheatmap " + interview_id
+            )
+        
         if show_fig:
             fig.show()
         if return_fig:

@@ -1,3 +1,8 @@
+'''
+This function sets labels and clusters to an existing ohtm_file.
+You need to provide a txt file with the labels and clusters. 
+For an example see the file topic_labels_example.txt and topic_clusters_example.txt.
+'''
 
 from ohtm_pipeline.basic_functions.save_load import save_json_function
 from ohtm_pipeline.basic_functions.save_load import load_json_function

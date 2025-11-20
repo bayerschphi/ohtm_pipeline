@@ -29,29 +29,37 @@ stopword_file_name = r"german_stopwords_adoption.txt"
 # stopword_file_name = r"german_stopwords_custome.txt"
 
 # Set the path to your sources. This must be the folder, where your documents are stored in another folder.
-source_path: str = r"C:\Users\phili\sciebo - Bayerschmidt, Philipp (bayerschmidt@fernuni-hagen.de)@fernuni-hagen.sciebo.de\Interviews\inferring test\interviews"
+source_path: str = r"C:\Users\phili\sciebo - Bayerschmidt, Philipp (bayerschmidt@fernuni-hagen.de)@fernuni-hagen.sciebo.de\Interviews"
 
-source_folder =  ["cd","eg", "ev", "ifu", "mog", "stsg", "za"]
+source =  [
+    "Archiv Zwangsarbeit\komplett",
+    "Archiv Deutsches Gedächtnis\ADG_komplett", 
+    "Hannah Arendt Institut Dresden\Bereinigt",
+    "Flucht Vertreibung Versöhnung\Bereinigt",
+    "Museum Friedland\Bereinigt",
+    "Werkstatt der Erinnerungen\gesamt",
+    "Colonia Dignidad\komplett_de"
+    ]
 
 """ Topic Modeling Settings: """
 
-load_ohtm_file = False
-load_file_name = "OHD_final_100c_100T_A5_final_label_test"
+ohtm_file_load_name = True
+load_file_name = "jdh_ohtm_pipeline_final_version"
 
-create_ohtm_file = True
-save_ohtm_file = True
-save_name = "inferr_test_large"
+create_ohtm_file = False
+save_ohtm_file = False
+ohtm_file_save_name = "jdh_inferred_"
 
 # You need to set a save_name and set the option save_json to True to save the model
 save_model = False
 
-use_preprocessing = True
+use_preprocessing = False
 
 # If you don't want to chunk your documents, set use_chunking to True and chunk_setting to 0
-use_chunking = True
+use_chunking = False
 chunk_setting = 100
 
-use_topic_modeling = True
+use_topic_modeling = False
 topics = 45
 
 
@@ -69,9 +77,9 @@ filter_heatmap_corpus = False
 archive_selected = "MFL"
 
 interview_id = "MFL20006"
-chunk_number = 1
+chunk_number = 23
 show_heatmap_interview = False
-print_interview_chunk = False
+print_interview_chunk = True
 search_for_topics_in_chunks = False
 topic_search = 44
 chunk_weight = 0.4
@@ -87,7 +95,7 @@ random_seed = 100
 
 # ohtm_file creation
 speaker_txt = True
-folder_as_archive = True
+folder_as_archive = False
 
 # preprocessing
 # Select just ONE of those two:
@@ -100,6 +108,7 @@ use_pos_filter = True
 # possible settings: 'NOUN', 'PROPN', 'VERB', 'ADJ', 'ADV', 'PRON', 'ADP', 'DET', 'AUX', 'NUM', 'SCONJ', 'CCONJ', 'X'
 allowed_postags_settings_lemmatization = ['NOUN', 'PROPN', 'VERB', 'ADJ', 'NUM', 'ADV']
 
+# Anonymization settings
 anonymize = False
 # List of interviews, that should not be anonymized
 exceptions = []
@@ -113,19 +122,19 @@ topic_words_with_weight = True
 
 ''' Inferring new documents with an trained topic model'''
 
-infer_new_documents = True
-trained_ohtm_file = "OHD_final_100c_100T_A5_remade"  # load the trained json and the model to train that json
+infer_new_documents = False
+trained_ohtm_file = "jdh_ohtm_pipeline_final_version"  # load the trained json and the model to train that json
 save_separate_ohtm_file = True  # save the inferred documents as a new json
-separate_ohtm_file_name = "inferr_test_large"
+separate_ohtm_file_name = "inferred"
 
 if __name__ == "__main__":
     ohtm_pipeline_function(
         output_folder=output_folder,
-        source_folder=source_folder,
+        source_folder=source,
         source_path=source_path,
         stopword_file_name=stopword_file_name,
         allowed_postags_settings=allowed_postags_settings_lemmatization,
-        save_name=save_name,
+        save_name=ohtm_file_save_name,
         load_file_name=load_file_name,
         mallet_path= mallet_path,
         interview_id=interview_id,
@@ -141,7 +150,7 @@ if __name__ == "__main__":
         random_seed=random_seed,
         save_ohtm_file=save_ohtm_file,
         create_ohtm_file=create_ohtm_file,
-        load_ohtm_file=load_ohtm_file,
+        load_ohtm_file=ohtm_file_load_name,
         use_preprocessing=use_preprocessing,
         use_chunking=use_chunking,
         use_topic_modeling=use_topic_modeling,

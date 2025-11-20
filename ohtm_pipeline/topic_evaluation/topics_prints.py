@@ -14,13 +14,13 @@ from ohtm_pipeline.basic_functions.create_link_to_ohd import create_link
 
 def print_chunk(ohtm_file, interview_id: str = "", chunk_number: int = 0, show_links: bool = False):
     ohtm_file = convert_ohtm_file(ohtm_file)
-    anonymized_status = False
     if ohtm_file["settings"]["topic_modeling"]["trained"] == "True":
         sent_example = []
         speaker = "None"
         chunk_start_marker = 0
         link_tape = "1"
         for archive in ohtm_file["corpus"]:
+            anonymized_status = False
             if interview_id in ohtm_file["corpus"][archive]:
                 try:
                     if ohtm_file["corpus"][archive][interview_id]["anonymized"] == "True":

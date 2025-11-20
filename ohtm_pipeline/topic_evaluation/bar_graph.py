@@ -56,6 +56,11 @@ def bar_graph_corpus(ohtm_file, show_fig: bool = True, return_fig: bool = False)
         df.index = pd.to_numeric(df.index)
         fig = px.bar(df, color_discrete_sequence=px.colors.qualitative.G10)
         fig.update_layout(margin=dict(l=20, r=20, t=20, b=20))
+        fig.update_layout(
+                xaxis_title="Topics",
+                yaxis_title="Weight", 
+                legend_title="Archives"
+            )
         if show_fig:
             fig.show()
         if return_fig:

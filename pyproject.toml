@@ -1,0 +1,16 @@
+[build-system]
+requires = ["setuptools>=64", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ohtm_pipeline"
+version = "0.8.0"
+description = "Kurzbeschreibung des Projekts"
+readme = "README.md"
+authors = [
+    {name="Philipp Bayerschmidt", email="philipp.bayerschmidt@fernuni-hagen.de"},
+]
+requires-python = ">=3.8"
+
+[tool.setuptools.packages.find]
+where = ["."]

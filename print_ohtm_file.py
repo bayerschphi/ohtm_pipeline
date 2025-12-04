@@ -15,7 +15,13 @@ load_file_name = "OHD_final_100c_100T_A5_final"
 
 ohtm_file = load_json_function(load_file_name, input_folder)
 
-for sents in ohtm_file["corpus"]["ADG"]["ADG1806"]["sent"]:
-    if ohtm_file["corpus"]["ADG"]["ADG1806"]["sent"][sents]["chunk"] == 7:
-        print(ohtm_file["corpus"]["ADG"]["ADG1806"]["sent"][sents]["cleaned"])
+number_chunks = 0
+
+
+for archive in ohtm_file["weight"]:
+    for interview in ohtm_file["weight"][archive]:
+        for chunks in ohtm_file["weight"][archive][interview]:
+            number_chunks += 1
+
+print(f"Number of chunks in ohtm_file: {number_chunks}")
 

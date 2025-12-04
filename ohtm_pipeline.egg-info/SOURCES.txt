@@ -1,7 +1,6 @@
 README.md
 setup.py
 ohtm_pipeline/__init__.py
-ohtm_pipeline/print_ohtm_file.py
 ohtm_pipeline.egg-info/PKG-INFO
 ohtm_pipeline.egg-info/SOURCES.txt
 ohtm_pipeline.egg-info/dependency_links.txt
@@ -24,6 +23,7 @@ ohtm_pipeline/mallet_wrapper/keyedvectors.py
 ohtm_pipeline/mallet_wrapper/ldamallet.py
 ohtm_pipeline/mallet_wrapper/ldamodel.py
 ohtm_pipeline/mallet_wrapper/matutils.py
+ohtm_pipeline/mallet_wrapper/setup.py
 ohtm_pipeline/mallet_wrapper/termsim.py
 ohtm_pipeline/mallet_wrapper/utils.py
 ohtm_pipeline/mallet_wrapper/utils_any2vec.py
@@ -57,6 +57,7 @@ ohtm_pipeline/mallet_wrapper/topic_coherence/segmentation.py
 ohtm_pipeline/mallet_wrapper/topic_coherence/text_analysis.py
 ohtm_pipeline/pipeline_function/__init__.py
 ohtm_pipeline/pipeline_function/pipeline.py
+ohtm_pipeline/pipeline_function/upgrade_and_labeling.py
 ohtm_pipeline/preprocessing_functions/__init__.py
 ohtm_pipeline/preprocessing_functions/chunking.py
 ohtm_pipeline/preprocessing_functions/lemmatization.py

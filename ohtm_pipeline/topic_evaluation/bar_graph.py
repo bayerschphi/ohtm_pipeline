@@ -61,6 +61,7 @@ def bar_graph_corpus(ohtm_file, show_fig: bool = True, return_fig: bool = False)
                 yaxis_title="Weight", 
                 legend_title="Archives"
             )
+
         if show_fig:
             fig.show()
         if return_fig:

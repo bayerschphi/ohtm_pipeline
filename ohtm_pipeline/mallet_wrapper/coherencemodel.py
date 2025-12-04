@@ -36,8 +36,8 @@ from ohtm_pipeline.mallet_wrapper import interfaces, matutils
 
 from ohtm_pipeline.mallet_wrapper import utils
 from ohtm_pipeline.mallet_wrapper.topic_coherence import (segmentation, probability_estimation,
-                                                          direct_confirmation_measure, indirect_confirmation_measure,
-                                                          aggregation)
+                                                               direct_confirmation_measure, indirect_confirmation_measure,
+                                                               aggregation)
 
 
 from ohtm_pipeline.mallet_wrapper.topic_coherence.probability_estimation import unique_ids_from_segments

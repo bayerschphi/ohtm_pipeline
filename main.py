@@ -43,12 +43,12 @@ source =  [
 
 """ Topic Modeling Settings: """
 
-ohtm_file_load_name = True
-load_file_name = "jdh_ohtm_pipeline_final_version"
+ohtm_file_load_name = False
+load_file_name = "OHD_final_100c_100T_A5_remade"
 
 create_ohtm_file = False
 save_ohtm_file = False
-ohtm_file_save_name = "jdh_inferred_"
+ohtm_file_save_name = "inferring_test"
 
 # You need to set a save_name and set the option save_json to True to save the model
 save_model = False
@@ -68,7 +68,7 @@ print_topic_words = False
 number_of_words = 100
 
 print_ohtm_file = False
-print_ohtm_file_settings = False
+print_ohtm_file_settings = True
 show_bar_graph_corpus = False
 show_heatmap_corpus = False
 
@@ -80,9 +80,9 @@ interview_id = "MFL20006"
 chunk_number = 23
 show_heatmap_interview = False
 print_interview_chunk = False
-search_for_topics_in_chunks = True
-topic_search = 44
-chunk_weight = 0.5
+search_for_topics_in_chunks = False
+topic_search = 93   
+chunk_weight = 0.01
 search_for_topics_in_interview = False
 
 ''' advanced options: '''
@@ -122,8 +122,8 @@ topic_words_with_weight = True
 
 ''' Inferring new documents with an trained topic model'''
 
-infer_new_documents = False
-trained_ohtm_file = "jdh_ohtm_pipeline_final_version"  # load the trained json and the model to train that json
+infer_new_documents = True
+trained_ohtm_file = "OHD_final_100c_100T_A5_remade"  # load the trained json and the model to train that json
 save_separate_ohtm_file = True  # save the inferred documents as a new json
 separate_ohtm_file_name = "inferred"
 

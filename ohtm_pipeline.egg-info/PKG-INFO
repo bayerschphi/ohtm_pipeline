@@ -14,7 +14,7 @@ Dynamic: home-page
 Dynamic: summary
 
 # OHTM Pipeline - Version 0.8
-(Orahl History Topic Modeling Pipeline)
+(Oral History Topic Modeling Pipeline)
 
 # Overview
 This pipeline presents a complete function set to perform lda mallet topic modeling. With a simple main hub, all options
@@ -340,12 +340,12 @@ single sentences, but keeps the together.
 `topics = int`
 - set the numbers of topics for the topic-modeling calculation
 
-`save_top_words = True/False`
-- `True`: saves a .txt file with the top words of the topic lists. It will be saved with the ohtm_file_save_name inside
+`save_topic_words = True/False`
+- `True`: saves a .txt file with the top words of the topic lists. It will be saved with the `ohtm_file_save_name` inside
 the working folder.
 
-`numer_of_words = int`
-- sets the options for save_top_words to how many words are printed of the topic_lists.
+`number_of_words = int`
+- sets the options for `save_topic_words` to how many words are printed/saved of the topic_lists.
 
 `print_ohtm_file = False/True`
 - `True`: prints the ohtm_file inside the console
@@ -405,8 +405,61 @@ standard for the ohd-files.
 - `False`: The new documents, you inferred, will be added to the existing `ohtm_file` of the loaded model
 
 `separate_ohtm_file_name = "inferred_ohmt_file_name"`
-- if you want to save the inferred documents as a new `ohtm_file` you have to set the name here.
+ if you want to save the inferred documents as a new `ohtm_file` you have to set the name here.
 
 
-created by Philipp Bayerschmidt 20.02.2025
+## Variable name mapping (main_template.py â†” README examples)
+ Use the names in `main_template.py` when you programmatically call the pipeline or copy `main_template.py` to `main.py`.
+
+
+Additional flags present in `main_template.py` but not documented earlier in this README (short descriptions):
+
+- `z_score_filter`: if `True`, apply z-score filtering when preparing heatmaps.
+- `filter_heatmap_corpus`: control additional heatmap filtering options.
+- `archive_selected`: optional archive name to focus certain operations on.
+- `search_for_topics_in_interview`: search for topics within a single interview (boolean).
+- `anonymize`: if `True`, anonymize personal identifiers when creating/saving `ohtm_file`.
+- `exceptions`: list of interview IDs that should not be anonymized.
+- `print_topic_words`: if `True`, print topic word lists to the console.
+- `show_links`: if `True`, UI components may render links to source documents (passed in template).
+- `topic_words_with_weight`: if `True`, includes weights alongside topic words when printing/saving.
+
+
+
+
+## Programmatic API (short reference)
+
+The pipeline can be used as a library by importing the provided functions directly from the `ohtm_pipeline` package. Below are the main entry points and a few helper functions for visualization.
+
+- `ohtm_pipeline.pipeline_function.pipeline.ohtm_pipeline_function(**kwargs)`
+    - Main programmatic entry point. `main_template.py` calls this function with many keyword arguments (see `main_template.py` for the full list). Use it to run the full pipeline programmatically. Typical args include: `output_folder`, `source_folder`, `source_path`, `stopword_file_name`, `topics`, `chunk_setting`, `use_preprocessing`, `use_chunking`, `use_topic_modeling`, `save_ohtm_file`, `load_ohtm_file`, `save_model`, `infer_new_documents`, and many more (see `main_template.py`).
+
+- `ohtm_pipeline.topic_evaluation.bar_graph.bar_graph_corpus(ohtm_file, show_fig=True, return_fig=False)`
+    - Create a bar chart showing topic weight distribution over the corpus. `ohtm_file` is the nested dictionary produced by the pipeline. `return_fig=True` returns the figure object (matplotlib/plotly depending on implementation).
+
+- `ohtm_pipeline.topic_evaluation.heatmaps.heatmap_corpus(ohtm_file, option_selected='all', show_fig=True, return_fig=False)`
+    - Create a corpus-level heatmap of topic weights. `option_selected` controls filtering (e.g., specific archives/topics).
+
+- `ohtm_pipeline.topic_evaluation.heatmaps.heatmap_interview(ohtm_file, interview_id='', show_fig=True, return_fig=False)`
+    - Create a heatmap for a single interview identified by `interview_id`.
+
+Usage example (import and call):
+
+```python
+from ohtm_pipeline.pipeline_function.pipeline import ohtm_pipeline_function
+from ohtm_pipeline.topic_evaluation.bar_graph import bar_graph_corpus
+
+# Run pipeline programmatically (example)
+ohtm_pipeline_function(output_folder='C:/work', source_folder=['archive1'], source_path='C:/data', topics=10)
+
+# Visualize saved ohtm_file (example)
+# ohtm = load_your_ohtm_file(...)  # your loader
+# bar_graph_corpus(ohtm)
+```
+
+If you want, I can produce a more complete API reference by scanning all modules in `ohtm_pipeline` and generating a short docblock (function name, signature, short description) for each exported function.
+
+created by Philipp Bayerschmidt 20.11.2025
+
+````
 

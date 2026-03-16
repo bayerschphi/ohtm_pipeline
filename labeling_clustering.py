@@ -21,7 +21,7 @@ working_folder: str = (r"C:\Users\phili\sciebo - Bayerschmidt,"
 
 """ Upgrade Settings: """
 
-ohtm_file_name = "OHD_final_100c_100T_A5_final_anonymized_full"
+ohtm_file_name = "OHD_final_adg_sorted"
 
 
 """ Create Topic Labels """

@@ -118,6 +118,10 @@ def preprocessing(ohtm_file, stoplist_name: str = "",
                     ohtm_file["settings"]["preprocessing"].update({"lemma": "True"})
                     ohtm_file["settings"]["preprocessing"]["pos_filter"] = pos_filter_setting
                     ohtm_file["settings"]["preprocessing"]["allowed_postags"] = allowed_postags_settings
+                if by_list: # Debuggin, because lemmatization changes some words and stopword removal needs to be redone
+                    ohtm_file["settings"]["preprocessing"].update({"stopwords_removed": "True"})
+                    ohtm_file["stopwords"] = stoplist
+                    data_out = remove_stopwords_by_list(data_out, stoplist)
                 else:
                     ohtm_file["settings"]["preprocessing"]["pos_filter"] = False
                     ohtm_file["settings"]["preprocessing"]["allowed_postags"] = []

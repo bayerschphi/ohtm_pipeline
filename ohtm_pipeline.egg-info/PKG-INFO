@@ -2,16 +2,9 @@ Metadata-Version: 2.4
 Name: ohtm_pipeline
 Version: 0.8.0
 Summary: Kurzbeschreibung des Projekts
-Home-page: https://github.com/bayerschphi/ohtm_pipeline
-Author: Philipp Bayerschmidt
-Author-email: philipp.bayerschmidt@fernuni-hagen.de
+Author-email: Philipp Bayerschmidt <philipp.bayerschmidt@fernuni-hagen.de>
+Requires-Python: >=3.8
 Description-Content-Type: text/markdown
-Dynamic: author
-Dynamic: author-email
-Dynamic: description
-Dynamic: description-content-type
-Dynamic: home-page
-Dynamic: summary
 
 # OHTM Pipeline - Version 0.8
 (Oral History Topic Modeling Pipeline)
@@ -197,7 +190,7 @@ your path files all the time.
 
 First you have to install mallet. Follow the instructions in this step-by-step guide:
 https://programminghistorian.org/en/lessons/topic-modeling-and-mallet.
-You need the Java developerâ€™s kit in the Version 20.0.2 or higher.
+You need the Java developer’s kit in the Version 20.0.2 or higher.
 
 Set the path to your mallet folder. Just insert the file_path: `r'C:\mallet-2.0.8\bin\mallet'` like this.
 
@@ -408,7 +401,7 @@ standard for the ohd-files.
  if you want to save the inferred documents as a new `ohtm_file` you have to set the name here.
 
 
-## Variable name mapping (main_template.py â†” README examples)
+## Variable name mapping (main_template.py ↔ README examples)
  Use the names in `main_template.py` when you programmatically call the pipeline or copy `main_template.py` to `main.py`.
 
 

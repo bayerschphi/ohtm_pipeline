@@ -180,15 +180,15 @@ def ohtm_file_creation_function(source: list = "", source_path: str = "",
                         ohtm_file["corpus"][archive_id][interview_id]["model_base"] = {}
                         sent_number = 1
                     for line in interview:
-                        text = line[3]
+                        text = line[2]
                         text2 = str(text)
                         text_cleaned = re.sub(r"<(.*?)>", " ", text2)
                         ohtm_file["corpus"][archive_id][interview_id]["sent"][sent_number] = {}
                         ohtm_file["corpus"][archive_id][interview_id]["sent"][sent_number]["raw"] = str(text_cleaned)
                         ohtm_file["corpus"][archive_id][interview_id]["sent"][sent_number]["speaker"] = {}
-                        ohtm_file["corpus"][archive_id][interview_id]["sent"][sent_number]["speaker"] = str(line[2])
+                        ohtm_file["corpus"][archive_id][interview_id]["sent"][sent_number]["speaker"] = str(line[1])
                         ohtm_file["corpus"][archive_id][interview_id]["sent"][sent_number]["time"] = {}
-                        ohtm_file["corpus"][archive_id][interview_id]["sent"][sent_number]["time"] = str(line[1])
+                        ohtm_file["corpus"][archive_id][interview_id]["sent"][sent_number]["time"] = str(line[0])
                         if str(line[0]) == "":
                             ohtm_file["corpus"][archive_id][interview_id]["sent"][sent_number]["tape"] = "1"
                         else:

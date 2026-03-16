@@ -1,5 +1,5 @@
 README.md
-setup.py
+pyproject.toml
 ohtm_pipeline/__init__.py
 ohtm_pipeline.egg-info/PKG-INFO
 ohtm_pipeline.egg-info/SOURCES.txt

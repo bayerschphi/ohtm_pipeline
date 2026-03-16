@@ -11,17 +11,15 @@ import pandas as pd
 
 input_folder: str = (r"C:\Users\phili\sciebo - Bayerschmidt,"
                        r" Philipp (bayerschmidt@fernuni-hagen.de)@fernuni-hagen.sciebo.de\Topic Modeling\ohtm_files")
-load_file_name = "OHD_final_100c_100T_A5_final"
+load_file_name = "OHD_final_adg_sorted"
 
 ohtm_file = load_json_function(load_file_name, input_folder)
 
-number_chunks = 0
+final = []
 
+for sent in ohtm_file["corpus"]["ZWA"]["ZWA465"]["sent"]:
+    if ohtm_file["corpus"]["ZWA"]["ZWA465"]["sent"][sent]["chunk"] == 43:
+        final.append(ohtm_file["corpus"]["ZWA"]["ZWA465"]["sent"][sent]["cleaned"])
+print(final)
 
-for archive in ohtm_file["weight"]:
-    for interview in ohtm_file["weight"][archive]:
-        for chunks in ohtm_file["weight"][archive][interview]:
-            number_chunks += 1
-
-print(f"Number of chunks in ohtm_file: {number_chunks}")
 
